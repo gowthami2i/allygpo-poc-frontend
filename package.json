@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.56.2",
     "@tanstack/react-router": "^1.58.11",
+    "@tanstack/react-table": "^8.20.5",
     "@tanstack/router-devtools": "^1.58.15",
     "formik": "^2.4.6",
     "primeflex": "^3.3.1",
