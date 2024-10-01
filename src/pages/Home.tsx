@@ -1,12 +1,9 @@
-import { AutoComplete } from "primereact/autocomplete";
-import { CustomTable } from "../components/table/CustomTable";
+import AppTable from "../components/table/AppTable";
 function Home() {
   return (
-    <div className="">
-      <div className="table-header">
-
-      </div>
-      <CustomTable/>
+    <div className="" style={{ paddingTop: "5px" }}>
+      <div className="table-header"></div>
+      <AppTable />
     </div>
   );
 }
