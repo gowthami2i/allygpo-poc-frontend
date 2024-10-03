@@ -4,7 +4,6 @@ import {
   createRouter,
   RouterProvider,
 } from "@tanstack/react-router";
-import Home from "../pages/Home";
 import { MainLayout } from "../layouts/MainLayout";
 import Profile from "../pages/Profile";
 import { ContractExplorer } from "../pages/contractExplorer/ContractExplorer";
@@ -17,19 +16,28 @@ const rootRoute = createRootRoute({
   ),
 });
 
-const homeRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: ContractExplorer,
+const routesData = [
+  {
+    path: "/",
+    component: ContractExplorer,
+    title: "Contract Explorer",
+  },
+  {
+    path: "/profile",
+    component: Profile,
+    title: "Profile",
+  },
+];
+
+const routes = routesData?.map((route: any) => {
+  return createRoute({
+    getParentRoute: () => rootRoute,
+    path: route.path,
+    component: route.component,
+  });
 });
 
-const profileRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "profile",
-  component: Profile,
-});
-
-const routeTree = rootRoute.addChildren([homeRoute, profileRoute]);
+const routeTree = rootRoute.addChildren(Object.values(routes));
 
 const router = createRouter({
   routeTree,
