@@ -1,0 +1,10 @@
+@import "../../assets/styles/theme.scss";
+
+.dropdown {
+  width: 100%;
+  box-shadow: none;
+  border-radius: 0;
+  &:focus {
+    border-color: none !important;
+  }
+}
