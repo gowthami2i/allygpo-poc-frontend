@@ -8,19 +8,19 @@
   }
 }
 .primary-button {
-  background-color: $app-secondaryColor;
-  color: $app-bgWhite;
+  background-color: var(--app-secondaryColor);
+  color: var(--app-bgWhite);
   border-radius: 4px;
-  border: 1px solid $app-secondaryColor;
+  border: 1px solid var(--app-secondaryColor);
   padding: 10px;
 }
 
 .primary-outline {
-  background-color: $app-bgWhite;
+  background-color: var(--app-bgWhite);
   border-radius: 4px;
   padding: 10px;
-  color: $app-secondaryColor;
-  border: 1px solid $app-secondaryColor;
+  color: var(--app-secondaryColor);
+  border: 1px solid var(--app-secondaryColor);
   &:hover {
     background-color: #d3eaff;
     border: 1px solid #d3eaff;
@@ -44,9 +44,9 @@
 }
 
 .primary-button-image {
-  background-color: $app-secondaryColor;
-  color: $app-bgWhite;
+  background-color: var(--app-secondaryColor);
+  color: var(--app-bgWhite);
   border-radius: 4px;
-  border: 1px solid $app-secondaryColor;
+  border: 1px solid var(--app-secondaryColor);
   padding: 10px;
 }

@@ -1,13 +1,12 @@
-@import "../../assets/styles/theme.scss";
 .header-container {
   width: 100%;
   display: flex;
   .header-primary-container {
-    background-color: $app-primaryColor;
+    background-color: var(--app-primaryColor);
     width: 15%;
   }
   .header-secondary-container {
-    background-color: $app-secondaryColor;
+    background-color: var(--app-secondaryColor);
     width: 85%;
   }
 }

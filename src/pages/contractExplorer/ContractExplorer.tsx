@@ -13,10 +13,14 @@ export const ContractExplorer = () => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div className="m-5">
+    <div className="m-5" style={{ height: "100%" }}>
       <div
         className="p-5"
-        style={{ background: "#fff", border: "1px solid #E0E0E0" }}
+        style={{
+          background: "#fff",
+          border: "1px solid #E0E0E0",
+          height: "75%",
+        }}
       >
         <div className="flex justify-content-between">
           <Typography variant="h6" className="m-0 mb-5 font-medium">
@@ -26,7 +30,7 @@ export const ContractExplorer = () => {
             <IconField iconPosition="right">
               <InputIcon
                 className="pi pi-search"
-                style={{ top: "35%", color: "#18406f" }}
+                style={{ top: "35%", color: "var(--app-primaryColor)" }}
               />
               <InputText placeholder="Search" className="p-inputtext-sm" />
             </IconField>

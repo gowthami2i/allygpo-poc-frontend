@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
+  getPaginationRowModel,
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
+import { Paginator } from "primereact/paginator";
 
-import "primeicons/primeicons.css";
 import { IData } from "../../types/components/appTable";
 import { data } from "./data";
+import "./../../pages/contractExplorer/contractExplorer.scss";
 
 const columns: ColumnDef<IData>[] = [
   {
@@ -30,19 +32,32 @@ const columns: ColumnDef<IData>[] = [
 ];
 
 const AppTable: React.FC = () => {
+  const [first, setFirst] = useState(0); // Tracks the starting row
+  const [rows] = useState(5); // Tracks the number of rows per page (fixed to 5 rows per page)
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: rows,
+      },
+    },
   });
 
+  const onPageChange = (event: any) => {
+    setFirst(event.first);
+    table.setPageIndex(Math.floor(event.first / rows));
+  };
+
   return (
-    <div style={{ overflowX: "auto" }}>
+    <div>
       <table
         style={{
           width: "100%",
           borderCollapse: "collapse",
-          boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
           background: "#fff",
           border: "1px solid #E0E0E0",
         }}
@@ -62,7 +77,6 @@ const AppTable: React.FC = () => {
                     padding: "14px 16px",
                     textAlign: "left",
                     fontWeight: "500",
-
                     fontSize: "14px",
                   }}
                 >
@@ -124,6 +138,21 @@ const AppTable: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {/* PrimeReact Paginator */}
+      <Paginator
+        first={first}
+        rows={rows}
+        totalRecords={data.length}
+        onPageChange={onPageChange}
+        template="PrevPageLink PageLinks NextPageLink"
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        className="custom-paginator"
+      />
     </div>
   );
 };
