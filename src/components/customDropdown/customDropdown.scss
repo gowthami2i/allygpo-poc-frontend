@@ -2,9 +2,18 @@
 
 .dropdown {
   width: 100%;
+  border-color: $app-borderColor;
   box-shadow: none;
   border-radius: 0;
+  span {
+    font-size: 12px;
+    font-weight: 400;
+  }
+  li {
+    font-size: 14px;
+  }
+
   &:focus {
-    border-color: none !important;
+    border-color: $app-borderColor;
   }
 }

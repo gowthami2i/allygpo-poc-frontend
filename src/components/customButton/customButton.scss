@@ -5,29 +5,25 @@
   font-size: 14px;
   &:focus {
     box-shadow: none;
-    border: none;
   }
 }
 .primary-button {
   background-color: $app-secondaryColor;
   color: $app-bgWhite;
   border-radius: 4px;
-  border: none;
-  padding: 12px;
+  border: 1px solid $app-secondaryColor;
+  padding: 10px;
 }
 
 .primary-outline {
   background-color: $app-bgWhite;
   border-radius: 4px;
-  padding: 12px;
+  padding: 10px;
   color: $app-secondaryColor;
   border: 1px solid $app-secondaryColor;
   &:hover {
     background-color: #d3eaff;
-    border: none;
-    span {
-      text-decoration: none;
-    }
+    border: 1px solid #d3eaff;
   }
 }
 
@@ -51,6 +47,6 @@
   background-color: $app-secondaryColor;
   color: $app-bgWhite;
   border-radius: 4px;
-  border: none;
-  padding: 12px;
+  border: 1px solid $app-secondaryColor;
+  padding: 10px;
 }
