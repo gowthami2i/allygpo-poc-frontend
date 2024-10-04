@@ -2,23 +2,34 @@ import { Button } from "primereact/button";
 import "./customButton.scss";
 import TrashIcon from "../../assets/images/svg/Trash_icon.svg";
 
-export const CustomButton = (props: any) => {
+interface ICustomButtonProps {
+  className?: string;
+  imgURL?: string;
+  type?: "submit" | "button" | "reset" | undefined;
+  buttonType: string;
+  onClick: (event: any) => void;
+  label: string;
+  icon?: string;
+}
+
+export const CustomButton = (props: ICustomButtonProps) => {
+  const { className, imgURL, type, label, onClick, icon, buttonType } = props;
   const renderButton = () => {
-    switch (props.buttonType) {
+    switch (buttonType) {
       case "primary":
         return (
           <Button
-            className={`custom-button primary-button-image ${props.className}`}
-            label={!props.imgURL ? props.label : ""}
-            type={props.type}
+            className={`custom-button primary-button ${
+              imgURL ? "primary-button-image" : ""
+            } ${className}`}
+            label={!imgURL ? label : ""}
+            type={type}
+            onClick={onClick}
+            icon={icon}
           >
-            {props?.imgURL && (
+            {imgURL && (
               <div className="button-with-image">
-                <img
-                  src={props?.imgURL}
-                  alt="button image"
-                  className="button-image"
-                />
+                <img src={imgURL} alt="button image" className="button-image" />
                 <span>{props?.label}</span>
               </div>
             )}
@@ -28,27 +39,30 @@ export const CustomButton = (props: any) => {
       case "primary-outline":
         return (
           <Button
-            className={`custom-button primary-outline ${props.className}`}
-            label={props.label}
-            type={props.type}
+            className={`custom-button primary-outline ${className}`}
+            label={label}
+            type={type}
+            onClick={onClick}
           />
         );
 
       case "secondary-button":
         return (
           <Button
-            className={`custom-button secondary-button ${props.className}`}
-            label={props.label}
-            type={props.type}
+            className={`custom-button secondary-button ${className}`}
+            label={label}
+            type={type}
+            onClick={onClick}
           />
         );
 
       case "delete":
         return (
           <Button
-            className={`custom-button delete-icon ${props.className}`}
-            label={props.label}
-            type={props.type}
+            className={`custom-button delete-icon ${className}`}
+            label={label}
+            type={type}
+            onClick={onClick}
           >
             <img
               src={TrashIcon}

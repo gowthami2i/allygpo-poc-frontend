@@ -1,0 +1,19 @@
+@import "../../assets/styles/theme.scss";
+
+.custom-input {
+  border-color: $app-borderColor;
+  width: 100%;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 400;
+
+  &:focus {
+    border-color: $app-borderColor;
+    box-shadow: none;
+  }
+}
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #25282a;
+}
