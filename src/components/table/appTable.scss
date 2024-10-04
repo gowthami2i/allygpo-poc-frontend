@@ -1,0 +1,36 @@
+.custom-paginator .p-paginator-page {
+  border: none;
+  background: none;
+  color: var(--app-borderColor);
+  padding: 0.5px;
+  font-size: 16px;
+}
+
+.custom-paginator .p-paginator-page.p-highlight {
+  font-weight: bold;
+  color: var(--app-dark);
+}
+
+.custom-paginator .p-paginator-prev,
+.custom-paginator .p-paginator-next {
+  color: var(--app-secondaryColor);
+  padding: 0.5px;
+  border: 1px solid var(--app-borderColor);
+  border-radius: 4px;
+  cursor: pointer;
+  height: 28px;
+  min-width: 28px;
+}
+
+.view-details {
+  border-bottom: 1px solid var(--app-borderColor);
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-primaryColor);
+  cursor: pointer;
+}
+
+.view-details:hover {
+  text-decoration: underline;
+}

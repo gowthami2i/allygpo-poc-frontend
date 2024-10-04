@@ -6,7 +6,7 @@ export const MainLayout = () => {
   return (
     <div
       style={{
-        backgroundColor: "#FAFAFA",
+        backgroundColor: "var(--app-bgColor)",
         height: "100vh",
       }}
     >

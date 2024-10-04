@@ -2,8 +2,7 @@
   .custom-header {
     font-size: 16px;
     font-weight: 700;
-    color: #25282a;
-    border-bottom: 1px solid #e0e0e0 !important;
-    
+    color: var(--ap-dark-100);
+    border-bottom: 1px solid var(--app-borderColor) !important;
   }
 }

@@ -1,7 +1,15 @@
 @import "./variable.scss";
 
-$app-primaryColor: #18406f;
-$app-secondaryColor: #095192;
-$app-bgColor: #fafafa;
-$app-bgWhite: #ffffff;
-$app-borderColor: #e0e0e0;
+:root {
+  --app-primaryColor: #18406f;
+  --app-secondaryColor: #095192;
+  --app-bgColor: #fafafa;
+  --app-bgWhite: #ffffff;
+  --app-borderColor: #e0e0e0;
+  --app-successColor: #00a991;
+  --app-dangerColor: #d9342b;
+  --app-warningColor: #cc8925;
+  --app-dark: #000000;
+  --app-dark-100: #25282a;
+  --app-light: #d3eaff;
+}
