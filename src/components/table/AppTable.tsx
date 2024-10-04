@@ -3,37 +3,16 @@ import {
   useReactTable,
   getCoreRowModel,
   getPaginationRowModel,
-  ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-import { Paginator } from "primereact/paginator";
+import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
+import "./appTable.scss";
+import { IAppTable } from "../../types/components/appTable";
 
-import { IData } from "../../types/components/appTable";
-import { data } from "./data";
-import "./../../pages/contractExplorer/contractExplorer.scss";
-
-const columns: ColumnDef<IData>[] = [
-  {
-    header: "Document",
-    accessorKey: "document",
-  },
-  {
-    header: "Description",
-    accessorKey: "description",
-  },
-  {
-    header: "Contract Type",
-    accessorKey: "contractType",
-  },
-  {
-    header: "Date uploaded",
-    accessorKey: "dateUploaded",
-  },
-];
-
-const AppTable: React.FC = () => {
-  const [first, setFirst] = useState(0); // Tracks the starting row
-  const [rows] = useState(5); // Tracks the number of rows per page (fixed to 5 rows per page)
+const AppTable = (props: IAppTable) => {
+  const { columns, data } = props;
+  const [page, setPage] = useState(0); // Tracks the starting row
+  const pageCount = 5;
 
   const table = useReactTable({
     data,
@@ -42,14 +21,14 @@ const AppTable: React.FC = () => {
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: rows,
+        pageSize: pageCount,
       },
     },
   });
 
-  const onPageChange = (event: any) => {
-    setFirst(event.first);
-    table.setPageIndex(Math.floor(event.first / rows));
+  const onPageChange = (event: PaginatorPageChangeEvent) => {
+    setPage(event.first);
+    table.setPageIndex(Math.floor(event.first / pageCount));
   };
 
   return (
@@ -58,8 +37,9 @@ const AppTable: React.FC = () => {
         style={{
           width: "100%",
           borderCollapse: "collapse",
-          background: "#fff",
-          border: "1px solid #E0E0E0",
+          background: "var(--app-bgWhite)",
+          borderTop: "1px solid var(--app-borderColor)",
+          borderBottom: "1px solid var(--app-borderColor)",
         }}
       >
         <thead>
@@ -67,7 +47,7 @@ const AppTable: React.FC = () => {
             <tr
               key={headerGroup.id}
               style={{
-                borderBottom: "1px solid #E0E0E0",
+                borderBottom: "1px solid var(--app-borderColor)",
               }}
             >
               {headerGroup.headers.map((header) => (
@@ -99,7 +79,7 @@ const AppTable: React.FC = () => {
                   <td
                     key={cell.id}
                     style={{
-                      borderBottom: "1px solid #E0E0E0",
+                      borderBottom: "1px solid var(--app-borderColor)",
                       padding: "14px 16px",
                       fontSize: "14px",
                       fontWeight:
@@ -112,44 +92,36 @@ const AppTable: React.FC = () => {
                   </td>
                 );
               })}
+              <td className="view-details">View Details</td>
               <td
                 style={{
-                  borderBottom: "1px solid #E0E0E0",
+                  borderBottom: "1px solid var(--app-borderColor)",
                   padding: "14px 16px",
                   fontSize: "14px",
                   fontWeight: 600,
-                  color: "#095192",
                 }}
               >
-                View Details
-              </td>
-              <td
-                style={{
-                  borderBottom: "1px solid #E0E0E0",
-                  padding: "14px 16px",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#095192",
-                }}
-              >
-                <i className="pi pi-trash" style={{ color: "#D9342B" }}></i>
+                <i
+                  className="pi pi-trash"
+                  style={{ color: "var(--app-dangerColor)" }}
+                ></i>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {/* PrimeReact Paginator */}
       <Paginator
-        first={first}
-        rows={rows}
+        first={page}
+        rows={pageCount}
         totalRecords={data.length}
         onPageChange={onPageChange}
         template="PrevPageLink PageLinks NextPageLink"
         style={{
-          marginBottom: "20px",
+          marginBottom: "19px",
           display: "flex",
           justifyContent: "center",
+          height: "75px",
+          borderRadius: 0,
         }}
         className="custom-paginator"
       />

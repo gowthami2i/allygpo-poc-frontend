@@ -22,8 +22,8 @@
   color: var(--app-secondaryColor);
   border: 1px solid var(--app-secondaryColor);
   &:hover {
-    background-color: #d3eaff;
-    border: 1px solid #d3eaff;
+    background-color: var(--app-light);
+    border: 1px solid var(--app-light);
   }
 }
 

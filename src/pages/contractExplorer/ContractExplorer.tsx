@@ -1,39 +1,52 @@
 import React, { useState } from "react";
 import AppTable from "../../components/table/AppTable";
 import Typography from "../../typography/Typography";
-import { InputText } from "primereact/inputtext";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { Dialog } from "primereact/dialog";
 import { ContractUpload } from "../../components/contractUpload/ContractUpload";
 import { CustomDialog } from "../../components/customDialog/CustomDialog";
 import { CustomButton } from "../../components/customButton/CustomButton";
+import { ColumnDef } from "@tanstack/react-table";
+import { IData } from "../../types/components/appTable";
+import { data } from "../../components/table/data";
+import SearchBar from "../../components/customInput/SearchBar";
 
 export const ContractExplorer = () => {
   const [visible, setVisible] = useState(false);
-
+  const columns: ColumnDef<IData>[] = [
+    {
+      header: "Document",
+      accessorKey: "document",
+    },
+    {
+      header: "Description",
+      accessorKey: "description",
+    },
+    {
+      header: "Contract Type",
+      accessorKey: "contractType",
+    },
+    {
+      header: "Date uploaded",
+      accessorKey: "dateUploaded",
+    },
+  ];
   return (
-    <div className="m-5" style={{ height: "100%" }}>
+    <div className="m-5 ">
       <div
-        className="p-5"
         style={{
-          background: "#fff",
-          border: "1px solid #E0E0E0",
-          height: "75%",
+          background: "var(--app-bgwhite)",
+          border: "1px solid var(--app-borderColor)",
+          height: "420px",
         }}
       >
-        <div className="flex justify-content-between">
-          <Typography variant="h6" className="m-0 mb-5 font-medium">
+        <div
+          className="flex justify-content-between align-items-center h-4rem px-3"
+          style={{ background: "var(--app-bgWhite" }}
+        >
+          <Typography variant="h6" className="font-medium">
             Contracts
           </Typography>
-          <div className="flex justify-content-between gap-6">
-            <IconField iconPosition="right">
-              <InputIcon
-                className="pi pi-search"
-                style={{ top: "35%", color: "var(--app-primaryColor)" }}
-              />
-              <InputText placeholder="Search" className="p-inputtext-sm" />
-            </IconField>
+          <div className="flex justify-content-between gap-5">
+            <SearchBar />
             <CustomButton
               buttonType={"primary"}
               icon="pi pi-upload"
@@ -45,7 +58,7 @@ export const ContractExplorer = () => {
             />
           </div>
         </div>
-        <AppTable />
+        <AppTable columns={columns} data={data} />
       </div>
       <CustomDialog
         visible={visible}
