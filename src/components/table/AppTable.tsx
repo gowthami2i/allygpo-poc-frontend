@@ -11,7 +11,7 @@ import { IAppTable } from "../../types/components/appTable";
 
 const AppTable = (props: IAppTable) => {
   const { columns, data } = props;
-  const [page, setPage] = useState(0); // Tracks the starting row
+  const [page, setPage] = useState(0);
   const pageCount = 5;
 
   const table = useReactTable({
@@ -120,7 +120,7 @@ const AppTable = (props: IAppTable) => {
           marginBottom: "19px",
           display: "flex",
           justifyContent: "center",
-          height: "75px",
+          height: "73.5px",
           borderRadius: 0,
         }}
         className="custom-paginator"
