@@ -34,3 +34,42 @@
 .view-details:hover {
   text-decoration: underline;
 }
+
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--app-bgWhite);
+  border-top: 1px solid var(--app-borderColor);
+  border-bottom: 1px solid var(--app-borderColor);
+}
+
+.table-header {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.table-data {
+  border-bottom: 1px solid var(--app-borderColor);
+  padding: 14px 16px;
+  font-size: 14px;
+}
+
+.view-details-txt {
+  font-weight: 600;
+}
+
+.trash {
+  color: var(--app-dangerColor);
+}
+.cell-border {
+  border-bottom: 1px solid var(--app-borderColor);
+}
+.pagination {
+  margin-bottom: 19px;
+  display: flex;
+  justify-content: center;
+  height: 70px;
+  border-radius: 0;
+}

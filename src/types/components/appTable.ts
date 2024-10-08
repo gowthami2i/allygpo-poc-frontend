@@ -14,4 +14,5 @@ export interface IColumn {
 export interface IAppTable {
   columns: ColumnDef<IData>[];
   data: IData[];
+  pageCount: number;
 }

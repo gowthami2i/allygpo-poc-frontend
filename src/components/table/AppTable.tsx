@@ -10,9 +10,8 @@ import "./appTable.scss";
 import { IAppTable } from "../../types/components/appTable";
 
 const AppTable = (props: IAppTable) => {
-  const { columns, data } = props;
+  const { columns, data, pageCount } = props;
   const [page, setPage] = useState(0);
-  const pageCount = 5;
 
   const table = useReactTable({
     data,
@@ -33,33 +32,12 @@ const AppTable = (props: IAppTable) => {
 
   return (
     <div>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          background: "var(--app-bgWhite)",
-          borderTop: "1px solid var(--app-borderColor)",
-          borderBottom: "1px solid var(--app-borderColor)",
-        }}
-      >
+      <table className="table-container">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr
-              key={headerGroup.id}
-              style={{
-                borderBottom: "1px solid var(--app-borderColor)",
-              }}
-            >
+            <tr key={headerGroup.id} className="cell-border">
               {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  style={{
-                    padding: "14px 16px",
-                    textAlign: "left",
-                    fontWeight: "500",
-                    fontSize: "14px",
-                  }}
-                >
+                <th key={header.id} className="table-header">
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -78,10 +56,8 @@ const AppTable = (props: IAppTable) => {
                 return (
                   <td
                     key={cell.id}
+                    className="table-data"
                     style={{
-                      borderBottom: "1px solid var(--app-borderColor)",
-                      padding: "14px 16px",
-                      fontSize: "14px",
                       fontWeight:
                         cell?.column.columnDef?.accessorKey === "document"
                           ? 600
@@ -93,18 +69,8 @@ const AppTable = (props: IAppTable) => {
                 );
               })}
               <td className="view-details">View Details</td>
-              <td
-                style={{
-                  borderBottom: "1px solid var(--app-borderColor)",
-                  padding: "14px 16px",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                }}
-              >
-                <i
-                  className="pi pi-trash"
-                  style={{ color: "var(--app-dangerColor)" }}
-                ></i>
+              <td className="table-data view-details-txt">
+                <i className="pi pi-trash trash"></i>
               </td>
             </tr>
           ))}
@@ -116,14 +82,7 @@ const AppTable = (props: IAppTable) => {
         totalRecords={data.length}
         onPageChange={onPageChange}
         template="PrevPageLink PageLinks NextPageLink"
-        style={{
-          marginBottom: "19px",
-          display: "flex",
-          justifyContent: "center",
-          height: "73.5px",
-          borderRadius: 0,
-        }}
-        className="custom-paginator"
+        className="custom-paginator pagination"
       />
     </div>
   );
