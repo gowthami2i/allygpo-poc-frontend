@@ -8,7 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { IData } from "../../types/components/appTable";
 import { data } from "../../components/table/data";
 import SearchBar from "../../components/customInput/SearchBar";
-
+import "./contractExplorer.scss";
 export const ContractExplorer = () => {
   const [visible, setVisible] = useState(false);
   const columns: ColumnDef<IData>[] = [
@@ -31,17 +31,8 @@ export const ContractExplorer = () => {
   ];
   return (
     <div className="m-5 ">
-      <div
-        style={{
-          background: "var(--app-bgwhite)",
-          border: "1px solid var(--app-borderColor)",
-          height: "420px",
-        }}
-      >
-        <div
-          className="flex justify-content-between align-items-center h-4rem px-3"
-          style={{ background: "var(--app-bgWhite" }}
-        >
+      <div className="layout">
+        <div className="flex justify-content-between align-items-center h-4rem px-3">
           <Typography variant="h6" className="font-medium">
             Contracts
           </Typography>
@@ -58,7 +49,7 @@ export const ContractExplorer = () => {
             />
           </div>
         </div>
-        <AppTable columns={columns} data={data} />
+        <AppTable columns={columns} data={data} pageCount={5} />
       </div>
       <CustomDialog
         visible={visible}
