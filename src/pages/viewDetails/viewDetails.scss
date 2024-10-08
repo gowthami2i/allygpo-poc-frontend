@@ -1,0 +1,16 @@
+.container {
+  // height: 89%;
+
+  .chat {
+    height: 86.6%;
+
+    .chat-content {
+      height: 90%;
+      overflow: scroll;
+    }
+  }
+}
+
+.padding-inline-0 {
+  padding-inline-start: 1rem;
+}

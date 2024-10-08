@@ -7,13 +7,10 @@ import {
 import { MainLayout } from "../layouts/MainLayout";
 import Profile from "../pages/Profile";
 import { ContractExplorer } from "../pages/contractExplorer/ContractExplorer";
+import ViewDetails from "../pages/viewDetails/ViewDetails";
 
 const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <MainLayout />
-    </>
-  ),
+  component: () => <MainLayout />,
 });
 
 const routesData = [
@@ -26,6 +23,11 @@ const routesData = [
     path: "/profile",
     component: Profile,
     title: "Profile",
+  },
+  {
+    path: "/view-details",
+    component: ViewDetails,
+    title: "View Details",
   },
 ];
 

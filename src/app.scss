@@ -4,3 +4,29 @@ body {
   font-family: "Inter";
   font-weight: normal;
 }
+
+:root {
+  --primary-color: #095192 !important;
+  // --primary-900:#095192 !important;
+}
+
+::-webkit-scrollbar {
+  background: transparent;
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #616161;
+  border-radius: 40px;
+  opacity: 1;
+}
+
+.word-break-all {
+  word-break: break-all;
+}
