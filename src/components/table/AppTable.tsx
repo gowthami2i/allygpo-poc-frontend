@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { flexRender } from "@tanstack/react-table";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import "./appTable.scss";
-import { IAppTable } from "../../types/components/appTable";
+import { IAppTable, IHeaderGroup } from "../../types/components/appTable";
 
 const AppTable = (props: IAppTable) => {
   const { table, data, pageCount, extraData } = props;
@@ -17,33 +17,29 @@ const AppTable = (props: IAppTable) => {
     <div>
       <table className="table-container">
         <thead>
-          {table.getHeaderGroups().map((headerGroup) => {
-            return (
-              <tr key={headerGroup.id} className="cell-border">
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="table-header">
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </th>
-                ))}
-              </tr>
-            );
-          })}
+          {table.getHeaderGroups().map((headerGroup: IHeaderGroup) => (
+            <tr key={headerGroup.id} className="cell-border">
+              {headerGroup.headers.map((header) => (
+                <th key={header.id} className="table-header">
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => {
-                return (
-                  <td key={cell.id} className="table-data">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                );
-              })}
-              <td className="view-details">{extraData.link}</td>
-              <td className="table-data view-details-txt">
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id} className="table-data">
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+              <td className="extra-data">{extraData.link}</td>
+              <td className="table-data extra-data-txt icon">
                 <i className={extraData.icon}></i>
               </td>
             </tr>
