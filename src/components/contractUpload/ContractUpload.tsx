@@ -6,8 +6,11 @@ import CustomDropdown from "../customDropdown/CustomDropdown";
 import { CustomButton } from "../customButton/CustomButton";
 import { z } from "zod";
 import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
+import { useUploadDocument } from "../../hook/services/document/useUpload";
 
 export const ContractUpload = (props: any) => {
+  const { mutate: uploadDocument } = useUploadDocument();
+
   const contractUploadSchema = z.object({
     file: z.array(z.any()).min(1, "At least one file is required"), // File as an array
     description: z.string().min(1, "Description is required"),
@@ -28,6 +31,14 @@ export const ContractUpload = (props: any) => {
     onSubmit: (values) => {
       console.log("Form submitted with:", values);
       // Handle form submission logic here
+      uploadDocument(values.value, {
+        onSuccess: () => {
+          console.log("Document uploaded successfully!");
+        },
+        onError: (error) => {
+          console.error("Error uploading document:", error);
+        },
+      });
     },
   });
 
