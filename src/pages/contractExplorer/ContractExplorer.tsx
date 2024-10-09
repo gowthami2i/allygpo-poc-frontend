@@ -15,12 +15,27 @@ import { getContractExplorerColumn } from "./contractExplorerMeta";
 import "./contractExplorer.scss";
 import { usePageNavigation } from "../../hook/UsePageNavigation";
 import { CustomDialog } from "../../components/customDialog/CustomDialog";
+import { useDelete } from "../../hook/services/document/useDelete";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
+  const { mutate: deleteDocument } = useDelete();
   const [visible, setVisible] = useState(false);
   const pageCount = 5;
-  const columns = getContractExplorerColumn(navigateTo);
+  const handleDelete = (documentId: string) => {
+    deleteDocument(
+      { document_id: documentId },
+      {
+        onSuccess: () => {
+          console.log("Document deleted successfully");
+        },
+        onError: (error) => {
+          console.error("Error deleting document:", error);
+        },
+      }
+    );
+  };
+  const columns = getContractExplorerColumn(navigateTo, handleDelete);
   const table = useReactTable({
     data,
     columns,
