@@ -15,4 +15,9 @@ export interface IAppTable {
   columns: ColumnDef<IData>[];
   data: IData[];
   pageCount: number;
+  table: any;
+  extraData: {
+    link: string;
+    icon: string;
+  };
 }
