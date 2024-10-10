@@ -6,7 +6,6 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import { MainLayout } from "../layouts/MainLayout";
-import Profile from "../pages/Profile";
 import { ContractExplorer } from "../pages/contractExplorer/ContractExplorer";
 import ViewDetails from "../pages/viewDetails/ViewDetails";
 
@@ -19,11 +18,6 @@ const routesData = [
     path: "/",
     component: ContractExplorer,
     title: "Contract Explorer",
-  },
-  {
-    path: "/profile",
-    component: Profile,
-    title: "Profile",
   },
   {
     path: "/view-details",

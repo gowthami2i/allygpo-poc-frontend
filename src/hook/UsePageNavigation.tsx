@@ -1,11 +1,12 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 
 export const usePageNavigation = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const navigateBack = (): void => {
-    navigate({ to: -1 });
-  }; // Go back one step in the browser history
+    window.history.back(); // This uses the browser's history to go back
+  };
 
   const navigateTo = (path: string, state?: any): void => {
     navigate({
@@ -17,5 +18,6 @@ export const usePageNavigation = () => {
   return {
     navigateBack,
     navigateTo,
+    location,
   };
 };

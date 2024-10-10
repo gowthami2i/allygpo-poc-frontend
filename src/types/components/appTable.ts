@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 export interface IData {
-  document: string;
+  document: any;
   description: string;
   contractType: string;
   dateUploaded: string;
@@ -12,10 +12,6 @@ export interface IAppTable {
   data: IData[];
   pageCount: number;
   table: any;
-  extraData: {
-    link: string;
-    icon: string;
-  };
 }
 
 export interface Column {

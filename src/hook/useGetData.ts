@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiService } from "../services/api/apiService";
+import { apiService } from "../services/apiService";
 import { QUERY_KEY } from "../constants/queryConstants";
 
 const getMethod = () => {

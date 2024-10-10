@@ -5,7 +5,7 @@ import "./appTable.scss";
 import { IAppTable, IHeaderGroup } from "../../types/components/appTable";
 
 const AppTable = (props: IAppTable) => {
-  const { table, data, pageCount, extraData } = props;
+  const { table, data, pageCount } = props;
   const [page, setPage] = useState(0);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
@@ -19,8 +19,8 @@ const AppTable = (props: IAppTable) => {
         <thead>
           {table.getHeaderGroups().map((headerGroup: IHeaderGroup) => (
             <tr key={headerGroup.id} className="cell-border">
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className="table-header">
+              {headerGroup.headers.map((header, index) => (
+                <th key={index} className="table-header">
                   {flexRender(
                     header.column.columnDef.header,
                     header.getContext()
@@ -31,17 +31,13 @@ const AppTable = (props: IAppTable) => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="table-data">
+          {table.getRowModel().rows.map((row: any, index: number) => (
+            <tr key={index}>
+              {row.getVisibleCells().map((cell: any, index: number) => (
+                <td key={index} className="table-data">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
-              <td className="extra-data">{extraData.link}</td>
-              <td className="table-data extra-data-txt icon">
-                <i className={extraData.icon}></i>
-              </td>
             </tr>
           ))}
         </tbody>
