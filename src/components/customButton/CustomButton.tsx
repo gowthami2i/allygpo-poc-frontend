@@ -9,7 +9,7 @@ interface ICustomButtonProps {
   type?: "submit" | "button" | "reset" | undefined;
   buttonType: string;
   onClick: (event: any) => void;
-  label: string;
+  label?: string;
   icon?: string;
 }
 
@@ -54,6 +54,17 @@ export const CustomButton = (props: ICustomButtonProps) => {
             label={label}
             type={type}
             onClick={onClick}
+          />
+        );
+
+      case "text-outline":
+        return (
+          <Button
+            className={`custom-button text-white ${className}`}
+            text
+            type={type}
+            onClick={onClick}
+            icon={icon}
           />
         );
 

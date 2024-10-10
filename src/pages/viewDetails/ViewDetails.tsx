@@ -6,13 +6,17 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useHeader } from "../../hook/useHeader";
 import { usePostChatQuestion } from "../../hook/service/chatbot/ChatBotService";
 import "./viewDetails.scss";
+import { usePageNavigation } from "../../hook/UsePageNavigation";
+import { IData } from "../../types/components/appTable";
 
 const ViewDetails = () => {
   const { header } = useHeader();
+  const { navigateBack, location } = usePageNavigation();
   const { mutate } = usePostChatQuestion();
   const [height, setHeight] = useState(0);
   const [chat, setChat] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<any>>([]);
+  const viewData: IData | any = location.state;
 
   useEffect(() => {
     const maxDataHeight = () => {
@@ -69,7 +73,7 @@ const ViewDetails = () => {
   return (
     <div className="flex container" style={{ height: height }}>
       {/*<div className="flex-1"></div>*/}
-      <PdfViewer pdfFile={pdf} />
+      <PdfViewer data={viewData} navigateBack={navigateBack} />
       <ChatBot
         conversation={{ messages: chatHistory }}
         onChatKeyDown={handleChatKeyDown}

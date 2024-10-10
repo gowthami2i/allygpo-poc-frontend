@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { QUERY_KEY } from "../../../constants/queryConstants";
 // import { apiService } from "../../../services/api/apiService";
 
 const sampleChatResponse = {
@@ -85,14 +86,14 @@ export const usePostChatQuestion = () => {
 
 export const useGetChatConversation = (request: IGetConversation) => {
   return useQuery({
-    queryKey: ["chat-conversation"],
+    queryKey: [QUERY_KEY.getChatConversation],
     queryFn: () => getChatConversation(request),
   });
 };
 
 export const useGetChatCitation = (request: IPostChat) => {
   return useQuery({
-    queryKey: ["chat-citation"],
+    queryKey: [QUERY_KEY.getChatCitation],
     queryFn: () => getChatCitation(request),
   });
 };

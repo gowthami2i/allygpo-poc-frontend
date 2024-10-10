@@ -4,6 +4,7 @@ import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import Typography from "../typography/Typography";
+import { CustomButton } from "../components/customButton/CustomButton";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -11,7 +12,7 @@ const options = {
   cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
 };
 
-const PdfViewer = ({ pdfFile }: any) => {
+const PdfViewer = ({ data, navigateBack }: any) => {
   const [numPages, setNumPages] = useState<any>(null);
   const [scale, setScale] = useState(1.2);
 
@@ -21,7 +22,6 @@ const PdfViewer = ({ pdfFile }: any) => {
 
   return (
     <div
-      className="pdf-scroll"
       style={{
         display: "flex",
         flex: 1,
@@ -36,12 +36,18 @@ const PdfViewer = ({ pdfFile }: any) => {
             color: "#FFFFFF",
           }}
         >
-          <i className="pi pi-arrow-left"></i>
-          <Typography variant="h7">DocumentName.pdf</Typography>
+          <CustomButton
+            icon="pi pi-arrow-left"
+            buttonType="text-outline"
+            onClick={navigateBack}
+          />
+          <Typography variant="h7">{data.document.name}</Typography>
+          <Typography variant="p2">|</Typography>
+          <Typography variant="p2">{data.description}</Typography>
         </div>
-        <div className="p-2 flex justify-content-center h-29rem pdf-scroll overflow-scroll">
+        <div className="p-4 flex justify-content-center pdf-viewer overflow-scroll">
           <Document
-            file={pdfFile}
+            file={data.document.url}
             options={options}
             onLoadSuccess={onDocumentLoadSuccess}
           >

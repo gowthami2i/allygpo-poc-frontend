@@ -21,7 +21,7 @@ const ChatBot = (props: conversation) => {
   return (
     <div className="flex flex-column w-4">
       {/*chat bot */}
-      <div className="border-1 border-gray-300 chat">
+      <div className="chat">
         <div className="flex flex-initial justify-content-between align-items-center py-2 px-3 border-bottom-1 border-gray-300">
           <Typography variant="h7">New Topic</Typography>
           <div className="flex gap-2">
@@ -51,7 +51,7 @@ const ChatBot = (props: conversation) => {
         </div>
       </div>
       {/*footer */}
-      <div className="bg-primary px-3 pb-3">
+      <div className="bg-primary w-4 px-3 pb-2 chat-footer">
         <CustomInput
           placeholder="Ask a Question"
           onChange={onChatInputChange}

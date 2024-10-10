@@ -5,45 +5,21 @@ import { ContractUpload } from "../../components/contractUpload/ContractUpload";
 import { CustomDialog } from "../../components/customDialog/CustomDialog";
 import { CustomButton } from "../../components/customButton/CustomButton";
 import {
-  ColumnDef,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { IData } from "../../types/components/appTable";
 import { data } from "../../components/table/data";
 import SearchBar from "../../components/customInput/SearchBar";
+import { getContractExplorerColumn } from "./contractExplorerMeta";
 import "./contractExplorer.scss";
+import { usePageNavigation } from "../../hook/UsePageNavigation";
+
 export const ContractExplorer = () => {
+  const { navigateTo } = usePageNavigation();
   const [visible, setVisible] = useState(false);
   const pageCount = 5;
-  const columns: ColumnDef<IData>[] = [
-    {
-      header: "Document",
-      accessorKey: "document",
-      cell: ({ getValue }) => (
-        <span className="document-data">{getValue()}</span>
-      ),
-    },
-    {
-      header: "Description",
-      accessorKey: "description",
-    },
-    {
-      header: "Contract Type",
-      accessorKey: "contractType",
-    },
-    {
-      header: "Date uploaded",
-      accessorKey: "dateUploaded",
-    },
-  ];
-
-  const extraData = {
-    link: "View Details",
-    icon: "pi pi-trash trash",
-  };
-
+  const columns = getContractExplorerColumn(navigateTo);
   const table = useReactTable({
     data,
     columns,
@@ -55,6 +31,7 @@ export const ContractExplorer = () => {
       },
     },
   });
+
   return (
     <div className="m-5 ">
       <div className="layout">
@@ -80,7 +57,6 @@ export const ContractExplorer = () => {
           data={data}
           pageCount={pageCount}
           table={table}
-          extraData={extraData}
         />
       </div>
       <CustomDialog
