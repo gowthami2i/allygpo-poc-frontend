@@ -1,11 +1,11 @@
 import React from "react";
 import ChatBot from "../../chatBot/ChatBot";
-import PdfViewer from "../../pdf/PdfViewer";
-import pdf from "../../../src/assets/Bacuti.pdf";
+import pdf from "../../../src/assets/AllyGPO Membership Agreement + AllyIQ Exhibit_08212024 CLEAN FINAL.pdf";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useHeader } from "../../hook/useHeader";
 import { usePostChatQuestion } from "../../hook/service/chatbot/ChatBotService";
 import "./viewDetails.scss";
+import SearchAndHighlight from "../../pdf/SearchAndHighlight";
 
 const ViewDetails = () => {
   const { header } = useHeader();
@@ -69,7 +69,8 @@ const ViewDetails = () => {
   return (
     <div className="flex container" style={{ height: height }}>
       {/*<div className="flex-1"></div>*/}
-      <PdfViewer pdfFile={pdf} />
+      <SearchAndHighlight pdfFile={pdf} />
+      {/*<Test />*/}
       <ChatBot
         conversation={{ messages: chatHistory }}
         onChatKeyDown={handleChatKeyDown}
