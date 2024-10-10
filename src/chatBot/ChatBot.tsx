@@ -1,3 +1,4 @@
+import React from "react";
 import { CustomButton } from "../components/customButton/CustomButton";
 import Typography from "../typography/Typography";
 import { CustomInput } from "../components/customInput/CustomInput";

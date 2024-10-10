@@ -1,10 +1,10 @@
+import React from "react";
 import ChatBot from "../../chatBot/ChatBot";
 import PdfViewer from "../../pdf/PdfViewer";
 import pdf from "../../../src/assets/Bacuti.pdf";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useHeader } from "../../hook/useHeader";
 import { usePostChatQuestion } from "../../hook/service/chatbot/ChatBotService";
-
 import "./viewDetails.scss";
 
 const ViewDetails = () => {
@@ -68,8 +68,8 @@ const ViewDetails = () => {
 
   return (
     <div className="flex container" style={{ height: height }}>
-      <div className="flex-1"></div>
-      {/* <PdfViewer pdfFile={pdf} /> */}
+      {/*<div className="flex-1"></div>*/}
+      <PdfViewer pdfFile={pdf} />
       <ChatBot
         conversation={{ messages: chatHistory }}
         onChatKeyDown={handleChatKeyDown}

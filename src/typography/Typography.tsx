@@ -1,5 +1,5 @@
+import React from "react";
 import { ITypography } from "../types/common";
-
 const Typography = ({
   variant,
   children,

@@ -1,3 +1,4 @@
+import React from "react";
 import Typography from "../typography/Typography";
 
 const UserText = ({ text }: { text: string }) => {

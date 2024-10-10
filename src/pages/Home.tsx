@@ -1,9 +1,9 @@
-import AppTable from "../components/table/AppTable";
+import React from "react";
 function Home() {
   return (
     <div className="" style={{ paddingTop: "5px" }}>
       <div className="table-header"></div>
-      <AppTable />
+      {/*<AppTable />*/}
     </div>
   );
 }

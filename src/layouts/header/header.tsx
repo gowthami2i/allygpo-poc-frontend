@@ -1,7 +1,7 @@
 import AllyGpo_icon from "../../assets/images/png/AllyIQ_Icon.png";
 import "./header.scss";
 import Typography from "../../typography/Typography";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useHeader } from "../../hook/useHeader";
 
 export const Header = () => {

@@ -1,6 +1,6 @@
+import React from "react";
 import { Outlet } from "@tanstack/react-router";
-import { Header } from "./header/Header";
-
+import { Header } from "./header/header";
 export const MainLayout = () => {
   return (
     <div

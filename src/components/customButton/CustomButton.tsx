@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "primereact/button";
 import "./customButton.scss";
 import TrashIcon from "../../assets/images/svg/Trash_icon.svg";

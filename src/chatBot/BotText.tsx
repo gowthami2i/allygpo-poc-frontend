@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import chatIcon from "../assets/images/svg/chat_logo.svg";
 import Typography from "../typography/Typography";
 
