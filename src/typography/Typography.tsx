@@ -1,6 +1,5 @@
 import { ITypography } from "../types/common";
 
-
 const Typography = ({
   variant,
   children,
@@ -50,7 +49,10 @@ const Typography = ({
             );
           case "h7":
             return (
-              <p className={`base ${className}`} style={style}>
+              <p
+                className={`base font-bold text-sm ${className}`}
+                style={style}
+              >
                 {children}
               </p>
             );

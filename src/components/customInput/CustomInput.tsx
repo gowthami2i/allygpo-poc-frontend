@@ -1,5 +1,4 @@
 import { InputText } from "primereact/inputtext";
-import React from "react";
 import "./customInput.scss";
 import Typography from "../../typography/Typography";
 
@@ -11,6 +10,7 @@ interface ICustomInputProps {
   label?: string;
   type?: string;
   labelClassName?: string;
+  onKeyDown?: (event: any) => void;
 }
 
 export const CustomInput = (props: ICustomInputProps) => {
@@ -22,6 +22,7 @@ export const CustomInput = (props: ICustomInputProps) => {
     label,
     type,
     labelClassName,
+    onKeyDown,
   } = props;
   return (
     <div>
@@ -37,6 +38,7 @@ export const CustomInput = (props: ICustomInputProps) => {
         className={`custom-input ${className}`}
         placeholder={placeholder}
         type={type}
+        onKeyDown={onKeyDown}
       />
     </div>
   );
