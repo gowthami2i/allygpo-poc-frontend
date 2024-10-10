@@ -123,7 +123,6 @@ const ViewDetails = () => {
   const appendMessage = (chatResponse: any) => {
     const userMessage = {
       sender: ChatSenders.USER,
-
       text: !chatResponse?.question
         ? structuredClone(chat)
         : chatResponse.question,

@@ -1,7 +1,7 @@
 import useLocalStorage from "../hook/global/useLocalStorage";
 import { ACTION_TYPE, updateState } from "../store/appStore";
 import { IFormData } from "../types/request/contractExplorer";
-import { apiService, formHeaders } from "./apiService";
+import { apiService, formHeaders } from "./api/apiService";
 
 export const deleteData = (id: { document_id: string }) => {
   const { getItem: getLocalStorage, setItem: setLocalStorage } =
