@@ -10,12 +10,11 @@ interface conversation {
   onChatKeyDown: (event: any) => void;
   onChatInputChange: (event: any) => void;
   chatValue: string;
+  handlePastTopic:any
 }
 
 const ChatBot = (props: conversation) => {
-  const { conversation, chatValue, onChatInputChange, onChatKeyDown } = props;
-
-  const handlePastTopic = () => {};
+  const { conversation, chatValue, onChatInputChange, onChatKeyDown, handlePastTopic } = props;
   const handleNewTopic = () => {};
 
   return (

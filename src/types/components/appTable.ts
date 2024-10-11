@@ -8,10 +8,11 @@ export interface IData {
 }
 
 export interface IAppTable {
-  columns: ColumnDef<IData>[];
-  data: IData[];
-  pageCount: number;
+  columns: ColumnDef<any>[];
+  data: any[];
+  pageCount?: number;
   table: any;
+  paginator?:boolean;
 }
 
 export interface Column {

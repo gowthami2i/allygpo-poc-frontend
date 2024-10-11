@@ -12,8 +12,8 @@ const SearchBar = () => {
       />
       <InputText
         placeholder="Search"
-        className="p-inputtext-sm"
-        style={{ borderRadius: "4px" }}
+        className="p-inputtext-sm shadow-none"
+        style={{ borderRadius: "4px", borderColor: "var(--app-borderColor)" }}
       />
     </IconField>
   );

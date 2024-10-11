@@ -24,7 +24,7 @@
 
 .extra-data {
   font-weight: 600;
-  color: var(--app-primaryColor);
+  color: var(--app-secondaryColor);
   cursor: pointer;
 }
 
@@ -38,6 +38,11 @@
   background: var(--app-bgWhite);
   border-top: 1px solid var(--app-borderColor);
   border-bottom: 1px solid var(--app-borderColor);
+  tbody tr {
+    &:hover {
+      background-color: #f8fafc;
+    }
+  }
 }
 
 .table-header {

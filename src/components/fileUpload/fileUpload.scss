@@ -1,0 +1,27 @@
+.custom-file-upload {
+  width: 80%;
+  .file-upload-container {
+    border: none;
+    box-shadow: none;
+    border: 1px solid var(--app-borderColor);
+    border-radius: 4px;
+    .file-upload-input {
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .select-file {
+    border: 1px solid var(--app-borderColor);
+    border-radius: 4px;
+    padding: 8px;
+    .custom-input {
+      border: none;
+      font-family: var(--app-fontFamily) !important;
+      font-size: 12px;
+      font-weight: 600;
+      &:focus {
+        border: none;
+      }
+    }
+  }
+}
