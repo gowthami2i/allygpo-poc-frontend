@@ -2,6 +2,8 @@ import React from "react";
 import { InputText } from "primereact/inputtext";
 import "./customInput.scss";
 import Typography from "../../typography/Typography";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
 
 interface ICustomInputProps {
   value: string;
@@ -12,6 +14,9 @@ interface ICustomInputProps {
   type?: string;
   labelClassName?: string;
   onKeyDown?: (event: any) => void;
+  icon?: string;
+  iconPosition?: "left" | "right";
+  iconClick?: (event: any) => void;
 }
 
 export const CustomInput = (props: ICustomInputProps) => {
@@ -24,6 +29,9 @@ export const CustomInput = (props: ICustomInputProps) => {
     type,
     labelClassName,
     onKeyDown,
+    icon,
+    iconPosition,
+    iconClick,
   } = props;
   return (
     <div>
@@ -33,14 +41,22 @@ export const CustomInput = (props: ICustomInputProps) => {
       >
         {label}
       </Typography>
-      <InputText
-        value={value}
-        onChange={onChange}
-        className={`custom-input ${className}`}
-        placeholder={placeholder}
-        type={type}
-        onKeyDown={onKeyDown}
-      />
+      <IconField iconPosition={iconPosition}>
+        <InputIcon
+          className={`text-primary ${
+            iconClick ? "cursor-pointer" : ""
+          } ${icon}`}
+          onClick={iconClick}
+        />
+        <InputText
+          value={value}
+          onChange={onChange}
+          className={`custom-input ${className}`}
+          placeholder={placeholder}
+          type={type}
+          onKeyDown={onKeyDown}
+        />
+      </IconField>
     </div>
   );
 };

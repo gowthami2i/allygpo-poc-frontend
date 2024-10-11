@@ -11,10 +11,20 @@ interface ICustomButtonProps {
   onClick: (event: any) => void;
   label?: string;
   icon?: string;
+  disabled?: boolean;
 }
 
 export const CustomButton = (props: ICustomButtonProps) => {
-  const { className, imgURL, type, label, onClick, icon, buttonType } = props;
+  const {
+    className,
+    imgURL,
+    type,
+    label,
+    onClick,
+    icon,
+    buttonType,
+    disabled,
+  } = props;
   const renderButton = () => {
     switch (buttonType) {
       case "primary":
@@ -27,6 +37,7 @@ export const CustomButton = (props: ICustomButtonProps) => {
             type={type}
             onClick={onClick}
             icon={icon}
+            disabled={disabled}
           >
             {imgURL && (
               <div className="button-with-image">

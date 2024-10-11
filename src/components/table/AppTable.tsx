@@ -5,14 +5,14 @@ import "./appTable.scss";
 import { IAppTable, IHeaderGroup } from "../../types/components/appTable";
 
 const AppTable = (props: IAppTable) => {
-  const { table, data, pageCount, paginator } = props;
+  const { table, data, pageCount = 0, paginator } = props;
   const [page, setPage] = useState(0);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setPage(event.first);
     table.setPageIndex(Math.floor(event.first / pageCount));
   };
-  
+
   return (
     <div>
       <table className="table-container">

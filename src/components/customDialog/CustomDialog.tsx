@@ -10,6 +10,7 @@ interface ICustomDialog {
   children: React.ReactNode;
   headerClassName?: string;
   contentClassName?: string;
+  width?: string;
 }
 export const CustomDialog = (props: ICustomDialog) => {
   const {
@@ -19,6 +20,7 @@ export const CustomDialog = (props: ICustomDialog) => {
     children,
     headerClassName,
     contentClassName,
+    width = "50vw",
   } = props;
 
   const headerElement = (headerName: string) => (
@@ -33,7 +35,7 @@ export const CustomDialog = (props: ICustomDialog) => {
         visible={visible}
         modal
         header={headerElement(headerName)}
-        style={{ width: "50vw" }}
+        style={{ width }}
         onHide={() => {
           if (!visible) return;
           setVisible(false);
