@@ -8,6 +8,14 @@ import { usePostChatQuestion } from "../../hook/service/chatbot/ChatBotService";
 import "./viewDetails.scss";
 import { usePageNavigation } from "../../hook/UsePageNavigation";
 import { IData } from "../../types/components/appTable";
+import { CustomDialog } from "../../components/customdialog/CustomDialog";
+import AppTable from "../../components/table/AppTable";
+import { getPastTopicsColumn } from "../pastTopics/PastTopicsMeta";
+import {
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { topicsData } from "../../components/table/data";
 
 const ViewDetails = () => {
   const { header } = useHeader();
@@ -17,6 +25,7 @@ const ViewDetails = () => {
   const [chat, setChat] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<any>>([]);
   const viewData: IData | any = location.state;
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const maxDataHeight = () => {
@@ -69,6 +78,13 @@ const ViewDetails = () => {
       assistantMessage,
     ]);
   };
+  const { navigateTo } = usePageNavigation();
+  const columns = getPastTopicsColumn(navigateTo);
+  const table = useReactTable({
+    data: topicsData,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   return (
     <div className="flex container" style={{ height: height }}>
@@ -79,7 +95,24 @@ const ViewDetails = () => {
         onChatKeyDown={handleChatKeyDown}
         onChatInputChange={handleChatInputChange}
         chatValue={chat}
+        handlePastTopic={() => {
+          setVisible(true);
+        }}
       />
+      <CustomDialog
+        visible={visible}
+        headerName={"Past Topics"}
+        setVisible={setVisible}
+        headerClassName="p-2"
+        contentClassName="p-0 dialog-content"
+      >
+        <AppTable
+          columns={columns}
+          data={topicsData}
+          table={table}
+          paginator={false}
+        />
+      </CustomDialog>
     </div>
   );
 };

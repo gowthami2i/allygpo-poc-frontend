@@ -1,7 +1,5 @@
-@import "../../assets/styles/theme.scss";
-
 .custom-button {
-  font-family: $app-fontFamily;
+  font-family: var(--app-fontFamily);
   font-size: 14px;
   &:focus {
     box-shadow: none;

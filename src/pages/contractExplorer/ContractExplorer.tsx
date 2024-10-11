@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AppTable from "../../components/table/AppTable";
 import Typography from "../../typography/Typography";
 import { ContractUpload } from "../../components/contractUpload/ContractUpload";
-import { CustomDialog } from "../../components/customDialog/CustomDialog";
+
 import { CustomButton } from "../../components/customButton/CustomButton";
 import {
   getCoreRowModel,
@@ -14,6 +14,7 @@ import SearchBar from "../../components/customInput/SearchBar";
 import { getContractExplorerColumn } from "./contractExplorerMeta";
 import "./contractExplorer.scss";
 import { usePageNavigation } from "../../hook/UsePageNavigation";
+import { CustomDialog } from "../../components/customdialog/CustomDialog";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
@@ -57,12 +58,15 @@ export const ContractExplorer = () => {
           data={data}
           pageCount={pageCount}
           table={table}
+          paginator={true}
         />
       </div>
       <CustomDialog
         visible={visible}
         headerName={"Upload Contract"}
         setVisible={setVisible}
+        headerClassName="p-2"
+        contentClassName="p-4"
       >
         <ContractUpload setVisible={setVisible} />
       </CustomDialog>

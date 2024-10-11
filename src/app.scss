@@ -1,7 +1,8 @@
 @import "./assets/styles/theme.scss";
+
 body {
   margin: 0;
-  font-family: "Inter";
+  font-family: var(--app-fontFamily);
   font-weight: normal;
 }
 

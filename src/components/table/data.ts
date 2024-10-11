@@ -92,3 +92,66 @@ export const data: IData[] = [
     dateUploaded: "09/03/2024",
   },
 ];
+
+export const topicsData: any = [
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+  {
+    question: "What are the conditions for termination ?",
+    createdDate: "09/03/2024",
+  },
+];

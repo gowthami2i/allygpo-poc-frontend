@@ -1,15 +1,25 @@
 import { Dialog } from "primereact/dialog";
 import React from "react";
 import Typography from "../../typography/Typography";
+import "./customDialog.scss";
 
 interface ICustomDialog {
   visible: boolean;
   headerName: string;
   setVisible: (visible: boolean) => void;
   children: React.ReactNode;
+  headerClassName?: string;
+  contentClassName?: string;
 }
 export const CustomDialog = (props: ICustomDialog) => {
-  const { visible, headerName, setVisible, children } = props;
+  const {
+    visible,
+    headerName,
+    setVisible,
+    children,
+    headerClassName,
+    contentClassName,
+  } = props;
 
   const headerElement = (headerName: string) => (
     <div className="border-b-2">
@@ -18,19 +28,30 @@ export const CustomDialog = (props: ICustomDialog) => {
   );
 
   return (
-    <div className="custom-dialog">
+    <div>
       <Dialog
         visible={visible}
         modal
         header={headerElement(headerName)}
-        style={{ minWidth: "40%" }}
+        style={{ width: "50vw" }}
         onHide={() => {
           if (!visible) return;
           setVisible(false);
         }}
         pt={{
           header: {
-            className: "custom-header border-300",
+            className: `${
+              headerClassName ? headerClassName : " "
+            } custom-header align-content-center p-0 px-4`,
+          },
+          content: {
+            className: contentClassName,
+          },
+          headerIcons: {
+            className: "mt-2",
+          },
+          closeButtonIcon: {
+            color: "var(--app-secondaryColor)",
           },
         }}
       >

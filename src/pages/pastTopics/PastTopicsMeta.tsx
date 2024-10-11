@@ -1,29 +1,26 @@
-import React from 'react';
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { IData } from "../../types/components/appTable";
 
-export const getContractExplorerColumn = (
+export interface IPastTopics {
+  question: string;
+  createdDate: string;
+  id: number;
+}
+
+export const getPastTopicsColumn = (
   navigateTo: any
-): ColumnDef<IData>[] => {
+): ColumnDef<IPastTopics>[] => {
   return [
     {
-      header: "Document",
-      accessorKey: "document.name",
+      header: "Topic",
+      accessorKey: "question",
       cell: ({ getValue }: any) => (
         <span className="document-data">{getValue()}</span>
       ),
     },
     {
-      header: "Description",
-      accessorKey: "description",
-    },
-    {
-      header: "Contract Type",
-      accessorKey: "contractType",
-    },
-    {
-      header: "Date uploaded",
-      accessorKey: "dateUploaded",
+      header: "Date",
+      accessorKey: "createdDate",
     },
     {
       header: "",
@@ -35,7 +32,7 @@ export const getContractExplorerColumn = (
             navigateTo("view-details", cell.row.original);
           }}
         >
-          View Details
+          Load Conversation
         </span>
       ),
     },

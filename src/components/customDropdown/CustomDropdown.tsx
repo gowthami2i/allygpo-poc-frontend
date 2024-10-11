@@ -19,6 +19,12 @@ export const CustomDropdown = (props: any) => {
         optionValue={optionValue}
         placeholder={placeholder}
         className="dropdown w-full"
+        pt={{
+          item: {
+            className: "item-label p-2",
+            color: "none",
+          },
+        }}
       />
     </div>
   );
