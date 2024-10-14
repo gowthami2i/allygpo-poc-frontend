@@ -1,5 +1,5 @@
+import React, { ReactNode } from "react";
 import { Dialog } from "primereact/dialog";
-import React from "react";
 import Typography from "../../typography/Typography";
 import "./customDialog.scss";
 
@@ -7,7 +7,7 @@ interface ICustomDialog {
   visible: boolean;
   headerName: string;
   setVisible: (visible: boolean) => void;
-  children: React.ReactNode;
+  children: ReactNode;
   headerClassName?: string;
   contentClassName?: string;
   width?: string;

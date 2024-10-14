@@ -18,7 +18,10 @@ const AppTable = (props: IAppTable) => {
       <table className="table-container">
         <thead>
           {table.getHeaderGroups()?.map((headerGroup: IHeaderGroup) => (
-            <tr key={headerGroup.id} className="cell-border">
+            <tr
+              key={headerGroup.id}
+              className="cell-border sticky top-0 bg-white"
+            >
               {headerGroup.headers?.map((header, index) => (
                 <th key={index} className="table-header">
                   {flexRender(
