@@ -3,14 +3,32 @@ import { flexRender } from "@tanstack/react-table";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import "./appTable.scss";
 import { IAppTable, IHeaderGroup } from "../../types/components/appTable";
+import { useDelete } from "../../hook/services/document/useDelete";
 
 const AppTable = (props: IAppTable) => {
   const { table, data, pageCount = 0, paginator } = props;
+  const { mutate: deleteDocument } = useDelete();
+
   const [page, setPage] = useState(0);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setPage(event.first);
     table.setPageIndex(Math.floor(event.first / pageCount));
+  };
+
+  const handleDelete = () => {
+    const documentId = "doc";
+    deleteDocument(
+      { document_id: documentId }, // Pass the document_id as expected by the mutation
+      {
+        onSuccess: () => {
+          console.log("Document deleted successfully");
+        },
+        onError: (error) => {
+          console.error("Error deleting document:", error);
+        },
+      }
+    );
   };
 
   return (

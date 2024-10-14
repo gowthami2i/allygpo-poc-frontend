@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { IData } from "../../types/components/appTable";
 
