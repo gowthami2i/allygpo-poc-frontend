@@ -41,13 +41,13 @@ const PdfViewer = ({ data, navigateBack }: any) => {
             buttonType="text-outline"
             onClick={navigateBack}
           />
-          <Typography variant="h7">{data.document.name}</Typography>
+          <Typography variant="h7">{data.document?.name}</Typography>
           <Typography variant="p2">|</Typography>
           <Typography variant="p2">{data.description}</Typography>
         </div>
         <div className="p-4 flex justify-content-center pdf-viewer overflow-scroll">
           <Document
-            file={data.document.url}
+            file={data.document?.url}
             options={options}
             onLoadSuccess={onDocumentLoadSuccess}
           >

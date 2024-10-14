@@ -1,35 +1,38 @@
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
+import { formatDate } from "../../utils/helpers";
+import { DateFormats } from "../../constants/constant";
 
 export interface IPastTopics {
-  question: string;
-  createdDate: string;
-  id: number;
+  conversation_id: string;
+  summary: string;
+  created_at: string;
+  last_interaction: string;
 }
 
 export const getPastTopicsColumn = (
-  navigateTo: any
+  handleViewDetails: any
 ): ColumnDef<IPastTopics>[] => {
   return [
     {
       header: "Topic",
-      accessorKey: "question",
-      cell: ({ getValue }: any) => (
-        <span className="document-data">{getValue()}</span>
-      ),
+      accessorKey: "summary",
     },
     {
       header: "Date",
-      accessorKey: "createdDate",
+      accessorKey: "created_at",
+      cell: ({ getValue }: any) => (
+        <span>{formatDate(getValue(), DateFormats.DD_MM_YYYY_SLASH)}</span>
+      ),
     },
     {
       header: "",
-      accessorKey: "id",
+      accessorKey: "conversation_id",
       cell: ({ cell }) => (
         <span
           className="extra-data"
           onClick={() => {
-            navigateTo("view-details", cell.row.original);
+            handleViewDetails(cell.row.original);
           }}
         >
           Load Conversation
@@ -38,7 +41,7 @@ export const getPastTopicsColumn = (
     },
     {
       header: "",
-      accessorKey: "id",
+      accessorKey: "conversation_id",
       cell: () => <i className="pi pi-trash icon cursor-pointer"></i>,
     },
   ];

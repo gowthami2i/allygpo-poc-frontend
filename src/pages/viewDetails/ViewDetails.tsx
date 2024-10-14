@@ -1,35 +1,60 @@
 import React from "react";
 import ChatBot from "../../chatBot/ChatBot";
 import PdfViewer from "../../pdf/PdfViewer";
-import pdf from "../../../src/assets/Bacuti.pdf";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useHeader } from "../../hook/useHeader";
-import { usePostChatQuestion } from "../../hook/service/chatbot/ChatBotService";
+import {
+  useGetChatCitation,
+  useGetChatConversation,
+  usePostChatQuestion,
+} from "../../hook/service/chatbot/ChatBotService";
 import "./viewDetails.scss";
 import { usePageNavigation } from "../../hook/UsePageNavigation";
 import { IData } from "../../types/components/appTable";
-import { CustomDialog } from "../../components/customdialog/CustomDialog";
+import { CustomDialog } from "../../components/customDialog/CustomDialog";
 import AppTable from "../../components/table/AppTable";
 import { getPastTopicsColumn } from "../pastTopics/PastTopicsMeta";
-import {
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { topicsData } from "../../components/table/data";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 const ViewDetails = () => {
   const { header } = useHeader();
-  const { navigateBack, location } = usePageNavigation();
+  const { navigateTo, navigateBack, location } = usePageNavigation();
   const { mutate } = usePostChatQuestion();
+  const { data: chatConversations }: any = useGetChatConversation({
+    user_id: "1", // should get user id
+    limit: 5,
+    offset: 0,
+  });
+  const [citationRequest, setCitationRequest] = useState<any>(null);
+  const { data: chatCitation } = useGetChatCitation(citationRequest);
   const [height, setHeight] = useState(0);
   const [chat, setChat] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<any>>([]);
-  const viewData: IData | any = location.state;
   const [visible, setVisible] = useState(false);
+  const [createdAt, setCreatedAt] = useState<string>("");
+  const viewData: IData | any = location.state;
+
+  const handleViewDetails = (cell: any) => {
+    setChatHistory([]);
+    setCitationRequest({
+      conversation_id: cell.conversation_id,
+      question: cell.summary,
+    });
+    appendMessage(chatCitation);
+    setCreatedAt(cell.created_at);
+    setVisible(false);
+  };
+
+  const columns = getPastTopicsColumn(handleViewDetails);
+  const table = useReactTable({
+    data: chatConversations?.conversations ?? [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   useEffect(() => {
     const maxDataHeight = () => {
-      setHeight(window.innerHeight - (header?.offsetHeight ?? 0));
+      setHeight(window.innerHeight - header?.offsetHeight);
     };
 
     maxDataHeight();
@@ -38,19 +63,29 @@ const ViewDetails = () => {
     return () => window.removeEventListener("resize", maxDataHeight);
   }, [header?.offsetHeight]);
 
+  useEffect(() => {
+    if (!viewData?.document) {
+      navigateTo("/");
+    }
+  }, [viewData?.document]);
+
   const handleChatKeyDown = (e: any) => {
     if (e.key === "Enter") {
-      if (chat) {
-        mutate(
-          { question: chat },
-          {
-            onSuccess: (data) => {
-              setChat("");
-              appendMessage(data);
-            },
-          }
-        );
-      }
+      handleSendChat();
+    }
+  };
+
+  const handleSendChat = () => {
+    if (chat) {
+      mutate(
+        { question: chat },
+        {
+          onSuccess: (data) => {
+            setChat("");
+            appendMessage(data);
+          },
+        }
+      );
     }
   };
 
@@ -61,14 +96,16 @@ const ViewDetails = () => {
   const appendMessage = (chatResponse: any) => {
     const userMessage = {
       sender: "user",
-      text: structuredClone(chat), // User's message
+      text: !chatResponse?.question
+        ? structuredClone(chat)
+        : chatResponse.question,
     };
 
     const assistantMessage = {
       sender: "assistant",
       text: {
-        heading: chatResponse?.answer || "No answer found",
-        list: chatResponse?.citations || [], // Citations list
+        heading: chatResponse?.answer || "",
+        list: chatResponse?.citations || [],
       },
     };
 
@@ -78,25 +115,22 @@ const ViewDetails = () => {
       assistantMessage,
     ]);
   };
-  const { navigateTo } = usePageNavigation();
-  const columns = getPastTopicsColumn(navigateTo);
-  const table = useReactTable({
-    data: topicsData,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
 
   return (
     <div className="flex container" style={{ height: height }}>
-      {/*<div className="flex-1"></div>*/}
       <PdfViewer data={viewData} navigateBack={navigateBack} />
       <ChatBot
-        conversation={{ messages: chatHistory }}
+        conversation={{ createdAt, messages: chatHistory }}
         onChatKeyDown={handleChatKeyDown}
+        handleSendChat={handleSendChat}
         onChatInputChange={handleChatInputChange}
         chatValue={chat}
         handlePastTopic={() => {
           setVisible(true);
+        }}
+        handleNewTopic={() => {
+          setChatHistory([]);
+          setCreatedAt("");
         }}
       />
       <CustomDialog
@@ -105,10 +139,11 @@ const ViewDetails = () => {
         setVisible={setVisible}
         headerClassName="p-2"
         contentClassName="p-0 dialog-content"
+        width="65vw"
       >
         <AppTable
           columns={columns}
-          data={topicsData}
+          data={chatConversations?.conversations}
           table={table}
           paginator={false}
         />

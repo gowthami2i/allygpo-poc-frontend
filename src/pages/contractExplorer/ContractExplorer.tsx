@@ -14,7 +14,7 @@ import SearchBar from "../../components/customInput/SearchBar";
 import { getContractExplorerColumn } from "./contractExplorerMeta";
 import "./contractExplorer.scss";
 import { usePageNavigation } from "../../hook/UsePageNavigation";
-import { CustomDialog } from "../../components/customdialog/CustomDialog";
+import { CustomDialog } from "../../components/customDialog/CustomDialog";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
@@ -67,6 +67,7 @@ export const ContractExplorer = () => {
         setVisible={setVisible}
         headerClassName="p-2"
         contentClassName="p-4"
+        width=""
       >
         <ContractUpload setVisible={setVisible} />
       </CustomDialog>
