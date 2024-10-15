@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiService } from "../../../services/apiService";
 
 interface IFormData {
-  file: string;
+  file: any[];
   description: string;
   contractType: string;
 }

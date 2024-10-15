@@ -14,8 +14,10 @@ import SearchBar from "../../components/customInput/SearchBar";
 import { getContractExplorerColumn } from "./contractExplorerMeta";
 import "./contractExplorer.scss";
 import { usePageNavigation } from "../../hook/UsePageNavigation";
-import { CustomDialog } from "../../components/customDialog/CustomDialog";
 import { useDelete } from "../../hook/services/document/useDelete";
+import { CustomDialog } from "../../components/customdialog/CustomDialog";
+import { Constants } from "../../constants/constant";
+
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
@@ -53,7 +55,7 @@ export const ContractExplorer = () => {
       <div className="layout">
         <div className="flex justify-content-between align-items-center h-4rem px-3">
           <Typography variant="h6" className="font-medium">
-            Contracts
+            {Constants.CONTARCTS}
           </Typography>
           <div className="flex justify-content-between gap-5">
             <SearchBar />
@@ -63,7 +65,7 @@ export const ContractExplorer = () => {
               onClick={() => {
                 setVisible(true);
               }}
-              label={"UPLOAD CONTRACT"}
+              label={Constants.UPLOAD_CONTRACT}
               className="upload-button"
             />
           </div>
@@ -82,7 +84,7 @@ export const ContractExplorer = () => {
         setVisible={setVisible}
         headerClassName="p-2"
         contentClassName="p-4"
-        width=""
+        width="50vw"
       >
         <ContractUpload setVisible={setVisible} />
       </CustomDialog>
