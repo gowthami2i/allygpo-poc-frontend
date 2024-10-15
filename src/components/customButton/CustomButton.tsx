@@ -54,6 +54,7 @@ export const CustomButton = (props: ICustomButtonProps) => {
             className={`custom-button primary-outline ${className}`}
             label={label}
             type={type}
+            disabled={disabled}
             onClick={onClick}
           />
         );
@@ -65,6 +66,7 @@ export const CustomButton = (props: ICustomButtonProps) => {
             label={label}
             type={type}
             onClick={onClick}
+            disabled={disabled}
           />
         );
 
@@ -76,6 +78,7 @@ export const CustomButton = (props: ICustomButtonProps) => {
             type={type}
             onClick={onClick}
             icon={icon}
+            disabled={disabled}
           />
         );
 
@@ -86,6 +89,7 @@ export const CustomButton = (props: ICustomButtonProps) => {
             label={label}
             type={type}
             onClick={onClick}
+            disabled={disabled}
           >
             <img
               src={TrashIcon}

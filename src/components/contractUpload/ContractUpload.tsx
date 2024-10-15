@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useForm } from "@tanstack/react-form";
 import { CustomFileUpload } from "../fileUpload/FileUpload";
 import { CustomInput } from "../customInput/CustomInput";
@@ -7,14 +7,20 @@ import { CustomButton } from "../customButton/CustomButton";
 import { z } from "zod";
 import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
 import { useUploadDocument } from "../../hook/services/document/useUpload";
+import { BUTTTON_TYPE, Constants } from "../../constants/constant";
+import { contractType } from "../table/data";
+import "./contractupload.scss";
 
-export const ContractUpload = (props: any) => {
+interface IContractUpload {
+  setVisible: Dispatch<SetStateAction<boolean>>;
+}
+
+export const ContractUpload = (props: IContractUpload) => {
   const { mutate: uploadDocument } = useUploadDocument();
-
   const contractUploadSchema = z.object({
-    file: z.array(z.any()).min(1, "At least one file is required"), // File as an array
-    description: z.string().min(1, "Description is required"),
-    contractType: z.string().min(1, "Contract type is required"),
+    file: z.array(z.any()).min(1, Constants.FILE_REQUIRED), // File as an array
+    description: z.string().min(1, Constants.DESCRIPTION_REQUIRED),
+    contractType: z.string().min(1, Constants.CONTRACT_TYPE_REQUIRED),
   });
 
   type Contract = z.infer<typeof contractUploadSchema>;
@@ -25,15 +31,13 @@ export const ContractUpload = (props: any) => {
       contractType: "",
     },
     validators: {
-      onChange: contractUploadSchema,
+      onSubmit: contractUploadSchema,
     },
     validatorAdapter: zodValidator(),
     onSubmit: (values) => {
-      console.log("Form submitted with:", values);
-      // Handle form submission logic here
       uploadDocument(values.value, {
         onSuccess: () => {
-          console.log("Document uploaded successfully!");
+          props.setVisible(false);
         },
         onError: (error) => {
           console.error("Error uploading document:", error);
@@ -42,16 +46,16 @@ export const ContractUpload = (props: any) => {
     },
   });
 
-  const contractType = [
-    { name: "Partnership Contract", code: "partnershipContract" },
-    { name: "Fixed Price Contract", code: "fixedPriceContract" },
-  ];
-
   const FieldInfo = (field: any) => {
     return (
-      <div>
-        {field.field.state.error && <span>{field.field.state.error}</span>}
-      </div>
+      <>
+        {field.field.state?.meta.isTouched &&
+        field.field.state?.meta.errors.length ? (
+          <span className="text-xs error-card">
+            {field.field.state?.meta.errors.join(", ")}
+          </span>
+        ) : null}
+      </>
     );
   };
 
@@ -64,7 +68,7 @@ export const ContractUpload = (props: any) => {
           form.handleSubmit();
         }}
       >
-        <div className="">
+        <div>
           <form.Field
             name="file"
             children={(field) => (
@@ -73,7 +77,7 @@ export const ContractUpload = (props: any) => {
                   uploadFileHandler={(event: any) => {
                     field.handleChange(event.files);
                   }}
-                  label="SELECT FILE"
+                  label={Constants.SELECT_FILE}
                 />
                 <FieldInfo field={field} />
               </>
@@ -89,11 +93,11 @@ export const ContractUpload = (props: any) => {
                 <CustomInput
                   className="contract-input border-round-left-"
                   value={field.state.value}
-                  onChange={(e) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     field.handleChange(e.target.value);
                   }}
-                  label="Description"
-                  placeholder="Please describe the document here"
+                  label={Constants.DESCRIPTION}
+                  placeholder={Constants.PLACEHOLDER_DESCRIPTION_REQUIRED}
                 />
                 <FieldInfo field={field} />
               </>
@@ -107,15 +111,15 @@ export const ContractUpload = (props: any) => {
               <>
                 <CustomDropdown
                   className="w-full"
-                  label="Contract Type"
+                  label={Constants.CONTRACT_TYPE}
                   value={field.state.value}
                   options={contractType}
                   optionLabel="name"
                   optionValue="code"
-                  onChange={(e: any) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     field.handleChange(e.target.value);
                   }}
-                  placeholder="Select Contract Type"
+                  placeholder={Constants.PLACEHOLDER_CONTRACT_TYPE_REQUIRED}
                 />
                 <FieldInfo field={field} />
               </>
@@ -126,8 +130,8 @@ export const ContractUpload = (props: any) => {
         <div className="flex justify-content-end mt-5 gap-4">
           <CustomButton
             type="button"
-            label="CANCEL"
-            buttonType="primary-outline"
+            label={Constants.CANCEL}
+            buttonType={BUTTTON_TYPE.PRIMARY_OUTLINE}
             className={"px-5"}
             onClick={() => {
               props.setVisible(false);
@@ -135,15 +139,15 @@ export const ContractUpload = (props: any) => {
           />
           <CustomButton
             type="submit"
-            label="UPLOAD"
-            buttonType="primary"
+            label={Constants.UPLOAD}
+            buttonType={BUTTTON_TYPE.PRIMARY}
             className={"px-5"}
             onClick={() => {
-              //   setVisible(false);
+              // props.setVisible(false);
             }}
           />
         </div>
-      </form>{" "}
+      </form>
     </div>
   );
 };

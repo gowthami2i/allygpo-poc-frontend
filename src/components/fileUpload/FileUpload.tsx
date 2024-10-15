@@ -3,6 +3,7 @@ import { FileUpload } from "primereact/fileupload";
 import { CustomInput } from "../customInput/CustomInput";
 import "./fileUpload.scss";
 import Document_icon from "../../assets/images/svg/document_icon.svg";
+import { Constants } from "../../constants/constant";
 
 interface CustomFileUpload {
   uploadFileHandler: (event: any) => void;
@@ -21,7 +22,7 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
             accept="application/pdf"
             maxFileSize={1000000}
             chooseOptions={{
-              label: "SELECT FILE",
+              label: Constants.SELECT_FILE,
               className: "custom-button primary-button px-4",
             }}
             pt={{
@@ -38,7 +39,7 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
           />
           <CustomInput
             value={""}
-            placeholder="No File Selected"
+            placeholder={Constants.PLACEHOLDER_FILE}
             onChange={() => {}}
             labelClassName="m-0"
             className="file-upload-input pointer-events-none"
@@ -55,7 +56,7 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
             />
             <input
               type="text"
-              value={fileName || "No File Selected"} // Display selected file name or fallback text
+              value={fileName || Constants.PLACEHOLDER_FILE} // Display selected file name or fallback text
               className="custom-input"
               readOnly
             />
@@ -68,7 +69,7 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
             className="pi pi-trash align-content-center cursor-pointer"
             style={{ color: "var(--app-dangerColor)" }}
             onClick={() => {
-              setFileName([]); // Clears the file name when the trash icon is clicked
+              setFileName([]);
             }}
           />
         </div>
