@@ -3,7 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { IData } from "../../types/components/appTable";
 
 export const getContractExplorerColumn = (
-  navigateTo: any
+  navigateTo: any,
+  handleDelete: any
 ): ColumnDef<IData>[] => {
   return [
     {
@@ -42,7 +43,12 @@ export const getContractExplorerColumn = (
     {
       header: "",
       accessorKey: "id",
-      cell: () => <i className="pi pi-trash icon cursor-pointer"></i>,
+      cell: () => (
+        <i
+          className="pi pi-trash icon cursor-pointer"
+          onClick={(e) => handleDelete(e.target)}
+        ></i>
+      ),
     },
   ];
 };
