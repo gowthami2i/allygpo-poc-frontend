@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEventHandler, KeyboardEvent, MouseEvent } from "react";
 import { InputText } from "primereact/inputtext";
 import "./customInput.scss";
 import Typography from "../../typography/Typography";
@@ -13,10 +13,10 @@ interface ICustomInputProps {
   label?: string;
   type?: string;
   labelClassName?: string;
-  onKeyDown?: (event: any) => void;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
   icon?: string;
   iconPosition?: "left" | "right";
-  iconClick?: (event: any) => void;
+  iconClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 export const CustomInput = (props: ICustomInputProps) => {

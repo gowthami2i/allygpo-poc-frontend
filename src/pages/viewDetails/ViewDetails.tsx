@@ -1,4 +1,4 @@
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import ChatBot from "../../chatBot/ChatBot";
 import PdfViewer from "../../pdf/PdfViewer";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -13,8 +13,9 @@ import { usePageNavigation } from "../../hook/UsePageNavigation";
 import { IData } from "../../types/components/appTable";
 import { CustomDialog } from "../../components/customDialog/CustomDialog";
 import AppTable from "../../components/table/AppTable";
-import { getPastTopicsColumn } from "../pastTopics/PastTopicsMeta";
+import { getPastTopicsColumn } from "./PastTopicsMeta";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { IMessage } from "../../types/chatbot";
 
 const ViewDetails = () => {
   const { header } = useHeader();
@@ -29,7 +30,7 @@ const ViewDetails = () => {
   const { data: chatCitation } = useGetChatCitation(citationRequest);
   const [height, setHeight] = useState(0);
   const [chat, setChat] = useState<string>("");
-  const [chatHistory, setChatHistory] = useState<Array<any>>([]);
+  const [chatHistory, setChatHistory] = useState<IMessage[] | []>([]);
   const [visible, setVisible] = useState(false);
   const [createdAt, setCreatedAt] = useState<string>("");
   const viewData: IData | any = location.state;
@@ -69,7 +70,7 @@ const ViewDetails = () => {
     }
   }, [viewData?.document]);
 
-  const handleChatKeyDown = (e: any) => {
+  const handleChatKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSendChat();
     }

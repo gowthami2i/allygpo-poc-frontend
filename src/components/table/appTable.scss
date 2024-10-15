@@ -8,7 +8,7 @@
 
 .custom-paginator .p-paginator-page.p-highlight {
   font-weight: bold;
-  color: var(--app-dark);
+  color: var(--app-dark-100);
 }
 
 .custom-paginator .p-paginator-prev,
@@ -65,13 +65,14 @@
 .icon {
   color: var(--app-dangerColor);
 }
+
 .cell-border {
   border-bottom: 1px solid var(--app-borderColor);
 }
+
 .pagination {
-  margin-bottom: 19px;
-  display: flex;
-  justify-content: center;
-  height: 70px;
-  border-radius: 0;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }

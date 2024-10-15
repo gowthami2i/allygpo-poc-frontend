@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { Button } from "primereact/button";
 import "./customButton.scss";
 import TrashIcon from "../../assets/images/svg/Trash_icon.svg";
@@ -8,7 +8,7 @@ interface ICustomButtonProps {
   imgURL?: string;
   type?: "submit" | "button" | "reset" | undefined;
   buttonType: string;
-  onClick: (event: any) => void;
+  onClick: (event: MouseEvent<HTMLElement>) => void;
   label?: string;
   icon?: string;
   disabled?: boolean;
