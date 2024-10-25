@@ -1,24 +1,19 @@
 import React, { KeyboardEvent } from "react";
-import ChatBot from "../../chatBot/ChatBot";
-import PdfViewer from "../../pdf/PdfViewer";
+import ChatBot from "../../components/chatBot/ChatBot";
+import PdfViewer from "../../components/pdf/PdfViewer";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useHeader } from "../../hook/useHeader";
-import {
-  useGetChatCitation,
-  useGetChatConversation,
-  usePostChatQuestion,
-} from "../../hook/service/chatbot/ChatBotService";
-import "./viewDetails.scss";
-import { usePageNavigation } from "../../hook/UsePageNavigation";
-import { IData } from "../../types/components/appTable";
-import { CustomDialog } from "../../components/customDialog/CustomDialog";
-import AppTable from "../../components/table/AppTable";
-import { getPastTopicsColumn } from "./PastTopicsMeta";
+import "../../components/viewDetails/viewDetails.scss";
+import { usePageNavigation } from "../../hook/global/UsePageNavigation";
+import { AppDialog } from "../../components/appDialog/AppDialog";
+import AppTable, { IData } from "../../components/table/AppTable";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { IMessage } from "../../types/chatbot";
+import { getPastTopicsColumn } from "../../components/viewDetails/PastTopicsMeta";
+import { usePostChatQuestion } from "../../hook/useChatQuestion";
+import { useGetChatConversation } from "../../hook/useGetChatConversation";
+import { useGetChatCitation } from "../../hook/useGetChatCitation";
 
 const ViewDetails = () => {
-  const { header } = useHeader();
   const { navigateTo, navigateBack, location } = usePageNavigation();
   const { mutate } = usePostChatQuestion();
   const { data: chatConversations }: any = useGetChatConversation({
@@ -28,7 +23,6 @@ const ViewDetails = () => {
   });
   const [citationRequest, setCitationRequest] = useState<any>(null);
   const { data: chatCitation } = useGetChatCitation(citationRequest);
-  const [height, setHeight] = useState(0);
   const [chat, setChat] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<IMessage[] | []>([]);
   const [visible, setVisible] = useState(false);
@@ -52,17 +46,6 @@ const ViewDetails = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  useEffect(() => {
-    const maxDataHeight = () => {
-      setHeight(window.innerHeight - header?.offsetHeight);
-    };
-
-    maxDataHeight();
-    window.addEventListener("resize", maxDataHeight);
-
-    return () => window.removeEventListener("resize", maxDataHeight);
-  }, [header?.offsetHeight]);
 
   useEffect(() => {
     if (!viewData?.document) {
@@ -118,7 +101,7 @@ const ViewDetails = () => {
   };
 
   return (
-    <div className="flex container" style={{ height: height }}>
+    <div className="flex container">
       <PdfViewer data={viewData} navigateBack={navigateBack} />
       <ChatBot
         conversation={{ createdAt, messages: chatHistory }}
@@ -134,7 +117,7 @@ const ViewDetails = () => {
           setCreatedAt("");
         }}
       />
-      <CustomDialog
+      <AppDialog
         visible={visible}
         headerName={"Past Topics"}
         setVisible={setVisible}
@@ -148,7 +131,7 @@ const ViewDetails = () => {
           table={table}
           paginator={false}
         />
-      </CustomDialog>
+      </AppDialog>
     </div>
   );
 };

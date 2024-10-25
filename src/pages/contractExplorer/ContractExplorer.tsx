@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import AppTable from "../../components/table/AppTable";
-import Typography from "../../typography/Typography";
+import Typography from "../../components/typography/Typography";
 import { ContractUpload } from "../../components/contractUpload/ContractUpload";
-
-import { CustomButton } from "../../components/customButton/CustomButton";
 import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { data } from "../../components/table/data";
-import SearchBar from "../../components/customInput/SearchBar";
-import { getContractExplorerColumn } from "./contractExplorerMeta";
-import "./contractExplorer.scss";
-import { usePageNavigation } from "../../hook/UsePageNavigation";
-import { useDelete } from "../../hook/services/document/useDelete";
-import { CustomDialog } from "../../components/customdialog/CustomDialog";
-import { Constants } from "../../constants/constant";
-
+import SearchBar from "../../components/appInput/SearchBar";
+import { usePageNavigation } from "../../hook/global/UsePageNavigation";
+import { AppDialog } from "../../components/appDialog/AppDialog";
+import { Constants, TextVariant } from "../../constants/appConstants";
+import { Button } from "primereact/button";
+import "../../components/contractExplorer/contractExplorer.scss";
+import { getContractExplorerColumn } from "../../components/contractExplorer/contractExplorerMeta";
+import { useDelete } from "../../hook/useDelete";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
@@ -32,7 +30,7 @@ export const ContractExplorer = () => {
           console.log("Document deleted successfully");
         },
         onError: (error) => {
-          console.error("Error deleting document:", error);
+          console.log("Error deleting document:", error);
         },
       }
     );
@@ -51,22 +49,22 @@ export const ContractExplorer = () => {
   });
 
   return (
-    <div className="m-5 ">
+    <div className="m-5">
       <div className="layout">
         <div className="flex justify-content-between align-items-center h-4rem px-3">
-          <Typography variant="h6" className="font-medium">
-            {Constants.CONTARCTS}
+          <Typography variant={TextVariant.HEADING1} className="font-medium">
+            {Constants.CONTRACTS}
           </Typography>
           <div className="flex justify-content-between gap-5">
             <SearchBar />
-            <CustomButton
-              buttonType={"primary"}
-              icon="pi pi-upload"
+            <Button
+              label={Constants.UPLOAD_CONTRACT}
+              type={"button"}
               onClick={() => {
                 setVisible(true);
               }}
-              label={Constants.UPLOAD_CONTRACT}
-              className="upload-button"
+              icon="pi pi-upload"
+              severity="secondary"
             />
           </div>
         </div>
@@ -78,7 +76,7 @@ export const ContractExplorer = () => {
           paginator={true}
         />
       </div>
-      <CustomDialog
+      <AppDialog
         visible={visible}
         headerName={"Upload Contract"}
         setVisible={setVisible}
@@ -87,7 +85,7 @@ export const ContractExplorer = () => {
         width="50vw"
       >
         <ContractUpload setVisible={setVisible} />
-      </CustomDialog>
+      </AppDialog>
     </div>
   );
 };

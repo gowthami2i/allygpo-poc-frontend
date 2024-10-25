@@ -1,0 +1,16 @@
+.header-container {
+  width: 100%;
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 60px;
+  .header-primary-container {
+    background-color: var(--secondary-color);
+    width: 15%;
+  }
+  .header-secondary-container {
+    background-color: var(--primary-color);
+    width: 85%;
+  }
+}

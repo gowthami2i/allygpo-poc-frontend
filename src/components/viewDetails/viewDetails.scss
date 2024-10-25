@@ -1,0 +1,27 @@
+.container {
+  height: calc(100vh - 60px) !important;
+  .chat {
+    height: 88%;
+    .chat-content {
+      height: 90%;
+      overflow: scroll;
+    }
+  }
+  .chat-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .pdf-viewer {
+    height: 90%;
+  }
+}
+
+.padding-inline-0 {
+  padding-inline-start: 1rem;
+}
+
+.bg-past-topic {
+  background: #d5ebff;
+}

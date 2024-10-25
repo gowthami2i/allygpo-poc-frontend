@@ -1,4 +1,4 @@
-import { DateFormats } from "../constants/constant";
+import { DateFormats } from "../constants/appConstants";
 
 export const formatDate = (datetime: string, format: string): string => {
   if (!datetime) {
