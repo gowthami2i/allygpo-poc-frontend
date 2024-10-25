@@ -86,6 +86,7 @@ const ChatBot = (props: IChatBot) => {
           onChange={onChatInputChange}
           value={chatValue}
           onKeyDown={onChatKeyDown}
+          // icon={IconNames.chatIcon}
           icon="pi pi-send"
           iconPosition="right"
           iconClick={handleSendChat}
