@@ -4,6 +4,9 @@ import { QUERY_CONST } from "./constants/appConstants";
 import { HeaderProvider } from "./hook/useHeader";
 import { RouterComponent } from "./route/Router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { routeTree } from "./routeTree.gen";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -13,10 +16,13 @@ function App() {
     },
   });
 
+  // Create a new router instance
+  const router = createRouter({ routeTree });
+
   return (
     <QueryClientProvider client={queryClient}>
       <HeaderProvider>
-        <RouterComponent />
+        <RouterProvider router={router} />
       </HeaderProvider>
     </QueryClientProvider>
   );
