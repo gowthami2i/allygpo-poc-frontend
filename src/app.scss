@@ -1,14 +1,12 @@
+@import "primeflex/primeflex.css";
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
 @import "./assets/styles/theme.scss";
 
 body {
   margin: 0;
-  font-family: var(--app-fontFamily);
+  font-family: var(--font-family);
   font-weight: normal;
-}
-
-:root {
-  --primary-color: #095192 !important;
-  // --primary-900:#095192 !important;
 }
 
 ::-webkit-scrollbar {

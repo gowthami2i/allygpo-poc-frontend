@@ -2,10 +2,65 @@ import React, { useState } from "react";
 import { flexRender } from "@tanstack/react-table";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import "./appTable.scss";
-import { IAppTable, IHeaderGroup } from "../../types/components/appTable";
-import { useDelete } from "../../hook/services/document/useDelete";
+import { useDelete } from "../../hook/useDelete";
+import { ColumnDef } from "@tanstack/react-table";
 
-const AppTable = (props: IAppTable) => {
+export interface IData {
+  document: any;
+  description: string;
+  contractType: string;
+  dateUploaded: string;
+}
+
+export interface IAppTableProps {
+  columns: ColumnDef<any>[];
+  data: any[];
+  pageCount?: number;
+  table: any;
+  paginator?: boolean;
+}
+
+export interface Column {
+  id: string;
+  parent?: Column;
+  depth: number;
+  columnDef: {
+    header: string | (() => JSX.Element);
+    accessorFn: ((row: any) => any) | undefined;
+    cell?: (info: any) => JSX.Element | string;
+  };
+  accessorFn?: (row: any) => any;
+}
+
+export interface IHeaderGroup {
+  depth: number;
+  id: string;
+  headers: Header[];
+}
+
+export interface Header {
+  colSpan: number;
+  column: Column;
+  depth: number;
+  getContext: () => {
+    table: any;
+    header: Header;
+    column: Column;
+  };
+  getLeafHeaders: () => Header[];
+  getResizeHandler: (event: Document) => void;
+  getSize: () => number;
+  getStart: () => number;
+  headerGroup: IHeaderGroup;
+  id: string;
+  index: number;
+  isPlaceholder: boolean;
+  placeholderId?: string;
+  rowSpan: number;
+  subHeaders: Header[];
+}
+
+const AppTable = (props: IAppTableProps) => {
   const { table, data, pageCount = 0, paginator } = props;
   const { mutate: deleteDocument } = useDelete();
 

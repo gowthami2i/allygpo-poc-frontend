@@ -1,7 +1,5 @@
 import React from "react";
-import "./app.scss";
 import { QUERY_CONST } from "./constants/appConstants";
-import { HeaderProvider } from "./hook/useHeader";
 import { RouterComponent } from "./route/Router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 function App() {
@@ -15,9 +13,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <HeaderProvider>
-        <RouterComponent />
-      </HeaderProvider>
+      <RouterComponent />
     </QueryClientProvider>
   );
 }

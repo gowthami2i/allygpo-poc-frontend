@@ -1,15 +1,15 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { useForm } from "@tanstack/react-form";
 import { CustomFileUpload } from "../fileUpload/FileUpload";
-import { CustomInput } from "../customInput/CustomInput";
-import CustomDropdown from "../customDropdown/CustomDropdown";
-import { CustomButton } from "../customButton/CustomButton";
+import { AppInput } from "../appInput/AppInput";
+import AppDropdown from "../appDropdown/AppDropdown";
 import { z } from "zod";
 import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
-import { useUploadDocument } from "../../hook/services/document/useUpload";
-import { BUTTTON_TYPE, Constants } from "../../constants/constant";
 import { contractType } from "../table/data";
 import "./contractupload.scss";
+import { Constants } from "../../constants/appConstants";
+import { Button } from "primereact/button";
+import { useUploadDocument } from "../../hook/useUpload";
 
 interface IContractUpload {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -90,14 +90,14 @@ export const ContractUpload = (props: IContractUpload) => {
             name="description"
             children={(field) => (
               <>
-                <CustomInput
-                  className="contract-input border-round-left-"
+                <AppInput
                   value={field.state.value}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     field.handleChange(e.target.value);
                   }}
                   label={Constants.DESCRIPTION}
                   placeholder={Constants.PLACEHOLDER_DESCRIPTION_REQUIRED}
+                  className="w-full"
                 />
                 <FieldInfo field={field} />
               </>
@@ -109,7 +109,7 @@ export const ContractUpload = (props: IContractUpload) => {
             name="contractType"
             children={(field) => (
               <>
-                <CustomDropdown
+                <AppDropdown
                   className="w-full"
                   label={Constants.CONTRACT_TYPE}
                   value={field.state.value}
@@ -128,23 +128,23 @@ export const ContractUpload = (props: IContractUpload) => {
         </div>
 
         <div className="flex justify-content-end mt-5 gap-4">
-          <CustomButton
-            type="button"
+          <Button
             label={Constants.CANCEL}
-            buttonType={BUTTTON_TYPE.PRIMARY_OUTLINE}
-            className={"px-5"}
+            type="button"
             onClick={() => {
               props.setVisible(false);
             }}
+            className="px-5"
+            severity="secondary"
+            outlined
           />
-          <CustomButton
-            type="submit"
+          <Button
             label={Constants.UPLOAD}
-            buttonType={BUTTTON_TYPE.PRIMARY}
-            className={"px-5"}
+            type="submit"
             onClick={() => {
               // props.setVisible(false);
             }}
+            className="px-5"
           />
         </div>
       </form>

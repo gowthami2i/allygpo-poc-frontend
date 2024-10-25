@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { FileUpload } from "primereact/fileupload";
-import { CustomInput } from "../customInput/CustomInput";
+import { AppInput } from "../appInput/AppInput";
 import "./fileUpload.scss";
-import Document_icon from "../../assets/images/svg/document_icon.svg";
-import { Constants } from "../../constants/constant";
+import { Constants } from "../../constants/appConstants";
+import Icon, { IconNames } from "../global/appIcons/Icon";
+
 
 interface CustomFileUpload {
   uploadFileHandler: (event: any) => void;
@@ -37,7 +38,7 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
               uploadFileHandler(event);
             }}
           />
-          <CustomInput
+          <AppInput
             value={""}
             placeholder={Constants.PLACEHOLDER_FILE}
             onChange={() => {}}
@@ -48,22 +49,18 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
       ) : (
         <div className="flex gap-4">
           <div className="select-file flex px-2 gap-2">
-            <img
-              src={Document_icon}
-              alt="button image"
-              width={"24px"}
-              height={"24px"}
-            />
+            <Icon iconName={IconNames.documentIcon} iconSize={22} />
             <input
               type="text"
               value={fileName || Constants.PLACEHOLDER_FILE} // Display selected file name or fallback text
               className="custom-input"
               readOnly
             />
-            <i
+            {/* <i
               className="pi pi-check align-content-center"
               style={{ color: "var(--app-successColor)" }}
-            />
+            /> */}
+            <Icon iconName={IconNames.tickIcon} className="icon" />
           </div>
           <i
             className="pi pi-trash align-content-center cursor-pointer"
