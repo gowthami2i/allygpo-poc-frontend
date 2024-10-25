@@ -44,15 +44,7 @@ export const getContractExplorerColumn = (
     {
       header: "",
       accessorKey: "id",
-      cell: () => (
-        <Icon
-          iconName={IconNames.trashIcon}
-          iconSize={15}
-          onClick={(e: any) => {
-            handleDelete("doc");
-          }}
-        />
-      ),
+      cell: () => <Icon iconName={IconNames.trashIcon} iconSize={15} />,
     },
   ];
 };
