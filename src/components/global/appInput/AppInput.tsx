@@ -1,11 +1,10 @@
-import React, { ChangeEventHandler, KeyboardEvent, MouseEvent } from "react";
+import React, { KeyboardEvent, MouseEvent } from "react";
 import { InputText } from "primereact/inputtext";
-import Typography from "../typography/Typography";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
-import { TextVariant } from "../../constants/appConstants";
+import { TextVariant } from "../../../constants/appConstants";
 import "./appInput.scss";
-
+import Typography from "../typography/Typography";
 
 interface ICustomInputProps {
   value: string;

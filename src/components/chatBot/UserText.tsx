@@ -1,7 +1,7 @@
 import React from "react";
-import Typography from "../typography/Typography";
 import { IUserText } from "../../types/chatbot";
 import { TextVariant } from "../../constants/appConstants";
+import Typography from "../global/typography/Typography";
 
 const UserText = ({ text }: IUserText) => {
   return (

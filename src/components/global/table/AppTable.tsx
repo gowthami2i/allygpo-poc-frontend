@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { flexRender } from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import "./appTable.scss";
-import { useDelete } from "../../hook/useDelete";
-import { ColumnDef } from "@tanstack/react-table";
 
 export interface IData {
   document: any;
@@ -62,28 +60,12 @@ export interface Header {
 
 const AppTable = (props: IAppTableProps) => {
   const { table, data, pageCount = 0, paginator } = props;
-  const { mutate: deleteDocument } = useDelete();
 
   const [page, setPage] = useState(0);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setPage(event.first);
     table.setPageIndex(Math.floor(event.first / pageCount));
-  };
-
-  const handleDelete = () => {
-    const documentId = "doc";
-    deleteDocument(
-      { document_id: documentId }, // Pass the document_id as expected by the mutation
-      {
-        onSuccess: () => {
-          console.log("Document deleted successfully");
-        },
-        onError: (error) => {
-          console.error("Error deleting document:", error);
-        },
-      }
-    );
   };
 
   return (

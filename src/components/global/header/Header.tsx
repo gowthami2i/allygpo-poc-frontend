@@ -1,12 +1,10 @@
-import AllyGpo_icon from "../../assets/images/png/AllyIQ_Icon.png";
-import "./header.scss";
+import { Constants, TextVariant } from "../../../constants/appConstants";
+import AllyGpo_icon from "../../../assets/images/png/AllyIQ_Icon.png";
 import Typography from "../typography/Typography";
-import React, { useEffect, useRef } from "react";
-import { Constants, TextVariant } from "../../constants/appConstants";
-
+import "./header.scss";
+import React from "react";
 
 export const Header = () => {
-
   return (
     <div className="header-container">
       <div className="header-primary-container flex align-items-center justify-content-center">

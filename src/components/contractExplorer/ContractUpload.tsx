@@ -1,15 +1,14 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { useForm } from "@tanstack/react-form";
 import { CustomFileUpload } from "../fileUpload/FileUpload";
-import { AppInput } from "../appInput/AppInput";
-import AppDropdown from "../appDropdown/AppDropdown";
+import { AppInput } from "../global/appInput/AppInput";
+import AppDropdown from "../global/appDropdown/AppDropdown";
 import { z } from "zod";
 import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
-import { contractType } from "../table/data";
-import "./contractupload.scss";
+import { useUploadDocument } from "../../hook/document/useUpload";
 import { Constants } from "../../constants/appConstants";
+import { contractType } from "../../mockData/data";
 import { Button } from "primereact/button";
-import { useUploadDocument } from "../../hook/useUpload";
 
 interface IContractUpload {
   setVisible: Dispatch<SetStateAction<boolean>>;

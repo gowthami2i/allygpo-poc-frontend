@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Typography from "../typography/Typography";
-import { AppInput } from "../appInput/AppInput";
+import { AppInput } from "../global/appInput/AppInput";
 import BotText from "./BotText";
 import UserText from "./UserText";
 import { formatDate } from "../../utils/helpers";
@@ -11,6 +10,7 @@ import {
   TextVariant,
 } from "../../constants/appConstants";
 import { Button } from "primereact/button";
+import Typography from "../global/typography/Typography";
 
 const ChatBot = (props: IChatBot) => {
   const {

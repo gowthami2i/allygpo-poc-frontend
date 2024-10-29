@@ -3,9 +3,9 @@ import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import Typography from "../typography/Typography";
 import { TextVariant } from "../../constants/appConstants";
 import { Button } from "primereact/button";
+import Typography from "../global/typography/Typography";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -15,7 +15,7 @@ const options = {
 
 const PdfViewer = ({ data, navigateBack }: any) => {
   const [numPages, setNumPages] = useState<any>(null);
-  const [scale, setScale] = useState(1.2);
+  const [scale] = useState(1.2);
 
   const onDocumentLoadSuccess = (pdf: any) => {
     setNumPages(pdf.numPages);

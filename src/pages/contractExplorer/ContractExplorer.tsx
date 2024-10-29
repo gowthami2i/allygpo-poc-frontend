@@ -1,41 +1,27 @@
 import React, { useState } from "react";
-import AppTable from "../../components/table/AppTable";
-import Typography from "../../components/typography/Typography";
-import { ContractUpload } from "../../components/contractUpload/ContractUpload";
+import AppTable from "../../components/global/table/AppTable";
+import { ContractUpload } from "../../components/contractExplorer/ContractUpload";
 import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { data } from "../../components/table/data";
-import SearchBar from "../../components/appInput/SearchBar";
 import { usePageNavigation } from "../../hook/global/UsePageNavigation";
-import { AppDialog } from "../../components/appDialog/AppDialog";
 import { Constants, TextVariant } from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import "../../components/contractExplorer/contractExplorer.scss";
 import { getContractExplorerColumn } from "../../components/contractExplorer/contractExplorerMeta";
-import { useDelete } from "../../hook/useDelete";
+import { data } from "../../mockData/data";
+import Typography from "../../components/global/typography/Typography";
+import SearchBar from "../../components/global/appInput/SearchBar";
+import { AppDialog } from "../../components/global/appDialog/AppDialog";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
-  const { mutate: deleteDocument } = useDelete();
   const [visible, setVisible] = useState(false);
   const pageCount = 5;
-  const handleDelete = (documentId: string) => {
-    deleteDocument(
-      { document_id: documentId },
-      {
-        onSuccess: () => {
-          console.log("Document deleted successfully");
-        },
-        onError: (error) => {
-          console.log("Error deleting document:", error);
-        },
-      }
-    );
-  };
-  const columns = getContractExplorerColumn(navigateTo, handleDelete);
+
+  const columns = getContractExplorerColumn(navigateTo);
   const table = useReactTable({
     data,
     columns,

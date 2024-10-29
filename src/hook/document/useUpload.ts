@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { uploadDocument } from "../services/uploadContractService";
-import { IFormData } from "../types/request/uploadContract";
+import { uploadDocument } from "./../../services/contractExplorerService";
+import { IFormData } from "../../types/request/contractExplorer";
 
 export const useUploadDocument = () => {
   return useMutation({

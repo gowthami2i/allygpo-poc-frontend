@@ -2,7 +2,7 @@ import {
   sampleChatResponse,
   sampleCitationResponse,
   sampleConversationResponse,
-} from "../components/table/data";
+} from "../mockData/data";
 import { IGetConversation, IPostChat } from "../types/request/chatBot";
 // import { apiService } from "../../../services/api/apiService";
 
