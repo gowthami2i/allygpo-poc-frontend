@@ -1,4 +1,4 @@
-import react, { ChangeEvent, KeyboardEvent } from "react";
+import { ChangeEvent, KeyboardEvent } from "react";
 
 export interface IConversation {
   createdAt: string;

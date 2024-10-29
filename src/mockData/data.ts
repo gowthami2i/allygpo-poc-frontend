@@ -1,4 +1,4 @@
-import { IData } from "./AppTable";
+import { IData } from "../components/global/table/AppTable";
 
 export const data: IData[] = [
   {

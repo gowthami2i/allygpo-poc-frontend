@@ -1,7 +1,7 @@
 import React from "react";
 import { Dropdown } from "primereact/dropdown";
+import { TextVariant } from "../../../constants/appConstants";
 import Typography from "../typography/Typography";
-import { TextVariant } from "../../constants/appConstants";
 
 interface IContractType {
   name: string;

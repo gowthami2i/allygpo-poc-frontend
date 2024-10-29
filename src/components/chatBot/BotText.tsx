@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import Typography from "../typography/Typography";
-import { IBotText, IBotTextListItem } from "../../types/chatbot";
 import { Constants, TextVariant } from "../../constants/appConstants";
 import Icon, { IconNames } from "../global/appIcons/Icon";
+import Typography from "../global/typography/Typography";
+import { IBotText, IBotTextListItem } from "../../types/chatbot";
 
 const BotText = ({ text }: IBotText) => {
   const [selectedReference, setSelectedReference] = useState<{
     item: IBotTextListItem;
     index: number;
   } | null>(null);
-  // const [blocked, setBlocked] = useState<boolean>(true);
 
   const onReferenceClick = (item: IBotTextListItem, index: number) => {
     setSelectedReference({ item, index });

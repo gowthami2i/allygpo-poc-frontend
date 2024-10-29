@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { FileUpload } from "primereact/fileupload";
-import { AppInput } from "../appInput/AppInput";
+import { AppInput } from "../global/appInput/AppInput";
 import "./fileUpload.scss";
 import { Constants } from "../../constants/appConstants";
 import Icon, { IconNames } from "../global/appIcons/Icon";
-
 
 interface CustomFileUpload {
   uploadFileHandler: (event: any) => void;
   label: string;
 }
 export const CustomFileUpload = (props: CustomFileUpload) => {
-  const { uploadFileHandler, label } = props;
+  const { uploadFileHandler } = props;
   const [fileName, setFileName] = useState([]);
 
   return (
@@ -56,11 +55,8 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
               className="custom-input"
               readOnly
             />
-            {/* <i
-              className="pi pi-check align-content-center"
-              style={{ color: "var(--app-successColor)" }}
-            /> */}
-            <Icon iconName={IconNames.tickIcon} className="icon" />
+
+            <Icon iconName={IconNames.tickIcon} />
           </div>
           <i
             className="pi pi-trash align-content-center cursor-pointer"

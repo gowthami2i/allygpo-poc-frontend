@@ -4,14 +4,14 @@ import PdfViewer from "../../components/pdf/PdfViewer";
 import { ChangeEvent, useEffect, useState } from "react";
 import "../../components/viewDetails/viewDetails.scss";
 import { usePageNavigation } from "../../hook/global/UsePageNavigation";
-import { AppDialog } from "../../components/appDialog/AppDialog";
-import AppTable, { IData } from "../../components/table/AppTable";
+import { AppDialog } from "../../components/global/appDialog/AppDialog";
+import AppTable, { IData } from "../../components/global/table/AppTable";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { IMessage } from "../../types/chatbot";
 import { getPastTopicsColumn } from "../../components/viewDetails/PastTopicsMeta";
-import { usePostChatQuestion } from "../../hook/useChatQuestion";
-import { useGetChatConversation } from "../../hook/useGetChatConversation";
-import { useGetChatCitation } from "../../hook/useGetChatCitation";
+import { usePostChatQuestion } from "../../hook/chat/useChatQuestion";
+import { useGetChatConversation } from "../../hook/chat/useGetChatConversation";
+import { useGetChatCitation } from "../../hook/chat/useGetChatCitation";
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();

@@ -1,11 +1,10 @@
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { IData } from "../../components/table/AppTable";
-import Icon, { IconNames } from "../../components/global/appIcons/Icon";
+import { IData } from "../global/table/AppTable";
+import Icon, { IconNames } from "../global/appIcons/Icon";
 
 export const getContractExplorerColumn = (
-  navigateTo: any,
-  handleDelete: any
+  navigateTo: any
 ): ColumnDef<IData>[] => {
   return [
     {
