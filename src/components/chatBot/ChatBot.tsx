@@ -11,7 +11,6 @@ import {
   TextVariant,
 } from "../../constants/appConstants";
 import { Button } from "primereact/button";
-import { IconNames } from "../global/appIcons/Icon";
 
 const ChatBot = (props: IChatBot) => {
   const {
@@ -20,8 +19,8 @@ const ChatBot = (props: IChatBot) => {
     onChatInputChange,
     onChatKeyDown,
     handlePastTopic,
-    handleNewTopic,
     handleSendChat,
+    handleNewTopic,
   } = props;
 
   const chatContentRef = useRef<HTMLDivElement | null>(null);
@@ -87,7 +86,6 @@ const ChatBot = (props: IChatBot) => {
           onChange={onChatInputChange}
           value={chatValue}
           onKeyDown={onChatKeyDown}
-          // icon={IconNames.chatIcon}
           icon="pi pi-send"
           iconPosition="right"
           iconClick={handleSendChat}

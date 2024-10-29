@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import chatIcon from "../../assets/images/svg/chat_logo.svg";
 import Typography from "../typography/Typography";
 import { IBotText, IBotTextListItem } from "../../types/chatbot";
 import { Constants, TextVariant } from "../../constants/appConstants";
@@ -19,9 +18,9 @@ const BotText = ({ text }: IBotText) => {
   return (
     <div className="flex gap-3">
       <div className="mt-3">
-        <img src={chatIcon} alt="chat-logo" />
-        {/* <Icon iconName={IconNames.chatLogo} iconSize={42}/> */}
+        <Icon iconName={IconNames.chatLogo} iconSize={35} />
       </div>
+
       <div className="flex flex-column w-9">
         <Typography variant={TextVariant.SUBHEADING2}>
           {text.heading}
