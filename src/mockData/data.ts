@@ -72,10 +72,11 @@ export const sampleChatResponse = {
     "The company's revenue for 2023 was $10 million, according to the annual report.",
   citations: [
     {
-      document_id: "doc1",
-      page: 12,
-      excerpt:
-        "The revenue for 2023 was $10 million as stated in section 3.2 of the annual report.",
+      page_no: "5",
+      start_end_strings: [
+        "Administrative Fees Paid by GPO",
+        "purchase price of the products or services sold to",
+      ],
     },
   ],
 };
@@ -167,9 +168,20 @@ export const sampleCitationResponse = {
       citations: [
         {
           document_id: "doc1",
-          page: 12,
+          page: 1,
+          paragraph: 8,
+          startIndex: 90,
+          endIndex: 150,
           excerpt:
             "The revenue for 2023 was $10 million as stated in section 3.2 of the annual report.",
+        },
+        {
+          document_id: "doc2",
+          page: 8,
+          paragraph: 4,
+          startIndex: 90,
+          endIndex: 150,
+          excerpt: "Company revenue figures for 2023 show $10 million.",
         },
       ],
     },
@@ -179,9 +191,20 @@ export const sampleCitationResponse = {
       citations: [
         {
           document_id: "doc1",
-          page: 12,
+          page: 1,
+          paragraph: 8,
+          startIndex: 90,
+          endIndex: 150,
           excerpt:
             "The revenue for 2023 was $10 million as stated in section 3.2 of the annual report.",
+        },
+        {
+          document_id: "doc2",
+          page: 8,
+          paragraph: 4,
+          startIndex: 90,
+          endIndex: 150,
+          excerpt: "Company revenue figures for 2023 show $10 million.",
         },
       ],
     },

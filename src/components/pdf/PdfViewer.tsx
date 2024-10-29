@@ -1,11 +1,17 @@
-import React, { useMemo, useState } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+} from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import Typography from "../global/typography/Typography";
 import { TextVariant } from "../../constants/appConstants";
 import { Button } from "primereact/button";
-import Typography from "../global/typography/Typography";
 import { base64ToBlob } from "../../utils/helpers";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -14,20 +20,132 @@ const options = {
   cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
 };
 
-const PdfViewer = ({ data, navigateBack }: any) => {
-  const [numPages, setNumPages] = useState<any>(null);
-  const [scale] = useState(1);
+const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [scale, setScale] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const containerRef = useRef<any>(null);
+  const [pageItem, setPageItem] = useState<any>({});
   const file = useMemo(() => base64ToBlob(data.file), [data.file]);
+  const [highlightIndices, setHighlightIndices] = useState({
+    startIndex: null,
+    endIndex: null,
+    endRecursive: false,
+  });
 
-  const onDocumentLoadSuccess = (pdf: any) => {
-    setNumPages(pdf.numPages);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      return () => container.removeEventListener("scroll", handleScroll);
+    }
+  }, [numPages]);
+
+  useEffect(() => {
+    if (selectedReference?.item?.page_no) {
+      goToPage(selectedReference.item.page_no);
+      setCurrentPage(selectedReference.item.page_no);
+    }
+  }, [selectedReference]);
+
+  useEffect(() => {
+    if (!selectedReference) return;
+
+    pageItem[selectedReference.item.page_no].forEach(
+      (textItem: any, index: number) => {
+        if (textItem.str === selectedReference.item.start_end_strings[0]) {
+          setHighlightIndices((prev: any) => ({
+            ...prev,
+            startIndex: index,
+          }));
+        }
+        if (
+          textItem.str === selectedReference.item.start_end_strings[1] ||
+          (selectedReference.item.start_end_strings[1].endsWith(textItem.str) &&
+            !!textItem.str)
+        ) {
+          setHighlightIndices((prev: any) => ({
+            ...prev,
+            endIndex: index,
+          }));
+        }
+      }
+    );
+  }, [selectedReference]);
+
+  const handleScroll = () => {
+    const container = containerRef.current;
+    if (container && numPages) {
+      const pageHeight = container.scrollHeight / numPages;
+      const currentPageNumber =
+        Math.floor(container.scrollTop / pageHeight) + 1;
+      setCurrentPage(currentPageNumber);
+    }
   };
+
+  const goToPage = (pageNumber: number) => {
+    const container = containerRef.current;
+    if (container && numPages) {
+      const pageHeight = container.scrollHeight / numPages - 40;
+      container.scrollTo({
+        top: pageHeight * pageNumber,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const onDocumentLoadSuccess = async (pdf: any) => {
+    setNumPages(pdf.numPages);
+
+    const pageItem: any = {};
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      pageItem[pageNum] = textContent.items;
+    }
+    setPageItem(pageItem);
+  };
+
+  const highlightPattern = (
+    text: any,
+    startIndex: number,
+    endIndex: number
+  ) => {
+    if (text.itemIndex >= startIndex && text.itemIndex <= endIndex) {
+      return text.str.replace(
+        text.str,
+        (match: any) =>
+          `<mark style="background:#D5EBFF; padding-right: 5px; padding-right: 3px">${match}</mark>`
+      );
+    }
+    return text.str;
+  };
+
+  const customTextRenderer = useCallback(
+    (textItem: any) => {
+      if (textItem.pageNumber === Number(selectedReference?.item?.page_no)) {
+        if (
+          highlightIndices.startIndex !== null &&
+          highlightIndices.endIndex !== null
+        ) {
+          return highlightPattern(
+            textItem,
+            highlightIndices.startIndex,
+            highlightIndices.endIndex
+          );
+        }
+      }
+
+      // If no matches, return the text as is
+      return textItem.str;
+    },
+    [selectedReference, highlightIndices]
+  );
 
   return (
     <div
+      className="w-8"
       style={{
         display: "flex",
-        flex: 1,
         background: "#313131",
       }}
     >
@@ -46,15 +164,22 @@ const PdfViewer = ({ data, navigateBack }: any) => {
             className="text-white"
             text
           />
-          <Typography variant={TextVariant.SUBHEADING1}>
-            {data.documentName}
-          </Typography>
+          <div className="w-3 overflow-ellipsis">
+            <Typography variant={TextVariant.HEADING3}>
+              {data.documentName}
+            </Typography>
+          </div>
           <Typography variant={TextVariant.BODY2}>|</Typography>
-          <Typography variant={TextVariant.BODY2}>
-            {data.description}
-          </Typography>
+          <div className="w-6 overflow-ellipsis">
+            <Typography variant={TextVariant.BODY2}>
+              {data.description}
+            </Typography>
+          </div>
         </div>
-        <div className="p-4 flex justify-content-center pdf-viewer overflow-scroll">
+        <div
+          className="p-4 flex justify-content-center pdf-viewer overflow-scroll"
+          ref={containerRef}
+        >
           <Document
             file={file}
             options={options}
@@ -66,11 +191,27 @@ const PdfViewer = ({ data, navigateBack }: any) => {
                 <Page
                   pageNumber={index + 1}
                   scale={scale}
-                  renderTextLayer={true}
+                  customTextRenderer={customTextRenderer}
                 />
               </div>
             ))}
           </Document>
+        </div>
+      </div>
+      <div className="pdf-footer w-8">
+        <div className="page">
+          <div className="flex gap-3">
+            <span>Page</span>
+            <span>{currentPage}</span>
+            <span>/</span>
+            <span>{numPages}</span>
+          </div>
+          {/* <span>|</span>
+          <div className="flex gap-3">
+            <i className="pi pi-plus" />
+            <i className="pi pi-search-plus" />
+            <i className="pi pi-minus" />
+          </div> */}
         </div>
       </div>
     </div>

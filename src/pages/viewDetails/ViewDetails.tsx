@@ -1,18 +1,18 @@
 import React, { KeyboardEvent } from "react";
 import ChatBot from "../../components/chatBot/ChatBot";
-import PdfViewer from "../../components/pdf/PdfViewer";
 import { ChangeEvent, useEffect, useState } from "react";
 import "../../components/viewDetails/viewDetails.scss";
 import { usePageNavigation } from "../../hook/global/UsePageNavigation";
 import { AppDialog } from "../../components/global/appDialog/AppDialog";
 import AppTable, { IData } from "../../components/global/table/AppTable";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { IMessage } from "../../types/chatbot";
 import { getPastTopicsColumn } from "../../components/viewDetails/PastTopicsMeta";
 import { usePostChatQuestion } from "../../hook/chat/useChatQuestion";
 import { useGetPastConversations } from "../../hook/chat/useGetChatConversation";
 import { useGetChatConversation } from "../../hook/chat/useGetChatCitation";
 import { ChatSenders, DialogHeader } from "../../constants/appConstants";
+import { IBotTextListItem } from "../../types/chatbot";
+import PdfViewer from "../../components/pdf/PdfViewer";
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();
@@ -25,9 +25,13 @@ const ViewDetails = () => {
   const [citationRequest, setCitationRequest] = useState<any>(null);
   const { data: chatCitation } = useGetChatConversation(citationRequest);
   const [chat, setChat] = useState<string>("");
-  const [chatHistory, setChatHistory] = useState<IMessage[] | []>([]);
+  const [chatHistory, setChatHistory] = useState<any>([]);
   const [visible, setVisible] = useState(false);
-  const [createdAt, setCreatedAt] = useState<string>("");
+  const [chatHistoryOptions, setChatHistoryOptions] = useState<any>({});
+  const [selectedReference, setSelectedReference] = useState<{
+    item: IBotTextListItem;
+    index: string | number;
+  } | null>(null);
   const viewData: IData | any = location.state;
 
   const handleViewDetails = (cell: any) => {
@@ -35,12 +39,17 @@ const ViewDetails = () => {
     setCitationRequest({
       topicId: cell.topicId,
       documentName: viewData.documentName,
+      createdAt: new Date(),
     });
     chatCitation?.conversations.forEach((convo: any) => {
       appendMessage(convo);
     });
-    setCreatedAt(cell.createdAt);
+    setChatHistoryOptions({
+      createdAt: cell.createdAt,
+      conversationId: cell.topicId,
+    });
     setVisible(false);
+    setSelectedReference(null);
   };
 
   const columns = getPastTopicsColumn(handleViewDetails);
@@ -89,7 +98,7 @@ const ViewDetails = () => {
         {
           onSuccess: ({ data }) => {
             setChat("");
-            setChatHistory((prevHistory) => {
+            setChatHistory((prevHistory: any) => {
               const newHistory = [...prevHistory];
               newHistory.pop();
               newHistory.pop();
@@ -130,23 +139,36 @@ const ViewDetails = () => {
     const assistantMessage = {
       sender: ChatSenders.BOT,
       text: {
-        heading: chatResponse?.answer || "",
+        answer: chatResponse?.answer || "",
         list: chatResponse?.citations || [],
       },
     };
 
-    setChatHistory((prevHistory) => [
+    setChatHistory((prevHistory: any) => [
       ...prevHistory,
       userMessage,
       assistantMessage,
     ]);
+    setChatHistoryOptions({
+      createdAt: chatResponse.createdAt,
+      conversationId: chatResponse.topicId,
+    });
+  };
+
+  const onReferenceClick = (item: IBotTextListItem, index: string | number) => {
+    setSelectedReference({ item, index });
   };
 
   return (
     <div className="flex container">
-      <PdfViewer data={viewData} navigateBack={navigateBack} />
+      <PdfViewer
+        data={viewData}
+        navigateBack={navigateBack}
+        selectedReference={selectedReference}
+      />
       <ChatBot
-        conversation={{ createdAt, messages: chatHistory }}
+        conversation={{ ...chatHistoryOptions, messages: chatHistory }}
+        selectedReference={selectedReference}
         onChatKeyDown={handleChatKeyDown}
         handleSendChat={handleSendChat}
         onChatInputChange={handleChatInputChange}
@@ -156,8 +178,10 @@ const ViewDetails = () => {
         }}
         handleNewTopic={() => {
           setChatHistory([]);
-          setCreatedAt("");
+          setChatHistoryOptions("");
+          setSelectedReference(null);
         }}
+        handleReference={onReferenceClick}
       />
       <AppDialog
         visible={visible}

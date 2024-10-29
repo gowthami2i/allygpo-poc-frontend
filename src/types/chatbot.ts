@@ -8,11 +8,13 @@ export interface IConversation {
 export interface IChatBot {
   conversation: IConversation;
   chatValue: string;
+  selectedReference: any;
   onChatKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
   onChatInputChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   handleSendChat: () => void;
   handlePastTopic: () => void;
   handleNewTopic: () => void;
+  handleReference: (item: IBotTextListItem, index: string | number) => void;
 }
 
 export interface IMessage {
@@ -22,6 +24,7 @@ export interface IMessage {
 
 export interface IMessageText {
   heading: string;
+  answer: string;
   list: IBotTextListItem[];
   isLoading?: boolean;
   isError?: boolean;
@@ -33,6 +36,9 @@ export interface IUserText {
 
 export interface IBotText {
   text: IMessageText;
+  handleReference: (item: IBotTextListItem, index: string | number) => void;
+  selectedReference: any;
+  conversationIndex: number;
 }
 
 export interface IBotTextListItem {

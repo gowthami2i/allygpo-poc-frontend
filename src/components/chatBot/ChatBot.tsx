@@ -17,11 +17,13 @@ const ChatBot = (props: IChatBot) => {
   const {
     conversation,
     chatValue,
+    selectedReference,
     onChatInputChange,
     onChatKeyDown,
     handlePastTopic,
-    handleSendChat,
     handleNewTopic,
+    handleSendChat,
+    handleReference,
   } = props;
 
   const chatContentRef = useRef<HTMLDivElement | null>(null);
@@ -76,13 +78,17 @@ const ChatBot = (props: IChatBot) => {
           <div className="flex flex-column p-3 gap-3 justify-content-end">
             {conversation?.messages?.map((con: IMessage, index: number) => {
               if (con.sender === ChatSenders.USER) {
-                return (
-                  <>
-                    <UserText text={con.text} key={index} />
-                  </>
-                );
+                return <UserText text={con.text} key={index} />;
               } else {
-                return <BotText text={con.text} key={index} />;
+                return (
+                  <BotText
+                    text={con.text}
+                    key={index}
+                    conversationIndex={index}
+                    selectedReference={selectedReference}
+                    handleReference={handleReference}
+                  />
+                );
               }
             })}
           </div>
