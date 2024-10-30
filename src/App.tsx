@@ -6,7 +6,7 @@ function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        ...QUERY_CONST,
+        ...QUERY_ CONST,
       },
     },
   });
