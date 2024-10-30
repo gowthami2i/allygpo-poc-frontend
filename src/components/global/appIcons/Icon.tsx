@@ -64,6 +64,7 @@ const TickIcon = () => {
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
+      transform="translate(0, 5)" /* Adjust the second value to control margin-top */
     />
   );
 };
