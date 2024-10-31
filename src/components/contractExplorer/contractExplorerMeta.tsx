@@ -2,9 +2,12 @@ import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { IData } from "../global/table/AppTable";
 import Icon, { IconNames } from "../global/appIcons/Icon";
+import { formatDate } from "../../utils/helpers";
+import { DateFormats } from "../../constants/appConstants";
 
 export const getContractExplorerColumn = (
-  navigateTo: any
+  navigateTo: any,
+  deleteDocument: any
 ): ColumnDef<IData>[] => {
   return [
     {
@@ -25,6 +28,9 @@ export const getContractExplorerColumn = (
     {
       header: "Date uploaded",
       accessorKey: "dateUploaded",
+      cell: ({ getValue }: any) => (
+        <span>{formatDate(getValue(), DateFormats.DD_MM_YYYY_SLASH)}</span>
+      ),
     },
     {
       header: "",
@@ -43,7 +49,14 @@ export const getContractExplorerColumn = (
     {
       header: "",
       accessorKey: "id",
-      cell: () => <Icon iconName={IconNames.trashIcon} iconSize={15} />,
+      cell: ({ cell }) => (
+        <div
+          className="cursor-pointer"
+          onClick={deleteDocument(cell.row.original.id)}
+        >
+          <Icon iconName={IconNames.trashIcon} iconSize={15} />
+        </div>
+      ),
     },
   ];
 };

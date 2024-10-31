@@ -1,32 +1,122 @@
-import React, { useState } from "react";
-import AppTable from "../../components/global/table/AppTable";
+import React, { useEffect, useState } from "react";
+import AppTable, { IData } from "../../components/global/table/AppTable";
 import { ContractUpload } from "../../components/contractExplorer/ContractUpload";
 import {
+  ColumnDef,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { usePageNavigation } from "../../hook/global/UsePageNavigation";
-import { Constants, TextVariant } from "../../constants/appConstants";
+import {
+  Constants,
+  DateFormats,
+  TextVariant,
+} from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import "../../components/contractExplorer/contractExplorer.scss";
-import { getContractExplorerColumn } from "../../components/contractExplorer/contractExplorerMeta";
-import { data } from "../../mockData/data";
 import Typography from "../../components/global/typography/Typography";
 import SearchBar from "../../components/global/appInput/SearchBar";
 import { AppDialog } from "../../components/global/appDialog/AppDialog";
+import { useGetDocument } from "../../hook/document/useGet";
+import { useDelete } from "../../hook/document/useDelete";
+import { formatDate } from "../../utils/helpers";
+import Icon, { IconNames } from "../../components/global/appIcons/Icon";
+import { useStore } from "@tanstack/react-store";
+import { ACTION_TYPE, store, updateState } from "../../store/appStore";
+import { useUploadDocument } from "../../hook/document/useUpload";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
+  const { data: documents }: any = useGetDocument();
+  const {
+    mutate: uploadDocument,
+    isPending: isUploadPending,
+    isSuccess: isUploadSuccess,
+  } = useUploadDocument();
+  const data = useStore(store, (state: any) => state[ACTION_TYPE.EXPLORER]);
+  const { mutate: deleteDocument } = useDelete();
   const [visible, setVisible] = useState(false);
+  const [globalFilter, setGlobalFilter] = useState("");
   const pageCount = 5;
 
-  const columns = getContractExplorerColumn(navigateTo);
+  useEffect(() => {
+    if (documents?.data) {
+      updateState(ACTION_TYPE.EXPLORER, documents?.data ?? []);
+    }
+  }, [documents?.data]);
+
+  // const columns = getContractExplorerColumn(navigateTo, deleteDocument);
+  const columns: ColumnDef<IData>[] = [
+    {
+      header: "Document",
+      accessorKey: "documentName",
+      cell: ({ getValue }: any) => (
+        // <div className="w-18rem">
+        <span className="document-data">{getValue()}</span>
+        // </div>
+      ),
+    },
+    {
+      header: "Description",
+      accessorKey: "description",
+      cell: ({ getValue }: any) => (
+        // <div className="w-18rem word-break-all">
+        <span>{getValue()}</span>
+        // </div>
+      ),
+    },
+    {
+      header: "Contract Type",
+      accessorKey: "contractType",
+    },
+    {
+      header: "Date uploaded",
+      accessorKey: "dateUploaded",
+      cell: ({ getValue }: any) => (
+        <span>{formatDate(getValue(), DateFormats.DD_MM_YYYY_SLASH)}</span>
+      ),
+    },
+    {
+      header: "",
+      accessorKey: "id",
+      enableGlobalFilter: false,
+      cell: ({ cell }) => (
+        <span
+          className="extra-data"
+          onClick={() => {
+            navigateTo("view-details", cell.row.original);
+          }}
+        >
+          View Details
+        </span>
+      ),
+    },
+    {
+      header: "",
+      accessorKey: "id",
+      enableGlobalFilter: false,
+      cell: ({ cell }: any) => (
+        <div
+          className="cursor-pointer"
+          onClick={() => deleteDocument(cell.row.original.id)}
+        >
+          <Icon iconName={IconNames.trashIcon} iconSize={15} />
+        </div>
+      ),
+    },
+  ];
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      globalFilter,
+    },
     initialState: {
       pagination: {
         pageSize: pageCount,
@@ -35,33 +125,35 @@ export const ContractExplorer = () => {
   });
 
   return (
-    <div className="m-5">
-      <div className="layout">
-        <div className="flex justify-content-between align-items-center h-4rem px-3">
-          <Typography variant={TextVariant.HEADING1} className="font-medium">
-            {Constants.CONTRACTS}
-          </Typography>
-          <div className="flex justify-content-between gap-5">
-            <SearchBar />
-            <Button
-              label={Constants.UPLOAD_CONTRACT}
-              type={"button"}
-              onClick={() => {
-                setVisible(true);
-              }}
-              icon="pi pi-upload"
-              severity="secondary"
-            />
-          </div>
+    <div className="layout m-5">
+      <div className="flex justify-content-between align-items-center h-4rem px-3">
+        <Typography variant={TextVariant.HEADING1} className="font-medium">
+          {Constants.CONTRACTS}
+        </Typography>
+        <div className="flex justify-content-between gap-5">
+          <SearchBar
+            value={globalFilter}
+            handleChange={(e: any) => setGlobalFilter(e.target.value)}
+          />
+          <Button
+            label={Constants.UPLOAD_CONTRACT}
+            type={"button"}
+            onClick={() => {
+              setVisible(true);
+            }}
+            disabled={isUploadPending}
+            icon="pi pi-upload"
+            severity="secondary"
+          />
         </div>
-        <AppTable
-          columns={columns}
-          data={data}
-          pageCount={pageCount}
-          table={table}
-          paginator={true}
-        />
       </div>
+      <AppTable
+        columns={columns}
+        data={data}
+        pageCount={pageCount}
+        table={table}
+        paginator={true}
+      />
       <AppDialog
         visible={visible}
         headerName={"Upload Contract"}
@@ -70,7 +162,12 @@ export const ContractExplorer = () => {
         contentClassName="p-4"
         width="50vw"
       >
-        <ContractUpload setVisible={setVisible} />
+        <ContractUpload
+          setVisible={setVisible}
+          uploadDocument={uploadDocument}
+          isUploadPending={isUploadPending}
+          isUploadSuccess={isUploadSuccess}
+        />
       </AppDialog>
     </div>
   );

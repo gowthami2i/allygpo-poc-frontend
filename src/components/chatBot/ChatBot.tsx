@@ -41,11 +41,11 @@ const ChatBot = (props: IChatBot) => {
       <div className="chat">
         <div
           className={`flex flex-initial justify-content-between align-items-center py-2 px-3 border-bottom-1 border-gray-300
-            ${conversation.createdAt === "" ? "" : "bg-past-topic"}
+            ${!conversation.createdAt ? "" : "bg-past-topic"}
             `}
         >
           <Typography variant={TextVariant.HEADING3}>
-            {conversation.createdAt === ""
+            {!conversation.createdAt
               ? "New Topic"
               : formatDate(conversation.createdAt, DateFormats.DD_MMM_YYYY)}
           </Typography>

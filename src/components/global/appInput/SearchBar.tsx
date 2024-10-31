@@ -3,7 +3,13 @@ import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import React from "react";
 
-const SearchBar = () => {
+interface ISeachBarProps {
+  value: string;
+  handleChange: any;
+}
+
+const SearchBar = (props: ISeachBarProps) => {
+  const { value, handleChange } = props;
   return (
     <IconField iconPosition="right">
       <InputIcon
@@ -11,6 +17,8 @@ const SearchBar = () => {
         style={{ color: "var(--primary-color)" }}
       />
       <InputText
+        value={value}
+        onChange={(e) => handleChange(e)}
         placeholder="Search"
         className="p-inputtext-sm shadow-none"
         style={{ borderRadius: "4px", borderColor: "var(--app-border-color)" }}

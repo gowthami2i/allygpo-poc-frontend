@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import "./appTable.scss";
+import Typography from "../typography/Typography";
+import { TextVariant } from "../../../constants/appConstants";
 
 export interface IData {
+  id: number;
   document: any;
   description: string;
   contractType: string;
@@ -70,37 +73,43 @@ const AppTable = (props: IAppTableProps) => {
 
   return (
     <div>
-      <table className="table-container">
-        <thead>
-          {table.getHeaderGroups()?.map((headerGroup: IHeaderGroup) => (
-            <tr
-              key={headerGroup.id}
-              className="cell-border sticky top-0 bg-white"
-            >
-              {headerGroup.headers?.map((header, index) => (
-                <th key={index} className="table-header">
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel()?.rows?.map((row: any, index: number) => (
-            <tr key={index}>
-              {row.getVisibleCells()?.map((cell: any, index: number) => (
-                <td key={index} className="table-data">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {paginator && (
+      {data?.length ? (
+        <table className="table-container">
+          <thead>
+            {table.getHeaderGroups()?.map((headerGroup: IHeaderGroup) => (
+              <tr
+                key={headerGroup.id}
+                className="cell-border sticky top-0 bg-white"
+              >
+                {headerGroup.headers?.map((header, index) => (
+                  <th key={index} className="table-header">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel()?.rows?.map((row: any, index: number) => (
+              <tr key={index}>
+                {row.getVisibleCells()?.map((cell: any, index: number) => (
+                  <td key={index} className="table-data">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className="flex justify-content-center">
+          <Typography variant={TextVariant.BODY1}>No Data</Typography>
+        </div>
+      )}
+      {paginator && data?.length > pageCount && (
         <Paginator
           first={page}
           rows={pageCount}

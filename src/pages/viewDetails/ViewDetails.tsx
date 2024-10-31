@@ -10,19 +10,19 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { IMessage } from "../../types/chatbot";
 import { getPastTopicsColumn } from "../../components/viewDetails/PastTopicsMeta";
 import { usePostChatQuestion } from "../../hook/chat/useChatQuestion";
-import { useGetChatConversation } from "../../hook/chat/useGetChatConversation";
-import { useGetChatCitation } from "../../hook/chat/useGetChatCitation";
+import { useGetPastConversations } from "../../hook/chat/useGetChatConversation";
+import { useGetChatConversation } from "../../hook/chat/useGetChatCitation";
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();
   const { mutate } = usePostChatQuestion();
-  const { data: chatConversations }: any = useGetChatConversation({
+  const { data: chatConversations }: any = useGetPastConversations({
     user_id: "1", // should get user id
     limit: 5,
     offset: 0,
   });
   const [citationRequest, setCitationRequest] = useState<any>(null);
-  const { data: chatCitation } = useGetChatCitation(citationRequest);
+  const { data: chatCitation } = useGetChatConversation(citationRequest);
   const [chat, setChat] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<IMessage[] | []>([]);
   const [visible, setVisible] = useState(false);
@@ -32,11 +32,14 @@ const ViewDetails = () => {
   const handleViewDetails = (cell: any) => {
     setChatHistory([]);
     setCitationRequest({
-      conversation_id: cell.conversation_id,
-      question: cell.summary,
+      topicId: cell.topicId,
+      documentName: viewData.documentName,
     });
-    appendMessage(chatCitation);
-    setCreatedAt(cell.created_at);
+    chatCitation?.conversations.forEach((convo: any) => {
+      appendMessage(convo);
+    });
+    // appendMessage(chatCitation);
+    setCreatedAt(cell.createdAt);
     setVisible(false);
   };
 
@@ -48,10 +51,10 @@ const ViewDetails = () => {
   });
 
   useEffect(() => {
-    if (!viewData?.document) {
+    if (!viewData?.documentName) {
       navigateTo("/");
     }
-  }, [viewData?.document]);
+  }, [viewData?.documentName]);
 
   const handleChatKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -62,9 +65,14 @@ const ViewDetails = () => {
   const handleSendChat = () => {
     if (chat) {
       mutate(
-        { question: chat },
         {
-          onSuccess: (data) => {
+          question: chat,
+          documentName: viewData.documentName,
+          createdDate: new Date(),
+          conversationId: "",
+        },
+        {
+          onSuccess: ({ data }) => {
             setChat("");
             appendMessage(data);
           },

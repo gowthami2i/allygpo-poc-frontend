@@ -1,5 +1,6 @@
 export interface IFormData {
-  file: any[];
+  file: any;
   description: string;
   contractType: string;
+  createdAt: any;
 }

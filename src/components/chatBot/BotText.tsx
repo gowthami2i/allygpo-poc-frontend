@@ -21,18 +21,18 @@ const BotText = ({ text }: IBotText) => {
       </div>
 
       <div className="flex flex-column w-9">
-        <Typography variant={TextVariant.SUBHEADING2}>
-          {text.heading}
-        </Typography>
-        <ul className="list-decimal text-sm padding-inline-0 flex flex-column gap-2">
+        <Typography variant={TextVariant.BODY2}>{text.heading}</Typography>
+        {/* <ul className="list-decimal text-sm padding-inline-0 flex flex-column gap-2">
           {text?.list?.map((item: IBotTextListItem, index: number) => {
             return <li key={index}>{item.excerpt}</li>;
           })}
-        </ul>
+        </ul> */}
         <div className="flex align-items-center gap-2">
-          <Typography variant={TextVariant.SUBHEADING2} className="my-1">
-            {Constants.REFERENCES}
-          </Typography>
+          {!!text?.list.length && (
+            <Typography variant={TextVariant.SUBHEADING2} className="my-1">
+              {Constants.REFERENCES}
+            </Typography>
+          )}
           {text?.list?.map((item: IBotTextListItem, index: number) => {
             return (
               <div

@@ -1,11 +1,16 @@
 import axios from "axios";
 
 const headers: Readonly<Record<string, string | boolean>> = {
-  "Content-Type": "application/json",
+  Accept: "application/json",
+};
+
+export const formHeaders: Readonly<Record<string, string | boolean>> = {
+  Accept: "application/json",
+  "Content-Type": "multipart/form-data",
 };
 
 export const apiService = axios.create({
-  //  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers,
 });
 
