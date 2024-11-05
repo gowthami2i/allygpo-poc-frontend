@@ -23,6 +23,8 @@ export interface IMessage {
 export interface IMessageText {
   heading: string;
   list: IBotTextListItem[];
+  isLoading?: boolean;
+  isError?: boolean;
 }
 
 export interface IUserText {

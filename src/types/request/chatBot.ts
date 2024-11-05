@@ -1,11 +1,12 @@
 export interface IPostChat {
   question: string;
-  conversation_id?: string;
-  document_name?: string[];
+  conversationId?: string;
+  documentName?: string;
+  createdDate?: any;
 }
 
 export interface IGetConversation {
-  user_id: string;
+  userId: string;
   limit: number;
   offset: number;
 }

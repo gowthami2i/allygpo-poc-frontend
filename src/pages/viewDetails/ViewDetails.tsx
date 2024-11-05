@@ -10,19 +10,20 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { IMessage } from "../../types/chatbot";
 import { getPastTopicsColumn } from "../../components/viewDetails/PastTopicsMeta";
 import { usePostChatQuestion } from "../../hook/chat/useChatQuestion";
-import { useGetChatConversation } from "../../hook/chat/useGetChatConversation";
-import { useGetChatCitation } from "../../hook/chat/useGetChatCitation";
+import { useGetPastConversations } from "../../hook/chat/useGetChatConversation";
+import { useGetChatConversation } from "../../hook/chat/useGetChatCitation";
+import { ChatSenders, DialogHeader } from "../../constants/appConstants";
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();
   const { mutate } = usePostChatQuestion();
-  const { data: chatConversations }: any = useGetChatConversation({
-    user_id: "1", // should get user id
+  const { data: chatConversations }: any = useGetPastConversations({
+    userId: "1", // should get user id
     limit: 5,
     offset: 0,
   });
   const [citationRequest, setCitationRequest] = useState<any>(null);
-  const { data: chatCitation } = useGetChatCitation(citationRequest);
+  const { data: chatCitation } = useGetChatConversation(citationRequest);
   const [chat, setChat] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<IMessage[] | []>([]);
   const [visible, setVisible] = useState(false);
@@ -32,11 +33,13 @@ const ViewDetails = () => {
   const handleViewDetails = (cell: any) => {
     setChatHistory([]);
     setCitationRequest({
-      conversation_id: cell.conversation_id,
-      question: cell.summary,
+      topicId: cell.topicId,
+      documentName: viewData.documentName,
     });
-    appendMessage(chatCitation);
-    setCreatedAt(cell.created_at);
+    chatCitation?.conversations.forEach((convo: any) => {
+      appendMessage(convo);
+    });
+    setCreatedAt(cell.createdAt);
     setVisible(false);
   };
 
@@ -48,10 +51,10 @@ const ViewDetails = () => {
   });
 
   useEffect(() => {
-    if (!viewData?.document) {
+    if (!viewData?.documentName) {
       navigateTo("/");
     }
-  }, [viewData?.document]);
+  }, [viewData?.documentName]);
 
   const handleChatKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -61,12 +64,52 @@ const ViewDetails = () => {
 
   const handleSendChat = () => {
     if (chat) {
+      const userMessage = {
+        sender: ChatSenders.USER,
+        text: chat,
+      };
+      const typingMessage = {
+        sender: ChatSenders.BOT,
+        text: { isLoading: true },
+      };
+
+      setChatHistory((prevHistory: any) => [
+        ...prevHistory,
+        userMessage,
+        typingMessage,
+      ]);
+
       mutate(
-        { question: chat },
         {
-          onSuccess: (data) => {
+          question: chat,
+          documentName: viewData.documentName,
+          createdDate: new Date(),
+          conversationId: "",
+        },
+        {
+          onSuccess: ({ data }) => {
             setChat("");
+            setChatHistory((prevHistory) => {
+              const newHistory = [...prevHistory];
+              newHistory.pop();
+              newHistory.pop();
+              return newHistory;
+            });
             appendMessage(data);
+          },
+
+          onError: () => {
+            setChat("");
+            const errorMessage = {
+              sender: ChatSenders.BOT,
+              text: { isError: true },
+            };
+            setChatHistory((prevHistory: any) => {
+              const newHistory = [...prevHistory];
+              newHistory.pop();
+              const chatData = [...newHistory, errorMessage];
+              return chatData;
+            });
           },
         }
       );
@@ -79,14 +122,14 @@ const ViewDetails = () => {
 
   const appendMessage = (chatResponse: any) => {
     const userMessage = {
-      sender: "user",
+      sender: ChatSenders.USER,
+
       text: !chatResponse?.question
         ? structuredClone(chat)
         : chatResponse.question,
     };
-
     const assistantMessage = {
-      sender: "assistant",
+      sender: ChatSenders.BOT,
       text: {
         heading: chatResponse?.answer || "",
         list: chatResponse?.citations || [],
@@ -119,7 +162,7 @@ const ViewDetails = () => {
       />
       <AppDialog
         visible={visible}
-        headerName={"Past Topics"}
+        headerName={DialogHeader.PAST_TOPICS}
         setVisible={setVisible}
         headerClassName="p-2"
         contentClassName="p-0 dialog-content"

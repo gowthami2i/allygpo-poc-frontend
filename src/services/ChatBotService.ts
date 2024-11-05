@@ -1,22 +1,21 @@
 import {
-  sampleChatResponse,
   sampleCitationResponse,
-  sampleConversationResponse,
+  samplePastConversationResponse,
 } from "../mockData/data";
 import { IGetConversation, IPostChat } from "../types/request/chatBot";
-// import { apiService } from "../../../services/api/apiService";
+import { apiService } from "./apiService";
 
 export const postChatQuestion = (request: IPostChat) => {
-  // return apiService.post("chat/question", request);
-  return Promise.resolve(sampleChatResponse);
+  return apiService.post("chat/ask", request);
+  // return Promise.resolve(sampleChatResponse);
 };
 
-export const getChatConversation = (request: IGetConversation) => {
-  // return apiService.get(`chat/conversations?${request.user_id}`, request);
-  return Promise.resolve(sampleConversationResponse);
+export const getPastConversations = (request: IGetConversation) => {
+  // return apiService.get(`chat/pastTopics?${request.user_id}`, request);
+  return Promise.resolve(samplePastConversationResponse);
 };
 
-export const getChatCitation = (request: IPostChat) => {
-  // return apiService.get(`chat/citations?${request.conversation_id}`, request);
+export const getChatConversation = (request: IPostChat) => {
+  // return apiService.get(`chat/conversations?${request.topicId}`, request);
   return Promise.resolve(sampleCitationResponse);
 };

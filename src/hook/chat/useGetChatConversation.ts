@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { IGetConversation } from "../../types/request/chatBot";
 import { QUERY_KEY } from "../../constants/queryConstants";
-import { getChatConversation } from "./../../services/ChatBotService";
+import { getPastConversations } from "./../../services/ChatBotService";
 
-export const useGetChatConversation = (request: IGetConversation) => {
+export const useGetPastConversations = (request: IGetConversation) => {
   return useQuery({
     queryKey: [QUERY_KEY.getChatConversation],
-    queryFn: () => getChatConversation(request),
+    queryFn: () => getPastConversations(request),
   });
 };

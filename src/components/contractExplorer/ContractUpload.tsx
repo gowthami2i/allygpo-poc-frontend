@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useForm } from "@tanstack/react-form";
 import { CustomFileUpload } from "../fileUpload/FileUpload";
 import { AppInput } from "../global/appInput/AppInput";
@@ -9,18 +9,42 @@ import { useUploadDocument } from "../../hook/document/useUpload";
 import { Constants } from "../../constants/appConstants";
 import { contractType } from "../../mockData/data";
 import { Button } from "primereact/button";
+import useLocalStorage from "../../hook/global/useLocalStorage";
+import { ACTION_TYPE, updateState } from "../../store/appStore";
+import { blobToBase64 } from "../../utils/helpers";
+import { useToast } from "../../context/ToastContext";
 
 interface IContractUpload {
   setVisible: Dispatch<SetStateAction<boolean>>;
+  uploadDocument: any;
+  isUploadPending: boolean;
+  isUploadSuccess: boolean;
 }
 
 export const ContractUpload = (props: IContractUpload) => {
-  const { mutate: uploadDocument } = useUploadDocument();
+  const { setVisible, uploadDocument, isUploadPending, isUploadSuccess } =
+    props;
+  const { showToast, clearToast }: any = useToast();
+  const { getItem: getLocalStorage, setItem: setLocalStorage } =
+    useLocalStorage();
+  const localData = getLocalStorage("documents") ?? [];
   const contractUploadSchema = z.object({
     file: z.array(z.any()).min(1, Constants.FILE_REQUIRED), // File as an array
     description: z.string().min(1, Constants.DESCRIPTION_REQUIRED),
     contractType: z.string().min(1, Constants.CONTRACT_TYPE_REQUIRED),
   });
+
+  useEffect(() => {
+    if (isUploadPending) {
+      setVisible(false);
+      showToast({
+        severity: "info",
+        detail: "Please wait, Uploading in progress...",
+        sticky: true,
+        closable: false,
+      });
+    }
+  }, [isUploadPending]);
 
   type Contract = z.infer<typeof contractUploadSchema>;
   const form = useForm<Contract, ZodValidator>({
@@ -33,13 +57,33 @@ export const ContractUpload = (props: IContractUpload) => {
       onSubmit: contractUploadSchema,
     },
     validatorAdapter: zodValidator(),
-    onSubmit: (values) => {
+    onSubmit: (values: any) => {
+      const value = values.value;
+      value.documentName = value.file[0].name;
+      value.file = value.file[0];
       uploadDocument(values.value, {
-        onSuccess: () => {
-          props.setVisible(false);
+        onSuccess: async () => {
+          clearToast();
+          value.id = Date.now();
+          value.dateUploaded = value.id;
+          value.file = await blobToBase64(value.file);
+          localData.unshift(value);
+          updateState(ACTION_TYPE.EXPLORER, localData);
+          setLocalStorage("documents", localData);
+          setVisible(false);
+          showToast({
+            severity: "success",
+            detail: "Uploaded successful",
+            sticky: true,
+          });
         },
-        onError: (error) => {
-          console.error("Error uploading document:", error);
+        onError: () => {
+          clearToast();
+          showToast({
+            severity: "error",
+            detail: "Upload Failed",
+            sticky: true,
+          });
         },
       });
     },
@@ -98,20 +142,6 @@ export const ContractUpload = (props: IContractUpload) => {
                   placeholder={Constants.PLACEHOLDER_DESCRIPTION_REQUIRED}
                   className="w-full"
                 />
-                {/* <Typography
-                  variant={TextVariant.SUBHEADING1}
-                  // className={`${labelClassName ? labelClassName : "label"}`}
-                >
-                  {Constants.DESCRIPTION}
-                </Typography>
-                <InputText
-                  value={field.state.value}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    field.handleChange(e.target.value);
-                  }}
-                  // className={`custom-input ${className}`}
-                  placeholder={Constants.PLACEHOLDER_DESCRIPTION_REQUIRED}
-                /> */}
                 <FieldInfo field={field} />
               </>
             )}
@@ -145,20 +175,13 @@ export const ContractUpload = (props: IContractUpload) => {
             label={Constants.CANCEL}
             type="button"
             onClick={() => {
-              props.setVisible(false);
+              setVisible(false);
             }}
             className="px-5"
             severity="secondary"
             outlined
           />
-          <Button
-            label={Constants.UPLOAD}
-            type="submit"
-            onClick={() => {
-              // props.setVisible(false);
-            }}
-            className="px-5"
-          />
+          <Button label={Constants.UPLOAD} type="submit" className="px-5" />
         </div>
       </form>
     </div>

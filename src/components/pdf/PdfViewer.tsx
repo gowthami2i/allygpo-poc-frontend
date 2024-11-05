@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -6,6 +6,7 @@ import "react-pdf/dist/Page/TextLayer.css";
 import { TextVariant } from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import Typography from "../global/typography/Typography";
+import { base64ToBlob } from "../../utils/helpers";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -15,7 +16,8 @@ const options = {
 
 const PdfViewer = ({ data, navigateBack }: any) => {
   const [numPages, setNumPages] = useState<any>(null);
-  const [scale] = useState(1.2);
+  const [scale] = useState(1);
+  const file = useMemo(() => base64ToBlob(data.file), [data.file]);
 
   const onDocumentLoadSuccess = (pdf: any) => {
     setNumPages(pdf.numPages);
@@ -45,7 +47,7 @@ const PdfViewer = ({ data, navigateBack }: any) => {
             text
           />
           <Typography variant={TextVariant.SUBHEADING1}>
-            {data.document?.name}
+            {data.documentName}
           </Typography>
           <Typography variant={TextVariant.BODY2}>|</Typography>
           <Typography variant={TextVariant.BODY2}>
@@ -54,7 +56,7 @@ const PdfViewer = ({ data, navigateBack }: any) => {
         </div>
         <div className="p-4 flex justify-content-center pdf-viewer overflow-scroll">
           <Document
-            file={data.document?.url}
+            file={file}
             options={options}
             onLoadSuccess={onDocumentLoadSuccess}
           >

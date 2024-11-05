@@ -4,7 +4,7 @@ import { formatDate } from "../../utils/helpers";
 import { DateFormats } from "../../constants/appConstants";
 
 export interface IPastTopics {
-  conversation_id: string;
+  topicId: string;
   summary: string;
   created_at: string;
   last_interaction: string;
@@ -20,14 +20,14 @@ export const getPastTopicsColumn = (
     },
     {
       header: "Date",
-      accessorKey: "created_at",
+      accessorKey: "createdAt",
       cell: ({ getValue }: any) => (
         <span>{formatDate(getValue(), DateFormats.DD_MM_YYYY_SLASH)}</span>
       ),
     },
     {
       header: "",
-      accessorKey: "conversation_id",
+      accessorKey: "topicId",
       cell: ({ cell }) => (
         <span
           className="extra-data"
@@ -41,7 +41,7 @@ export const getPastTopicsColumn = (
     },
     {
       header: "",
-      accessorKey: "conversation_id",
+      accessorKey: "topicId",
       cell: () => <i className="pi pi-trash icon cursor-pointer"></i>,
     },
   ];
