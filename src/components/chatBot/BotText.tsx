@@ -4,6 +4,7 @@ import Icon, { IconNames } from "../global/appIcons/Icon";
 import Typography from "../global/typography/Typography";
 import { IBotText, IBotTextListItem } from "../../types/chatbot";
 import Typing from "./Typing";
+import "./../viewDetails/viewDetails.scss";
 
 const BotText = ({ text }: IBotText) => {
   const [selectedReference, setSelectedReference] = useState<{
@@ -27,14 +28,7 @@ const BotText = ({ text }: IBotText) => {
       )}
       {text?.isError && (
         <div className=" flex align-items-center">
-          <div
-            className="border-1 px-1 border-round-md w-12rem h-2rem flex align-items-center"
-            style={{
-              background: "#feedee",
-              borderColor: "#f47a7b",
-              color: "#9d9898",
-            }}
-          >
+          <div className="border-1 px-1  border-round-md w-12rem h-2rem flex align-items-center error-msg">
             <Typography variant={TextVariant.BODY2}>
               Something went wrong
             </Typography>
