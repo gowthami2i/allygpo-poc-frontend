@@ -6,7 +6,7 @@ export interface IPostChat {
 }
 
 export interface IGetConversation {
-  user_id: string;
+  userId: string;
   limit: number;
   offset: number;
 }

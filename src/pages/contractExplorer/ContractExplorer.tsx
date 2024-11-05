@@ -12,6 +12,7 @@ import { usePageNavigation } from "../../hook/global/UsePageNavigation";
 import {
   Constants,
   DateFormats,
+  DialogHeader,
   TextVariant,
 } from "../../constants/appConstants";
 import { Button } from "primereact/button";
@@ -47,25 +48,18 @@ export const ContractExplorer = () => {
     }
   }, [documents?.data]);
 
-  // const columns = getContractExplorerColumn(navigateTo, deleteDocument);
   const columns: ColumnDef<IData>[] = [
     {
       header: "Document",
       accessorKey: "documentName",
       cell: ({ getValue }: any) => (
-        // <div className="w-18rem">
         <span className="document-data">{getValue()}</span>
-        // </div>
       ),
     },
     {
       header: "Description",
       accessorKey: "description",
-      cell: ({ getValue }: any) => (
-        // <div className="w-18rem word-break-all">
-        <span>{getValue()}</span>
-        // </div>
-      ),
+      cell: ({ getValue }: any) => <span>{getValue()}</span>,
     },
     {
       header: "Contract Type",
@@ -156,7 +150,7 @@ export const ContractExplorer = () => {
       />
       <AppDialog
         visible={visible}
-        headerName={"Upload Contract"}
+        headerName={DialogHeader.UPLOAD_CONTRACT}
         setVisible={setVisible}
         headerClassName="p-2"
         contentClassName="p-4"

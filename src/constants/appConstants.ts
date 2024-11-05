@@ -49,3 +49,13 @@ export const TextVariant = {
   BODY2: "b2",
   BODY3: "b3",
 };
+
+export const DialogHeader = {
+  PAST_TOPICS: "Past Topics",
+  UPLOAD_CONTRACT: "Upload Contract",
+};
+
+export const ChatSenders = {
+  USER: "User",
+  BOT: "Bot",
+};

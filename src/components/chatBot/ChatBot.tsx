@@ -5,6 +5,7 @@ import UserText from "./UserText";
 import { formatDate } from "../../utils/helpers";
 import { IChatBot, IMessage } from "../../types/chatbot";
 import {
+  ChatSenders,
   Constants,
   DateFormats,
   TextVariant,
@@ -71,7 +72,7 @@ const ChatBot = (props: IChatBot) => {
         <div className="chat-content" ref={chatContentRef}>
           <div className="flex flex-column p-3 gap-3 justify-content-end">
             {conversation?.messages?.map((con: IMessage, index: number) => {
-              if (con.sender === "user") {
+              if (con.sender === ChatSenders.USER) {
                 return (
                   <>
                     <UserText text={con.text} key={index} />
@@ -91,7 +92,6 @@ const ChatBot = (props: IChatBot) => {
           onChange={onChatInputChange}
           value={chatValue}
           onKeyDown={onChatKeyDown}
-          // icon={IconNames.chatIcon}
           icon="pi pi-send"
           iconPosition="right"
           iconClick={handleSendChat}

@@ -12,12 +12,13 @@ import { getPastTopicsColumn } from "../../components/viewDetails/PastTopicsMeta
 import { usePostChatQuestion } from "../../hook/chat/useChatQuestion";
 import { useGetPastConversations } from "../../hook/chat/useGetChatConversation";
 import { useGetChatConversation } from "../../hook/chat/useGetChatCitation";
+import { ChatSenders, DialogHeader } from "../../constants/appConstants";
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();
   const { mutate } = usePostChatQuestion();
   const { data: chatConversations }: any = useGetPastConversations({
-    user_id: "1", // should get user id
+    userId: "1", // should get user id
     limit: 5,
     offset: 0,
   });
@@ -38,7 +39,6 @@ const ViewDetails = () => {
     chatCitation?.conversations.forEach((convo: any) => {
       appendMessage(convo);
     });
-    // appendMessage(chatCitation);
     setCreatedAt(cell.createdAt);
     setVisible(false);
   };
@@ -63,89 +63,85 @@ const ViewDetails = () => {
   };
 
   const handleSendChat = () => {
-	if (chat) {
-	  const userMessage = {
-		sender: "user",
-		text: chat,
-		};
-		const typingMessage = {
-			sender: "assistant",
-			text:{isLoading:true}
-		}
-	
-	  setChatHistory((prevHistory) => [...prevHistory, userMessage,typingMessage]);
-  
-	  mutate(
-		{
-		  question: chat,
-		  documentName: viewData.documentName,
-		  createdDate: new Date(),
-		  conversationId: "",
-		},
-		{
-		  onSuccess: ({data}) => {
-				setChat(""); 				
-				setTimeout(() => {
-					setChatHistory((prevHistory) => {
-						const newHistory = [...prevHistory];
-						newHistory.pop(); 
-						newHistory.pop(); 
+    if (chat) {
+      const userMessage = {
+        sender: ChatSenders.USER,
+        text: chat,
+      };
+      const typingMessage = {
+        sender: ChatSenders.BOT,
+        text: { isLoading: true },
+      };
 
-						return newHistory;
-					});
-					appendMessage(data);
-			}, 5000);
-			},
+      setChatHistory((prevHistory: any) => [
+        ...prevHistory,
+        userMessage,
+        typingMessage,
+      ]);
 
-			onError: () => {
-				setChat(""); 				
+      mutate(
+        {
+          question: chat,
+          documentName: viewData.documentName,
+          createdDate: new Date(),
+          conversationId: "",
+        },
+        {
+          onSuccess: ({ data }) => {
+            setChat("");
+            setChatHistory((prevHistory) => {
+              const newHistory = [...prevHistory];
+              newHistory.pop();
+              newHistory.pop();
+              return newHistory;
+            });
+            appendMessage(data);
+          },
 
-				setTimeout(() => {
-					const errorMessage = {
-						sender: "assistant",
-						text:{isError:true}
-					}
-					setChatHistory((prevHistory) => {
-						const newHistory = [...prevHistory];
-						newHistory.pop();
-						const chatData = [...newHistory,errorMessage]
-						return chatData;
-					});
-				},3000)
-
-			},
-			
-		  },
-		
-		
-	  );
-	}
+          onError: () => {
+            setChat("");
+            const errorMessage = {
+              sender: ChatSenders.BOT,
+              text: { isError: true },
+            };
+            setChatHistory((prevHistory: any) => {
+              const newHistory = [...prevHistory];
+              newHistory.pop();
+              const chatData = [...newHistory, errorMessage];
+              return chatData;
+            });
+          },
+        }
+      );
+    }
   };
 
   const handleChatInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setChat(e.target.value);
   };
 
-	const appendMessage = (chatResponse: any) => {
-	    const userMessage = {
-			sender: "user",
-			
-text: !chatResponse?.question
-? structuredClone(chat)
-: chatResponse.question,
+  const appendMessage = (chatResponse: any) => {
+    const userMessage = {
+      sender: ChatSenders.USER,
 
-			};
-	const assistantMessage = {
-	  sender: "assistant",
-	  text: {
-		heading: chatResponse?.answer || "",
-		list: chatResponse?.citations || [],
-	  },
-	};
-  
-	setChatHistory((prevHistory) => [...prevHistory,userMessage, assistantMessage]);
+      text: !chatResponse?.question
+        ? structuredClone(chat)
+        : chatResponse.question,
+    };
+    const assistantMessage = {
+      sender: ChatSenders.BOT,
+      text: {
+        heading: chatResponse?.answer || "",
+        list: chatResponse?.citations || [],
+      },
+    };
+
+    setChatHistory((prevHistory) => [
+      ...prevHistory,
+      userMessage,
+      assistantMessage,
+    ]);
   };
-  
 
   return (
     <div className="flex container">
@@ -166,7 +162,7 @@ text: !chatResponse?.question
       />
       <AppDialog
         visible={visible}
-        headerName={"Past Topics"}
+        headerName={DialogHeader.PAST_TOPICS}
         setVisible={setVisible}
         headerClassName="p-2"
         contentClassName="p-0 dialog-content"

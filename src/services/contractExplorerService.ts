@@ -20,15 +20,12 @@ export const deleteData = (id: { document_id: string }) => {
     setLocalStorage("documents", updatedData);
   }
   return Promise.resolve({ data: { id } });
-  // return apiService.delete(`/api/documents/delete`, {
-  //   data: id,
-  // });
 };
 
 export const uploadDocument = (formData: IFormData) => {
-  return Promise.resolve({ data: formData });
+  // return Promise.resolve({ data: formData });
 
-  // return apiService.post("/documents/upload", formData, {
-  //   headers: formHeaders,
-  // });
+  return apiService.post("/documents/upload", formData, {
+    headers: formHeaders,
+  });
 };

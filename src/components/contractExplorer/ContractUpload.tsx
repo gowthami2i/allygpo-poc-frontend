@@ -142,20 +142,6 @@ export const ContractUpload = (props: IContractUpload) => {
                   placeholder={Constants.PLACEHOLDER_DESCRIPTION_REQUIRED}
                   className="w-full"
                 />
-                {/* <Typography
-                  variant={TextVariant.SUBHEADING1}
-                  // className={`${labelClassName ? labelClassName : "label"}`}
-                >
-                  {Constants.DESCRIPTION}
-                </Typography>
-                <InputText
-                  value={field.state.value}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    field.handleChange(e.target.value);
-                  }}
-                  // className={`custom-input ${className}`}
-                  placeholder={Constants.PLACEHOLDER_DESCRIPTION_REQUIRED}
-                /> */}
                 <FieldInfo field={field} />
               </>
             )}

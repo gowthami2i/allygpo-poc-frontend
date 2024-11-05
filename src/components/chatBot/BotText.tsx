@@ -10,7 +10,6 @@ const BotText = ({ text }: IBotText) => {
     item: IBotTextListItem;
     index: number;
   } | null>(null);
-  console.log("text", text?.isLoading);
 
   const onReferenceClick = (item: IBotTextListItem, index: number) => {
     setSelectedReference({ item, index });
@@ -29,7 +28,7 @@ const BotText = ({ text }: IBotText) => {
       {text?.isError && (
         <div className=" flex align-items-center">
           <div
-            className="border-1 px-1  border-round-md w-12rem h-2rem flex align-items-center"
+            className="border-1 px-1 border-round-md w-12rem h-2rem flex align-items-center"
             style={{
               background: "#feedee",
               borderColor: "#f47a7b",
@@ -44,11 +43,6 @@ const BotText = ({ text }: IBotText) => {
       )}
       <div className="flex flex-column w-9">
         <Typography variant={TextVariant.BODY2}>{text.heading}</Typography>
-        {/* <ul className="list-decimal text-sm padding-inline-0 flex flex-column gap-2">
-          {text?.list?.map((item: IBotTextListItem, index: number) => {
-            return <li key={index}>{item.excerpt}</li>;
-          })}
-        </ul> */}
         <div className="flex align-items-center gap-2">
           {!!text?.list?.length && (
             <Typography variant={TextVariant.SUBHEADING2} className="my-1">
