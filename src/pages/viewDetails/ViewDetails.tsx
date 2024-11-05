@@ -63,50 +63,89 @@ const ViewDetails = () => {
   };
 
   const handleSendChat = () => {
-    if (chat) {
-      mutate(
-        {
-          question: chat,
-          documentName: viewData.documentName,
-          createdDate: new Date(),
-          conversationId: "",
-        },
-        {
-          onSuccess: ({ data }) => {
-            setChat("");
-            appendMessage(data);
-          },
-        }
-      );
-    }
+	if (chat) {
+	  const userMessage = {
+		sender: "user",
+		text: chat,
+		};
+		const typingMessage = {
+			sender: "assistant",
+			text:{isLoading:true}
+		}
+	
+	  setChatHistory((prevHistory) => [...prevHistory, userMessage,typingMessage]);
+  
+	  mutate(
+		{
+		  question: chat,
+		  documentName: viewData.documentName,
+		  createdDate: new Date(),
+		  conversationId: "",
+		},
+		{
+		  onSuccess: ({data}) => {
+				setChat(""); 				
+				setTimeout(() => {
+					setChatHistory((prevHistory) => {
+						const newHistory = [...prevHistory];
+						newHistory.pop(); 
+						newHistory.pop(); 
+
+						return newHistory;
+					});
+					appendMessage(data);
+			}, 5000);
+			},
+
+			onError: () => {
+				setChat(""); 				
+
+				setTimeout(() => {
+					const errorMessage = {
+						sender: "assistant",
+						text:{isError:true}
+					}
+					setChatHistory((prevHistory) => {
+						const newHistory = [...prevHistory];
+						newHistory.pop();
+						const chatData = [...newHistory,errorMessage]
+						return chatData;
+					});
+				},3000)
+
+			},
+			
+		  },
+		
+		
+	  );
+	}
   };
 
   const handleChatInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setChat(e.target.value);
   };
 
-  const appendMessage = (chatResponse: any) => {
-    const userMessage = {
-      sender: "user",
-      text: !chatResponse?.question
-        ? structuredClone(chat)
-        : chatResponse.question,
-    };
+	const appendMessage = (chatResponse: any) => {
+	    const userMessage = {
+			sender: "user",
+			
+text: !chatResponse?.question
+? structuredClone(chat)
+: chatResponse.question,
 
-    const assistantMessage = {
-      sender: "assistant",
-      text: {
-        heading: chatResponse?.answer || "",
-        list: chatResponse?.citations || [],
-      },
-    };
-
-    setChatHistory((prevHistory) => [
-      ...prevHistory,
-      userMessage,
-      assistantMessage,
-    ]);
+			};
+	const assistantMessage = {
+	  sender: "assistant",
+	  text: {
+		heading: chatResponse?.answer || "",
+		list: chatResponse?.citations || [],
+	  },
+	};
+  
+	setChatHistory((prevHistory) => [...prevHistory,userMessage, assistantMessage]);
   };
+  
 
   return (
     <div className="flex container">

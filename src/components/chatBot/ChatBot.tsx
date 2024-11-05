@@ -31,6 +31,7 @@ const ChatBot = (props: IChatBot) => {
     }
   };
 
+  const isLoading = conversation?.messages?.map((msg) => msg.text.isLoading)[1];
   useEffect(() => {
     scrollToBottom();
   }, [conversation.messages]);
@@ -71,7 +72,11 @@ const ChatBot = (props: IChatBot) => {
           <div className="flex flex-column p-3 gap-3 justify-content-end">
             {conversation?.messages?.map((con: IMessage, index: number) => {
               if (con.sender === "user") {
-                return <UserText text={con.text} key={index} />;
+                return (
+                  <>
+                    <UserText text={con.text} key={index} />
+                  </>
+                );
               } else {
                 return <BotText text={con.text} key={index} />;
               }
@@ -90,6 +95,7 @@ const ChatBot = (props: IChatBot) => {
           icon="pi pi-send"
           iconPosition="right"
           iconClick={handleSendChat}
+          isLoading={isLoading}
         />
       </div>
     </div>

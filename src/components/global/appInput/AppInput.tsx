@@ -18,6 +18,7 @@ interface ICustomInputProps {
   icon?: string;
   iconPosition?: "left" | "right";
   iconClick?: (event: MouseEvent<HTMLElement>) => void;
+  isLoading?: any;
 }
 
 export const AppInput = (props: ICustomInputProps) => {
@@ -33,7 +34,9 @@ export const AppInput = (props: ICustomInputProps) => {
     icon,
     iconPosition,
     iconClick,
+    isLoading,
   } = props;
+
   return (
     <div>
       <Typography
@@ -56,6 +59,7 @@ export const AppInput = (props: ICustomInputProps) => {
           placeholder={placeholder}
           type={type}
           onKeyDown={onKeyDown}
+          disabled={isLoading}
         />
       </IconField>
     </div>
