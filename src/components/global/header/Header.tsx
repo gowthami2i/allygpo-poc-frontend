@@ -1,5 +1,5 @@
 import { Constants, TextVariant } from "../../../constants/appConstants";
-import AllyGpo_icon from "../../../assets/images/png/AllyIQ_Icon.png";
+import AllyGpo_icon from "../../../assets/images/AllyIQ_Icon.png";
 import Typography from "../typography/Typography";
 import "./header.scss";
 import React from "react";
