@@ -32,7 +32,10 @@ const ChatBot = (props: IChatBot) => {
     }
   };
 
-  const isLoading = conversation?.messages?.map((msg) => msg.text.isLoading)[1];
+  const isLoading = conversation?.messages?.map((msg) => msg.text.isLoading)[
+    conversation?.messages?.length - 1
+  ];
+
   useEffect(() => {
     scrollToBottom();
   }, [conversation.messages]);
