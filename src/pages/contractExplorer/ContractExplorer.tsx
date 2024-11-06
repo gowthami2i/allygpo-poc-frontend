@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import AppTable, { IData } from "../../components/global/table/AppTable";
+import AppTable from "../../components/global/table/AppTable";
 import { ContractUpload } from "../../components/contractExplorer/ContractUpload";
 import {
-  ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -76,9 +75,7 @@ export const ContractExplorer = () => {
 
         return (
           <>
-            <span id={safeId} className="description-text">
-              {displayText}
-            </span>
+            <span id={safeId}>{displayText}</span>
             {isLongDescription && (
               <Tooltip
                 target={`#${safeId}`}
