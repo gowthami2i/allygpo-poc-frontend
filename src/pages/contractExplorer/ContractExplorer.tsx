@@ -27,6 +27,7 @@ import Icon, { IconNames } from "../../components/global/appIcons/Icon";
 import { useStore } from "@tanstack/react-store";
 import { ACTION_TYPE, store, updateState } from "../../store/appStore";
 import { useUploadDocument } from "../../hook/document/useUpload";
+import { Tooltip } from "primereact/tooltip";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
@@ -48,10 +49,11 @@ export const ContractExplorer = () => {
     }
   }, [documents?.data]);
 
-  const columns: ColumnDef<IData>[] = [
+  const columns: any = [
     {
       header: "Document",
       accessorKey: "documentName",
+      width: "20rem",
       cell: ({ getValue }: any) => (
         <span className="document-data">{getValue()}</span>
       ),
@@ -59,7 +61,35 @@ export const ContractExplorer = () => {
     {
       header: "Description",
       accessorKey: "description",
-      cell: ({ getValue }: any) => <span>{getValue()}</span>,
+      width: "20rem",
+      cell: ({ getValue }: any) => {
+        const description = getValue();
+        const isLongDescription = description.length > 65;
+        const displayText = isLongDescription
+          ? `${description.slice(0, 65)}...`
+          : description;
+
+        const safeId = `description-${description.replace(
+          /[^a-zA-Z0-9]/g,
+          "_"
+        )}`;
+
+        return (
+          <>
+            <span id={safeId} className="description-text">
+              {displayText}
+            </span>
+            {isLongDescription && (
+              <Tooltip
+                target={`#${safeId}`}
+                content={description}
+                position="bottom"
+                style={{ fontSize: "10px" }}
+              />
+            )}
+          </>
+        );
+      },
     },
     {
       header: "Contract Type",

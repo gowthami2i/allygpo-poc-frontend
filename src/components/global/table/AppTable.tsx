@@ -14,7 +14,7 @@ export interface IData {
 }
 
 export interface IAppTableProps {
-  columns: ColumnDef<any>[];
+  columns: any;
   data: any[];
   pageCount?: number;
   table: any;
@@ -29,6 +29,7 @@ export interface Column {
     header: string | (() => JSX.Element);
     accessorFn: ((row: any) => any) | undefined;
     cell?: (info: any) => JSX.Element | string;
+    width?: string;
   };
   accessorFn?: (row: any) => any;
 }
@@ -60,10 +61,8 @@ export interface Header {
   rowSpan: number;
   subHeaders: Header[];
 }
-
 const AppTable = (props: IAppTableProps) => {
-  const { table, data, pageCount = 0, paginator } = props;
-
+  const { table, data, columns, pageCount = 0, paginator } = props;
   const [page, setPage] = useState(0);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
@@ -82,7 +81,11 @@ const AppTable = (props: IAppTableProps) => {
                 className="cell-border sticky top-0 bg-white"
               >
                 {headerGroup.headers?.map((header, index) => (
-                  <th key={index} className="table-header">
+                  <th
+                    key={index}
+                    className="table-header"
+                    style={{ width: columns[index]?.width || "auto" }}
+                  >
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
@@ -95,11 +98,26 @@ const AppTable = (props: IAppTableProps) => {
           <tbody>
             {table.getRowModel()?.rows?.map((row: any, index: number) => (
               <tr key={index}>
-                {row.getVisibleCells()?.map((cell: any, index: number) => (
-                  <td key={index} className="table-data">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
+                {row.getVisibleCells()?.map((cell: any, index: number) => {
+                  console.log("cell", cell.column?.columnDef?.width);
+
+                  return (
+                    <td
+                      key={index}
+                      className="table-data"
+                      style={{
+                        minWidth: cell.column?.columnDef?.width
+                          ? cell.column?.columnDef?.width
+                          : "auto",
+                      }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
