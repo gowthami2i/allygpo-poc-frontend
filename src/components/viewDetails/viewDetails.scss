@@ -1,9 +1,9 @@
 .container {
-  height: calc(100vh - 60px) !important;
+  height: calc(100vh - 61px) !important;
   .chat {
-    height: 88%;
+    height: calc(100vh - 100px);
     .chat-content {
-      height: 90%;
+      height: 84%;
       overflow: scroll;
     }
   }
@@ -15,6 +15,27 @@
 
   .pdf-viewer {
     height: 90%;
+  }
+}
+
+.pdf-footer {
+  position: fixed;
+  bottom: 0;
+  height: 5rem;
+  background: linear-gradient(180deg, rgba(49, 49, 49, 0) 0%, #313131 76.47%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+
+  .page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
   }
 }
 
@@ -47,6 +68,12 @@
 
 .dot:nth-child(3) {
   animation-delay: 0.6s;
+}
+
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: "...";
+  white-space: nowrap;
 }
 
 @keyframes blink {

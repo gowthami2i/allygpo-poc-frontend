@@ -26,7 +26,6 @@ const Typography = ({ variant, children, className = "" }: ITypography) => {
                 {children}
               </h1>
             );
-
           case TextVariant.HEADING3:
             return (
               <p className={`text-base font-bold ${className}`}>{children}</p>

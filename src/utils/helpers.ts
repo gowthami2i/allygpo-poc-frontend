@@ -72,3 +72,14 @@ export const base64ToBlob = (
 
   return new Blob(byteArrays, { type: mimeType });
 };
+
+export const isEndOfSentence = (text: string): boolean => {
+  return /[.!?]$/.test(text.trim());
+};
+
+export const isIndented = (currentItem: any, prevItem: any): boolean => {
+  const horizontalDifference = Math.abs(
+    currentItem.transform[4] - prevItem.transform[4]
+  );
+  return horizontalDifference > 25; // Adjust this threshold based on testing
+};

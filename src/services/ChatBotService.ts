@@ -1,13 +1,14 @@
 import {
+  sampleChatResponse,
   sampleCitationResponse,
   samplePastConversationResponse,
 } from "../mockData/data";
 import { IGetConversation, IPostChat } from "../types/request/chatBot";
-import { apiService } from "./apiService";
+import { apiService } from "./api/apiService";
 
 export const postChatQuestion = (request: IPostChat) => {
-  return apiService.post("chat/ask", request);
-  // return Promise.resolve(sampleChatResponse);
+  // return apiService.post("chat/ask", request);
+  return Promise.resolve({ data: sampleChatResponse });
 };
 
 export const getPastConversations = (request: IGetConversation) => {
