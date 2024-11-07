@@ -52,7 +52,14 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
 
     pageItem[selectedReference.item.page_no].forEach(
       (textItem: any, index: number) => {
-        if (textItem.str === selectedReference.item.start_end_strings[0]) {
+        console.log(textItem, selectedReference);
+        if (
+          textItem.str === selectedReference.item.start_end_strings[0] ||
+          (!!textItem.str &&
+            selectedReference.item.start_end_strings[0].startsWith(
+              textItem.str
+            ))
+        ) {
           setHighlightIndices((prev: any) => ({
             ...prev,
             startIndex: index,
@@ -60,8 +67,8 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
         }
         if (
           textItem.str === selectedReference.item.start_end_strings[1] ||
-          (selectedReference.item.start_end_strings[1].endsWith(textItem.str) &&
-            !!textItem.str)
+          (!!textItem.str &&
+            selectedReference.item.start_end_strings[1].endsWith(textItem.str))
         ) {
           setHighlightIndices((prev: any) => ({
             ...prev,
