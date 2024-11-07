@@ -28,6 +28,7 @@ export const Constants = {
   CONTRACTS_EXPLORER: "Contract Explorer",
   PAST_TOPICS: "PAST TOPICS",
   NEW_TOPIC: "NEW TOPIC",
+  MAX_DESCRIPTION: "Maximum 100 characters",
 };
 
 export const ButtonType = {

@@ -58,13 +58,14 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
 
             <Icon iconName={IconNames.tickIcon} />
           </div>
-          <i
-            className="pi pi-trash align-content-center cursor-pointer"
-            style={{ color: "var(--app-dangerColor)" }}
+          <div
+            className="cursor-pointer flex align-items-center"
             onClick={() => {
               setFileName([]);
             }}
-          />
+          >
+            <Icon iconName={IconNames.trashIcon} iconSize={15} />
+          </div>
         </div>
       )}
     </div>

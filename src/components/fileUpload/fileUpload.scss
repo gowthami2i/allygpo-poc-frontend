@@ -11,10 +11,12 @@
     }
   }
   .select-file {
+    width: 100%;
     border: 1px solid var(--app-border-color);
-    border-radius: 4px;
+    border-radius: 0px;
     padding: 8px;
     .custom-input {
+      width: 100%;
       border: none;
       font-family: var(--app-fontFamily) !important;
       font-size: 12px;
