@@ -13,6 +13,7 @@ import useLocalStorage from "../../hook/global/useLocalStorage";
 import { ACTION_TYPE, updateState } from "../../store/appStore";
 import { blobToBase64 } from "../../utils/helpers";
 import { useToast } from "../../context/ToastContext";
+import "./contractupload.scss";
 
 interface IContractUpload {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -30,7 +31,10 @@ export const ContractUpload = (props: IContractUpload) => {
   const localData = getLocalStorage("documents") ?? [];
   const contractUploadSchema = z.object({
     file: z.array(z.any()).min(1, Constants.FILE_REQUIRED), // File as an array
-    description: z.string().min(1, Constants.DESCRIPTION_REQUIRED),
+    description: z
+      .string()
+      .min(1, Constants.DESCRIPTION_REQUIRED)
+      .max(100, Constants.MAX_DESCRIPTION),
     contractType: z.string().min(1, Constants.CONTRACT_TYPE_REQUIRED),
   });
 
