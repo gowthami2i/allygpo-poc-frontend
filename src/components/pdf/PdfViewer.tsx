@@ -13,6 +13,7 @@ import Typography from "../global/typography/Typography";
 import { TextVariant } from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import { base64ToBlob } from "../../utils/helpers";
+import { useToast } from "../../context/ToastContext";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -22,15 +23,15 @@ const options = {
 
 const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   const [numPages, setNumPages] = useState<number | null>(null);
+  const { showToast }: any = useToast();
   const [scale, setScale] = useState(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const containerRef = useRef<any>(null);
   const [pageItem, setPageItem] = useState<any>({});
   const file = useMemo(() => base64ToBlob(data.file), [data.file]);
-  const [highlightIndices, setHighlightIndices] = useState({
+  const [highlightIndices, setHighlightIndices] = useState<any>({
     startIndex: null,
     endIndex: null,
-    endRecursive: false,
   });
 
   useEffect(() => {
@@ -50,33 +51,48 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   useEffect(() => {
     if (!selectedReference) return;
 
-    pageItem[selectedReference.item.page_no].forEach(
-      (textItem: any, index: number) => {
-        console.log(textItem, selectedReference);
-        if (
-          textItem.str === selectedReference.item.start_end_strings[0] ||
-          (!!textItem.str &&
-            selectedReference.item.start_end_strings[0].startsWith(
-              textItem.str
-            ))
-        ) {
-          setHighlightIndices((prev: any) => ({
-            ...prev,
-            startIndex: index,
-          }));
-        }
-        if (
-          textItem.str === selectedReference.item.start_end_strings[1] ||
-          (!!textItem.str &&
-            selectedReference.item.start_end_strings[1].endsWith(textItem.str))
-        ) {
-          setHighlightIndices((prev: any) => ({
-            ...prev,
-            endIndex: index,
-          }));
-        }
+    let startIdx: number | null = null;
+    let endIdx: number | null = null;
+
+    const { page_no, start_end_strings } = selectedReference.item;
+
+    pageItem[page_no]?.forEach((textItem: any, index: number) => {
+      if (
+        textItem.str.trim() !== "" &&
+        (textItem.str === start_end_strings[0] ||
+          start_end_strings[0].startsWith(textItem.str) ||
+          textItem.str.includes(start_end_strings[0]))
+      ) {
+        startIdx = index;
       }
-    );
+
+      if (
+        startIdx !== null &&
+        textItem.str.trim() !== "" &&
+        (textItem.str === start_end_strings[1] ||
+          start_end_strings[1].endsWith(textItem.str) ||
+          textItem.str.includes(start_end_strings[1]))
+      ) {
+        endIdx = index;
+      }
+    });
+
+    if (startIdx !== null && endIdx !== null && endIdx > startIdx) {
+      setHighlightIndices({
+        startIndex: startIdx,
+        endIndex: endIdx,
+      });
+    } else {
+      setHighlightIndices({
+        startIndex: null,
+        endIndex: null,
+      });
+      showToast({
+        severity: "info",
+        detail: "Reference does not exist",
+        sticky: true,
+      });
+    }
   }, [selectedReference]);
 
   const handleScroll = () => {

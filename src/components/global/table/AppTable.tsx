@@ -99,8 +99,6 @@ const AppTable = (props: IAppTableProps) => {
             {table.getRowModel()?.rows?.map((row: any, index: number) => (
               <tr key={index}>
                 {row.getVisibleCells()?.map((cell: any, index: number) => {
-                  console.log("cell", cell.column?.columnDef?.width);
-
                   return (
                     <td
                       key={index}

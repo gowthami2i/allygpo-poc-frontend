@@ -181,21 +181,18 @@ export const sampleCitationResponse = {
       answer: "User inquired about company leadership.",
       citations: [
         {
-          document_id: "doc1",
-          page: 1,
-          paragraph: 8,
-          startIndex: 90,
-          endIndex: 150,
-          excerpt:
-            "The revenue for 2023 was $10 million as stated in section 3.2 of the annual report.",
+          page_no: "5",
+          start_end_strings: [
+            "GPO is a “group purchasing",
+            "organizations in 42 C.F.R. § 1001.952(j).",
+          ],
         },
         {
-          document_id: "doc2",
-          page: 8,
-          paragraph: 4,
-          startIndex: 90,
-          endIndex: 150,
-          excerpt: "Company revenue figures for 2023 show $10 million.",
+          page_no: "5",
+          start_end_strings: [
+            "GPO is a “group purchasing",
+            "organizations in 42 C.F.R. § 1001.952(j).",
+          ],
         },
       ],
     },

@@ -11,9 +11,9 @@ interface IToastProvider {
 interface IShowToast {
   severity: string;
   detail: string;
-  life: number;
-  sticky: boolean;
-  closable: boolean;
+  life?: number;
+  sticky?: boolean;
+  closable?: boolean;
 }
 
 export const ToastProvider = ({ children }: IToastProvider) => {
