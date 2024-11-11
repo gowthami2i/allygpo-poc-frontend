@@ -20,7 +20,7 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
           <FileUpload
             mode="basic"
             accept="application/pdf"
-            maxFileSize={1000000}
+            maxFileSize={10000000}
             chooseOptions={{
               label: Constants.SELECT_FILE,
               className: "custom-button primary-button px-4",

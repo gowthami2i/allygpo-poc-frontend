@@ -1,11 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { IGetConversation } from "../../types/request/chatBot";
-import { QUERY_KEY } from "../../constants/queryConstants";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getPastConversations } from "./../../services/ChatBotService";
 
-export const useGetPastConversations = (request: IGetConversation) => {
-  return useQuery({
-    queryKey: [QUERY_KEY.getChatConversation],
-    queryFn: () => getPastConversations(request),
+export const useGetPastConversations = () => {
+  return useMutation({
+    mutationFn: (request: any) => getPastConversations(request),
   });
 };

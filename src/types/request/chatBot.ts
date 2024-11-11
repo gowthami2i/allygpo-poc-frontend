@@ -3,6 +3,7 @@ export interface IPostChat {
   conversationId?: string;
   documentName?: string;
   createdDate?: any;
+  topicId?:string;
 }
 
 export interface IGetConversation {

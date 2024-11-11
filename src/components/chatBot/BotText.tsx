@@ -22,7 +22,7 @@ const BotText = ({
           <Typing />
         </div>
       )}
-      {text?.isError && (
+      {text?.isError ? (
         <div className=" flex align-items-center">
           <div className="border-1 px-1 border-round-md w-12rem h-2rem flex align-items-center error-msg">
             <Typography variant={TextVariant.BODY2}>
@@ -30,40 +30,41 @@ const BotText = ({
             </Typography>
           </div>
         </div>
-      )}
-      <div className="flex flex-column w-9">
-        <Typography variant={TextVariant.BODY2}>{text.answer}</Typography>
-        <div className="flex align-items-center gap-2">
-          {!!text?.list?.length && (
-            <Typography variant={TextVariant.SUBHEADING2} className="my-1">
-              {Constants.REFERENCES}
-            </Typography>
-          )}
-          {text?.list?.map((item: IBotTextListItem, index: number) => {
-            return (
-              <div
-                key={index}
-                className={`flex px-3 py-1 border-1 border-primary border-round-3xl cursor-pointer ${
-                  selectedReference?.index ===
-                  `reference-${index}-${conversationIndex}`
-                    ? "bg-primary"
-                    : ""
-                }`}
-                onClick={() =>
-                  handleReference(
-                    item,
+      ) : (
+        <div className="flex flex-column w-9">
+          <Typography variant={TextVariant.BODY2}>{text.answer}</Typography>
+          <div className="flex align-items-center gap-2">
+            {!!text?.list?.length && (
+              <Typography variant={TextVariant.SUBHEADING2} className="my-1">
+                {Constants.REFERENCES}
+              </Typography>
+            )}
+            {text?.list?.map((item: IBotTextListItem, index: number) => {
+              return (
+                <div
+                  key={index}
+                  className={`flex px-3 py-1 border-1 border-primary border-round-3xl cursor-pointer ${
+                    selectedReference?.index ===
                     `reference-${index}-${conversationIndex}`
-                  )
-                }
-              >
-                <Typography variant={TextVariant.SUBHEADING4} className="m-0">
-                  {index + 1}
-                </Typography>
-              </div>
-            );
-          })}
+                      ? "bg-primary"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleReference(
+                      item,
+                      `reference-${index}-${conversationIndex}`
+                    )
+                  }
+                >
+                  <Typography variant={TextVariant.SUBHEADING4} className="m-0">
+                    {index + 1}
+                  </Typography>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
