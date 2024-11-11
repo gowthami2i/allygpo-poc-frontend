@@ -13,18 +13,15 @@ import { useGetChatConversation } from "../../hook/chat/useGetChatCitation";
 import { ChatSenders, DialogHeader } from "../../constants/appConstants";
 import { IBotTextListItem } from "../../types/chatbot";
 import PdfViewer from "../../components/pdf/PdfViewer";
+import { useToast } from "../../context/ToastContext";
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();
   const { mutate } = usePostChatQuestion();
-  const { data: chatConversations }: any = useGetPastConversations({
-    userId: "1", // should get user id
-    limit: 5,
-    offset: 0,
-  });
-  const [citationRequest, setCitationRequest] = useState<any>(null);
-  const { data: chatCitation } = useGetChatConversation(citationRequest);
+  const { mutate: chatConversations, data }: any = useGetPastConversations();
+  const { mutate: chatCitation } = useGetChatConversation();
   const [chat, setChat] = useState<string>("");
+  const [conversationId, setConversationId] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<any>([]);
   const [visible, setVisible] = useState(false);
   const [chatHistoryOptions, setChatHistoryOptions] = useState<any>({});
@@ -33,28 +30,38 @@ const ViewDetails = () => {
     index: string | number;
   } | null>(null);
   const viewData: IData | any = location.state;
+  const { showToast }: any = useToast();
 
   const handleViewDetails = (cell: any) => {
-    setChatHistory([]);
-    setCitationRequest({
-      topicId: cell.topicId,
-      documentName: viewData.documentName,
-      createdAt: new Date(),
-    });
-    chatCitation?.conversations.forEach((convo: any) => {
-      appendMessage(convo);
-    });
     setChatHistoryOptions({
       createdAt: cell.createdAt,
       conversationId: cell.topicId,
     });
-    setVisible(false);
+    chatCitation(
+      { topicId: cell.topicId },
+      {
+        onSuccess: (data) => {
+          setChatHistory([]);
+          data?.data?.conversations?.forEach((convo: any) => {
+            appendMessage(convo);
+          });
+          setVisible(false);
+        },
+        onError: () => {
+          showToast({
+            severity: "error",
+            detail: "Failed to laod conversation",
+            sticky: true,
+          });
+        },
+      }
+    );
     setSelectedReference(null);
   };
 
   const columns = getPastTopicsColumn(handleViewDetails);
   const table = useReactTable({
-    data: chatConversations?.conversations ?? [],
+    data: data?.data ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -92,11 +99,13 @@ const ViewDetails = () => {
         {
           question: chat,
           documentName: viewData.documentName,
+          topicId: conversationId,
           createdDate: new Date(),
           conversationId: "",
         },
         {
           onSuccess: ({ data }) => {
+            setConversationId(data?.topicId);
             setChat("");
             setChatHistory((prevHistory: any) => {
               const newHistory = [...prevHistory];
@@ -104,6 +113,7 @@ const ViewDetails = () => {
               newHistory.pop();
               return newHistory;
             });
+
             appendMessage(data);
           },
 
@@ -130,6 +140,7 @@ const ViewDetails = () => {
   };
 
   const appendMessage = (chatResponse: any) => {
+    const isCitationError = typeof chatResponse?.citations === "string";
     const userMessage = {
       sender: ChatSenders.USER,
       text: !chatResponse?.question
@@ -140,7 +151,8 @@ const ViewDetails = () => {
       sender: ChatSenders.BOT,
       text: {
         answer: chatResponse?.answer || "",
-        list: chatResponse?.citations || [],
+        list: isCitationError ? [] : chatResponse?.citations || [],
+        isError: chatResponse?.answer === "message",
       },
     };
 
@@ -152,6 +164,7 @@ const ViewDetails = () => {
     setChatHistoryOptions({
       createdAt: chatResponse.createdAt,
       conversationId: chatResponse.topicId,
+      topicId: "",
     });
   };
 
@@ -175,11 +188,13 @@ const ViewDetails = () => {
         chatValue={chat}
         handlePastTopic={() => {
           setVisible(true);
+          chatConversations({ filename: viewData.documentName });
         }}
         handleNewTopic={() => {
           setChatHistory([]);
           setChatHistoryOptions("");
           setSelectedReference(null);
+          setConversationId("");
         }}
         handleReference={onReferenceClick}
       />
@@ -193,7 +208,7 @@ const ViewDetails = () => {
       >
         <AppTable
           columns={columns}
-          data={chatConversations?.conversations}
+          data={data?.data}
           table={table}
           paginator={false}
         />

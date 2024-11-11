@@ -16,11 +16,11 @@ export const getPastTopicsColumn = (
   return [
     {
       header: "Topic",
-      accessorKey: "summary",
+      accessorKey: "topic",
     },
     {
       header: "Date",
-      accessorKey: "createdAt",
+      accessorKey: "uploadedDate",
       cell: ({ getValue }: any) => (
         <span>{formatDate(getValue(), DateFormats.DD_MM_YYYY_SLASH)}</span>
       ),
