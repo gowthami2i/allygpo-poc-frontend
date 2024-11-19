@@ -26,7 +26,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   const { showToast }: any = useToast();
   const [scale, setScale] = useState(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const containerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [pageItem, setPageItem] = useState<any>({});
   const file = useMemo(() => base64ToBlob(data.file), [data.file]);
   const [highlightIndices, setHighlightIndices] = useState<any>({
@@ -37,6 +37,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
+      container.addEventListener("scroll", handleScroll);
       return () => container.removeEventListener("scroll", handleScroll);
     }
   }, [numPages]);
@@ -106,9 +107,16 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   const handleScroll = () => {
     const container = containerRef.current;
     if (container && numPages) {
-      const pageHeight = container.scrollHeight / numPages;
-      const currentPageNumber =
-        Math.floor(container.scrollTop / pageHeight) + 1;
+      // Calculate the approximate current page based on scroll position
+      const scrollTop = container.scrollTop;
+      const totalScrollHeight = container.scrollHeight;
+      const pageHeight = totalScrollHeight / numPages;
+
+      const currentPageNumber = Math.min(
+        Math.max(Math.floor(scrollTop / pageHeight) + 1, 1),
+        numPages
+      );
+
       setCurrentPage(currentPageNumber);
     }
   };
@@ -116,9 +124,9 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   const goToPage = (pageNumber: number) => {
     const container = containerRef.current;
     if (container && numPages) {
-      const pageHeight = container.scrollHeight / numPages - 40;
+      const pageHeight = container.scrollHeight / numPages;
       container.scrollTo({
-        top: pageHeight * pageNumber,
+        top: pageHeight * (pageNumber - 1),
         behavior: "smooth",
       });
     }
@@ -216,14 +224,9 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
             options={options}
             onLoadSuccess={onDocumentLoadSuccess}
           >
-            {/* Render all the pages of the PDF */}
-            {Array.from(new Array(numPages), (_, index: any) => (
+            {Array.from(new Array(numPages), (_, index: number) => (
               <div key={`page_${index + 1}`} style={{ marginBottom: "20px" }}>
-                <Page
-                  pageNumber={index + 1}
-                  scale={scale}
-                  customTextRenderer={customTextRenderer}
-                />
+                <Page pageNumber={index + 1} scale={scale} />
               </div>
             ))}
           </Document>
