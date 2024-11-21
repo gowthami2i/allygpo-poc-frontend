@@ -48,6 +48,14 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
     }
   }, [selectedReference]);
 
+  const handleZoomOut = () => {
+    setScale((prevScale) => Math.max(prevScale - 0.2, 1));
+  };
+
+  const handleZoomIn = () => {
+    setScale((prevScale) => prevScale + 0.2);
+  };
+
   useEffect(() => {
     if (!selectedReference) return;
 
@@ -229,12 +237,16 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
             <span>/</span>
             <span>{numPages}</span>
           </div>
-          {/* <span>|</span>
+          <span>|</span>
           <div className="flex gap-3">
-            <i className="pi pi-plus" />
-            <i className="pi pi-search-plus" />
-            <i className="pi pi-minus" />
-          </div> */}
+            <i className="pi pi-minus cursor-pointer" onClick={handleZoomOut} />
+            <i
+              className="pi pi-search-plus cursor-pointer"
+              // onClick={handleZoomOut}
+            />
+
+            <i className="pi pi-plus cursor-pointer" onClick={handleZoomIn} />
+          </div>
         </div>
       </div>
     </div>
