@@ -70,6 +70,10 @@ const ChatBot = (props: IChatBot) => {
               onClick={handleNewTopic}
               disabled={conversation.messages?.length == 0}
               className="px-3"
+              style={{
+                background: !conversation.messages?.length ? "#AAAAAA" : "",
+                border: "none",
+              }}
             />
           </div>
         </div>

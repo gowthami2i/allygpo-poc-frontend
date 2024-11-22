@@ -72,7 +72,7 @@ const AppTable = (props: IAppTableProps) => {
 
   return (
     <div>
-      {data?.length ? (
+      {data?.length && table.getRowModel()?.rows?.length ? (
         <table className="table-container">
           <thead>
             {table.getHeaderGroups()?.map((headerGroup: IHeaderGroup) => (
@@ -95,6 +95,7 @@ const AppTable = (props: IAppTableProps) => {
               </tr>
             ))}
           </thead>
+
           <tbody>
             {table.getRowModel()?.rows?.map((row: any, index: number) => (
               <tr key={index}>
@@ -121,7 +122,7 @@ const AppTable = (props: IAppTableProps) => {
           </tbody>
         </table>
       ) : (
-        <div className="flex justify-content-center">
+        <div className="flex justify-content-center align-items-center h-20rem">
           <Typography variant={TextVariant.BODY1}>No Data</Typography>
         </div>
       )}
