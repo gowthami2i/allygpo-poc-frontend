@@ -77,7 +77,7 @@ export const ContractUpload = (props: IContractUpload) => {
           setVisible(false);
           showToast({
             severity: "success",
-            detail: "Uploaded successful",
+            detail: "Uploaded successfully",
             sticky: true,
           });
         },

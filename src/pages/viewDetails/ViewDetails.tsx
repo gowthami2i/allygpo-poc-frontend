@@ -140,6 +140,7 @@ const ViewDetails = () => {
   };
 
   const appendMessage = (chatResponse: any) => {
+    console.log(chatResponse,"sss")
     const isCitationError = typeof chatResponse?.citations === "string";
     const userMessage = {
       sender: ChatSenders.USER,
@@ -150,7 +151,7 @@ const ViewDetails = () => {
     const assistantMessage = {
       sender: ChatSenders.BOT,
       text: {
-        answer: chatResponse?.answer || "",
+        answer: chatResponse?.answer ? chatResponse?.answer : chatResponse?.error|| "",
         list: isCitationError ? [] : chatResponse?.citations || [],
         isError: chatResponse?.answer === "message",
       },

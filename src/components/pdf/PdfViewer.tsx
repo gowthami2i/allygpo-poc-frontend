@@ -44,17 +44,18 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
 
   useEffect(() => {
     if (selectedReference?.item?.page_no) {
+      console.log(selectedReference?.item,"console")
       goToPage(selectedReference.item.page_no);
       setCurrentPage(selectedReference.item.page_no);
     }
   }, [selectedReference]);
 
   const handleZoomOut = () => {
-    setScale((prevScale) => Math.max(prevScale - 0.2, 1));
+    setScale((prevScale) => Math.max(prevScale - 0.1, 1));
   };
 
   const handleZoomIn = () => {
-    setScale((prevScale) => prevScale + 0.2);
+    setScale((prevScale) => Math.min(prevScale + 0.1, 2)); // Maximum scale is 3
   };
 
   useEffect(() => {
@@ -98,7 +99,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
       });
       showToast({
         severity: "info",
-        detail: "Reference does not exist",
+        detail: "Unable to locate reference, Reference found are ambiguous.",
         sticky: true,
       });
     }
@@ -107,31 +108,34 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   const handleScroll = () => {
     const container = containerRef.current;
     if (container && numPages) {
-      // Calculate the approximate current page based on scroll position
+      // Calculate current scroll position and total height
       const scrollTop = container.scrollTop;
       const totalScrollHeight = container.scrollHeight;
+      
+      // Calculate page height based on total scroll height and number of pages
       const pageHeight = totalScrollHeight / numPages;
-
+  
+      // Calculate the current page based on scroll position
       const currentPageNumber = Math.min(
-        Math.max(Math.floor(scrollTop / pageHeight) + 1, 1),
+        Math.max(Math.round(scrollTop / pageHeight) + 1, 1),
         numPages
       );
-
+  
       setCurrentPage(currentPageNumber);
     }
   };
-
+  
   const goToPage = (pageNumber: number) => {
     const container = containerRef.current;
     if (container && numPages) {
-      const pageHeight = container.scrollHeight / numPages;
+      const pageHeight = container.scrollHeight / numPages + 100;
       container.scrollTo({
         top: pageHeight * (pageNumber - 1),
         behavior: "smooth",
       });
     }
   };
-
+    
   const onDocumentLoadSuccess = async (pdf: any) => {
     setNumPages(pdf.numPages);
 
@@ -158,7 +162,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
     }
     return text.str;
   };
-
+  
   const customTextRenderer = useCallback(
     (textItem: any) => {
       if (textItem.pageNumber === Number(selectedReference?.item?.page_no)) {
@@ -226,7 +230,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
           >
             {Array.from(new Array(numPages), (_, index: number) => (
               <div key={`page_${index + 1}`} style={{ marginBottom: "20px" }}>
-                <Page pageNumber={index + 1} scale={scale} />
+                <Page pageNumber={index + 1} scale={scale}   customTextRenderer={customTextRenderer}/>
               </div>
             ))}
           </Document>
