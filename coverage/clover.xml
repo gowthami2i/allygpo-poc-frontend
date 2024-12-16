@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1733836306611" clover="3.2.0">
+  <project timestamp="1733836306612" name="All files">
+    <metrics statements="33" coveredstatements="21" conditionals="16" coveredconditionals="3" methods="5" coveredmethods="4" elements="54" coveredelements="28" complexity="0" loc="33" ncloc="33" packages="3" files="3" classes="3"/>
+    <package name="components.global.appDialog">
+      <metrics statements="10" coveredstatements="8" conditionals="4" coveredconditionals="1" methods="3" coveredmethods="2"/>
+      <file name="AppDialog.tsx" path="C:\Users\gowtham.p\Documents\ally-gpo-poc\allygpo-poc-frontend\src\components\global\appDialog\AppDialog.tsx">
+        <metrics statements="10" coveredstatements="8" conditionals="4" coveredconditionals="1" methods="3" coveredmethods="2"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="40" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="41" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.global.typography">
+      <metrics statements="16" coveredstatements="6" conditionals="12" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <file name="Typography.tsx" path="C:\Users\gowtham.p\Documents\ally-gpo-poc\allygpo-poc-frontend\src\components\global\typography\Typography.tsx">
+        <metrics statements="16" coveredstatements="6" conditionals="12" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="11" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="10"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="constants">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="appConstants.ts" path="C:\Users\gowtham.p\Documents\ally-gpo-poc\allygpo-poc-frontend\src\constants\appConstants.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

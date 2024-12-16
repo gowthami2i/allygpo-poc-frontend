@@ -19,6 +19,7 @@ const AppToast = (props: IAppToast) => {
             className: "mr-3",
           },
         }}
+        data-testid="app-toast"
       />
     </div>
   );

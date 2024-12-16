@@ -47,24 +47,24 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
         </div>
       ) : (
         <div className="flex gap-4">
-          <div className="select-file flex px-2 gap-2">
-            <Icon iconName={IconNames.documentIcon} iconSize={22} />
+          <div className="select-file flex px-2 gap-2" >
+            <Icon iconName={IconNames?.documentIcon} iconSize={22} data-testid="icon-documentIcon"/>
             <input
               type="text"
               value={fileName || Constants.PLACEHOLDER_FILE} // Display selected file name or fallback text
               className="custom-input"
               readOnly
             />
-
-            <Icon iconName={IconNames.tickIcon} />
+            <Icon iconName={IconNames?.tickIcon} data-testid="icon-tickIcon"/>
           </div>
           <div
             className="cursor-pointer flex align-items-center"
             onClick={() => {
               setFileName([]);
             }}
+            data-testId="icon-trashIcon"
           >
-            <Icon iconName={IconNames.trashIcon} iconSize={15} />
+            <Icon iconName={IconNames?.trashIcon} iconSize={15} />
           </div>
         </div>
       )}

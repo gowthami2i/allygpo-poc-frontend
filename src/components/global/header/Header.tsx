@@ -2,11 +2,12 @@ import { Constants, TextVariant } from "../../../constants/appConstants";
 import AllyGpo_icon from "../../../assets/images/AllyIQ_Icon.png";
 import Typography from "../typography/Typography";
 import "./header.scss";
+
 import React from "react";
 
 export const Header = () => {
   return (
-    <div className="header-container">
+    <div className="header-container" data-testid="header">
       <div className="header-primary-container flex align-items-center justify-content-center">
         <img src={AllyGpo_icon} alt="allyGPOIcon" width={"80px"} />
       </div>

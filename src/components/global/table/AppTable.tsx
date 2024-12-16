@@ -134,6 +134,7 @@ const AppTable = (props: IAppTableProps) => {
           onPageChange={onPageChange}
           template="PrevPageLink PageLinks NextPageLink"
           className="custom-paginator pagination"
+          data-testid="paginator"
         />
       )}
     </div>

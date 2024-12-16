@@ -227,6 +227,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
             file={file}
             options={options}
             onLoadSuccess={onDocumentLoadSuccess}
+            
           >
             {Array.from(new Array(numPages), (_, index: number) => (
               <div key={`page_${index + 1}`} style={{ marginBottom: "20px" }}>
