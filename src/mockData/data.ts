@@ -65,6 +65,10 @@ export const contractType = [
   { name: "Partnership Contract", code: "partnershipContract" },
   { name: "Fixed Price Contract", code: "fixedPriceContract" },
 ];
+export const layout = [
+  { name: "Single Layout", code: "singleLayout" },
+  { name: "Double Layout", code: "doubleLayout" },
+];
 
 export const sampleChatResponse = {
   topicId: "12345",

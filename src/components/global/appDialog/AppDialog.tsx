@@ -28,6 +28,8 @@ export const AppDialog = (props: IAppDialogProps) => {
       <Typography variant={TextVariant.HEADING3}>{headerName}</Typography>
     </div>
   );
+  console.log("heaer", headerName);
+  
 
   return (
     <div>

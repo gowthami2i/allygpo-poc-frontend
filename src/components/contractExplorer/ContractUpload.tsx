@@ -7,7 +7,7 @@ import { z } from "zod";
 import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
 import { useUploadDocument } from "../../hook/document/useUpload";
 import { Constants } from "../../constants/appConstants";
-import { contractType } from "../../mockData/data";
+import { contractType, layout, Layouts } from "../../mockData/data";
 import { Button } from "primereact/button";
 import useLocalStorage from "../../hook/global/useLocalStorage";
 import { ACTION_TYPE, updateState } from "../../store/appStore";
@@ -36,6 +36,7 @@ export const ContractUpload = (props: IContractUpload) => {
       .min(1, Constants.DESCRIPTION_REQUIRED)
       .max(100, Constants.MAX_DESCRIPTION),
     contractType: z.string().min(1, Constants.CONTRACT_TYPE_REQUIRED),
+    layout: z.string().min(1, Constants.CONTRACT_TYPE_REQUIRED),
   });
 
   useEffect(() => {
@@ -56,6 +57,7 @@ export const ContractUpload = (props: IContractUpload) => {
       file: [],
       description: "",
       contractType: "",
+      layout:""
     },
     validators: {
       onSubmit: contractUploadSchema,
@@ -169,6 +171,30 @@ export const ContractUpload = (props: IContractUpload) => {
                   placeholder={Constants.PLACEHOLDER_CONTRACT_TYPE_REQUIRED}
                 />
                 <FieldInfo field={field} />
+               
+              </>
+            )}
+          />
+        </div>
+        <div>
+        <form.Field
+            name="layout"
+            children={(field) => (
+              <>
+                
+                <AppDropdown
+                  className="w-full"
+                  label={"Layout"}
+                  value={field.state.value}
+                  options={layout}
+                  optionLabel="name"
+                  optionValue="code"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    field.handleChange(e.target.value);
+                  }}
+                  placeholder={"Select Layout"}
+                />
+                  <FieldInfo field={field} />
               </>
             )}
           />

@@ -10,6 +10,7 @@ export interface IData {
   document: any;
   description: string;
   contractType: string;
+  layout:string;
   dateUploaded: string;
 }
 
