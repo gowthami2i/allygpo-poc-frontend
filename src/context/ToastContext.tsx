@@ -22,11 +22,11 @@ export const ToastProvider = ({ children }: IToastProvider) => {
   const showToast = ({
     severity,
     detail,
-    life = 10000,
-    sticky,
+    life = 3000,
+
     closable,
   }: IShowToast) => {
-    toastRef.current.show({ severity, detail, life, sticky, closable });
+    toastRef.current.show({ severity, detail, life,  closable });
   };
 
   const clearToast = () => {
