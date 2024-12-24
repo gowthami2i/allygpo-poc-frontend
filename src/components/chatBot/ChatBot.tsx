@@ -79,7 +79,7 @@ const ChatBot = (props: IChatBot) => {
         </div>
         {/*content */}
         <div className="chat-content" ref={chatContentRef}>
-          <div className="flex flex-column p-3 gap-3 justify-content-end">
+          <div className="flex flex-column p-3 gap-3 justify-content-end" >
             {conversation?.messages?.map((con: IMessage, index: number) => {
               if (con.sender === ChatSenders.USER) {
                 return <UserText text={con.text} key={index} />;

@@ -17,6 +17,7 @@
     "@tanstack/router-devtools": "^1.58.15",
     "@tanstack/zod-form-adapter": "^0.33.0",
     "formik": "^2.4.6",
+    "marked": "^15.0.4",
     "path": "^0.12.7",
     "pdfjs-dist": "^4.6.82",
     "primeflex": "^3.3.1",

@@ -14,6 +14,7 @@ import { ChatSenders, DialogHeader } from "../../constants/appConstants";
 import { IBotTextListItem } from "../../types/chatbot";
 import PdfViewer from "../../components/pdf/PdfViewer";
 import { useToast } from "../../context/ToastContext";
+import { marked } from 'marked';
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();
@@ -140,35 +141,39 @@ const ViewDetails = () => {
   };
 
   const appendMessage = (chatResponse: any) => {
-    console.log(chatResponse,"sss")
     const isCitationError = typeof chatResponse?.citations === "string";
+  
     const userMessage = {
       sender: ChatSenders.USER,
       text: !chatResponse?.question
         ? structuredClone(chat)
         : chatResponse.question,
     };
+  
     const assistantMessage = {
       sender: ChatSenders.BOT,
       text: {
-        answer: chatResponse?.answer ? chatResponse?.answer : chatResponse?.error|| "",
+        answer: chatResponse?.answer
+          ? marked(chatResponse?.answer) // Parse markdown to HTML
+          : chatResponse?.error || "",
         list: isCitationError ? [] : chatResponse?.citations || [],
         isError: chatResponse?.answer === "message",
       },
     };
-
+  
     setChatHistory((prevHistory: any) => [
       ...prevHistory,
       userMessage,
       assistantMessage,
     ]);
+  
     setChatHistoryOptions({
       createdAt: chatResponse.createdAt,
       conversationId: chatResponse.topicId,
       topicId: "",
     });
   };
-
+  
   const onReferenceClick = (item: IBotTextListItem, index: string | number) => {
     setSelectedReference({ item, index });
   };
