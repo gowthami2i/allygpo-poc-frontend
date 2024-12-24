@@ -12,6 +12,7 @@ const BotText = ({
   handleReference,
   conversationIndex,
 }: IBotText) => {
+
   return (
     <div className="flex gap-3">
       <div className="mt-3">
@@ -31,8 +32,8 @@ const BotText = ({
           </div>
         </div>
       ) : (
-        <div className="flex flex-column w-9">
-          <Typography variant={TextVariant.BODY2}>{text.answer}</Typography>
+        <div className="flex flex-column w-9 bot-table">
+          <div dangerouslySetInnerHTML={{ __html: text?.answer }}></div>
           <div className="flex align-items-center gap-2">
             {!!text?.list?.length && (
               <Typography variant={TextVariant.SUBHEADING2} className="my-1">
@@ -45,9 +46,7 @@ const BotText = ({
                   key={index}
                   className={`flex px-3 py-1 border-1 border-primary border-round-3xl cursor-pointer ${
                     selectedReference?.index ===
-                    `reference-${index}-${conversationIndex}`
-                      ? "bg-primary"
-                      : ""
+                    `reference-${index}-${conversationIndex}` ? "bg-primary" : ""
                   }`}
                   onClick={() =>
                     handleReference(
