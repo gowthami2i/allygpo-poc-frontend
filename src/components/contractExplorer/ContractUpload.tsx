@@ -78,7 +78,7 @@ export const ContractUpload = (props: IContractUpload) => {
           showToast({
             severity: "success",
             detail: "Uploaded successfully",
-            sticky: true,
+            life:3000,
           });
         },
         onError: () => {

@@ -24,6 +24,7 @@ const ChatBot = (props: IChatBot) => {
     handleNewTopic,
     handleSendChat,
     handleReference,
+    isSender
   } = props;
 
   const chatContentRef = useRef<HTMLDivElement | null>(null);
@@ -39,8 +40,9 @@ const ChatBot = (props: IChatBot) => {
   ];
 
   useEffect(() => {
+    if(isSender)
     scrollToBottom();
-  }, [conversation.messages]);
+  }, [isSender]);
 
   return (
     <div className="flex flex-column w-4">

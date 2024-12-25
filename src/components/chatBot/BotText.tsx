@@ -34,7 +34,7 @@ const BotText = ({
       ) : (
         <div className="flex flex-column w-9 bot-table">
           <div dangerouslySetInnerHTML={{ __html: text?.answer }}></div>
-          <div className="flex align-items-center gap-2">
+          <div className="flex align-items-center gap-2 flex-wrap">
             {!!text?.list?.length && (
               <Typography variant={TextVariant.SUBHEADING2} className="my-1">
                 {Constants.REFERENCES}

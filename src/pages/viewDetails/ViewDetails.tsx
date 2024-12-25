@@ -25,6 +25,7 @@ const ViewDetails = () => {
   const [conversationId, setConversationId] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<any>([]);
   const [visible, setVisible] = useState(false);
+  const [isSender, setIsSender] = useState(false);
   const [chatHistoryOptions, setChatHistoryOptions] = useState<any>({});
   const [selectedReference, setSelectedReference] = useState<{
     item: IBotTextListItem;
@@ -89,7 +90,7 @@ const ViewDetails = () => {
         sender: ChatSenders.BOT,
         text: { isLoading: true },
       };
-
+      setIsSender(true);
       setChatHistory((prevHistory: any) => [
         ...prevHistory,
         userMessage,
@@ -108,6 +109,7 @@ const ViewDetails = () => {
           onSuccess: ({ data }) => {
             setConversationId(data?.topicId);
             setChat("");
+            setIsSender(false);
             setChatHistory((prevHistory: any) => {
               const newHistory = [...prevHistory];
               newHistory.pop();
@@ -203,6 +205,7 @@ const ViewDetails = () => {
           setConversationId("");
         }}
         handleReference={onReferenceClick}
+        isSender={isSender}
       />
       <AppDialog
         visible={visible}
