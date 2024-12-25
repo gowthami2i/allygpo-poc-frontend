@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Constants, TextVariant } from "../../constants/appConstants";
 import Icon, { IconNames } from "../global/appIcons/Icon";
 import Typography from "../global/typography/Typography";
@@ -11,9 +11,33 @@ const BotText = ({
   selectedReference,
   handleReference,
   conversationIndex,
+  isExpanded,
+  setIsExpanded
 }: IBotText) => {
+ 
+  const [showExpandButton, setShowExpandButton] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (containerRef.current) {
+        const { scrollWidth, clientWidth } = containerRef.current;
+        setShowExpandButton(scrollWidth > clientWidth);
+      }
+    };
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, []);
+
+  const handleExpandToggle = () => {
+    setIsExpanded((prev) => !prev);
+  };
+
   return (
-    <div className="flex gap-3">
+    <div className={`flex gap-3 ${isExpanded ? "bot-text-expanded" : ""}`}>
       <div className="mt-3">
         <Icon iconName={IconNames.chatLogo} iconSize={35} />
       </div>
@@ -22,49 +46,67 @@ const BotText = ({
           <Typing />
         </div>
       )}
-      {text?.isError ? (
-        <div className=" flex align-items-center">
+     {text?.isError ?  <div className=" flex align-items-center">
           <div className="border-1 px-1 border-round-md w-12rem h-2rem flex align-items-center error-msg">
             <Typography variant={TextVariant.BODY2}>
               Something went wrong
             </Typography>
           </div>
-        </div>
-      ) : (
-        <div className="flex flex-column w-9">
-          <Typography variant={TextVariant.BODY2}>{text.answer}</Typography>
-          <div className="flex align-items-center gap-2">
-            {!!text?.list?.length && (
-              <Typography variant={TextVariant.SUBHEADING2} className="my-1">
-                {Constants.REFERENCES}
-              </Typography>
-            )}
-            {text?.list?.map((item: IBotTextListItem, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className={`flex px-3 py-1 border-1 border-primary border-round-3xl cursor-pointer ${
-                    selectedReference?.index ===
-                    `reference-${index}-${conversationIndex}`
-                      ? "bg-primary"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    handleReference(
-                      item,
-                      `reference-${index}-${conversationIndex}`
-                    )
-                  }
-                >
-                  <Typography variant={TextVariant.SUBHEADING4} className="m-0">
-                    {index + 1}
-                  </Typography>
-                </div>
-              );
-            })}
+        </div>: <div
+          ref={containerRef}
+          className="flex flex-column bot-text-container"
+          style={{
+            width: isExpanded ? "100%" : "40%",
+            overflowX: isExpanded ? "visible" : "hidden",
+          }}
+        >
+          <div className="bot-text-content">
+            {/* 10-Column Table */}
+            <div
+              style={{
+                display: "inline-block",
+                minWidth: isExpanded ? "auto" : "100%",
+              }}
+            >
+              <table className="table">
+                <thead>
+                  <tr>
+                    {Array.from({ length: 10 }, (_, i) => (
+                      <th key={i}>Column {i + 1}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: 5 }, (_, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {Array.from({ length: 10 }, (_, colIndex) => (
+                        <td key={colIndex}>Row {rowIndex + 1} Col {colIndex + 1}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      )}
+          {showExpandButton && !isExpanded && (
+            <button
+              onClick={handleExpandToggle}
+              className="expand-button"
+              style={{ marginTop: "8px" }}
+            >
+              Expand
+            </button>
+          )}
+          {isExpanded && (
+            <button
+              onClick={handleExpandToggle}
+              className="collapse-button"
+              style={{ marginTop: "8px" }}
+            >
+              Collapse
+            </button>
+          )}
+        </div>}
     </div>
   );
 };

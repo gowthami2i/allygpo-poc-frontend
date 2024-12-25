@@ -21,7 +21,7 @@ const options = {
   cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
 };
 
-const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
+const PdfViewer = ({ data, navigateBack, selectedReference,isExpanded}: any) => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const { showToast }: any = useToast();
   const [scale, setScale] = useState(1);
@@ -186,7 +186,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
 
   return (
     <div
-      className="w-8"
+      className= {isExpanded?"w-4":"w-8"}
       style={{
         display: "flex",
         background: "#313131",
@@ -236,7 +236,7 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
           </Document>
         </div>
       </div>
-      <div className="pdf-footer w-8">
+      <div className= {isExpanded?"w-4 pdf-footer":"w-8 pdf-footer"}>
         <div className="page">
           <div className="flex gap-3">
             <span>Page</span>

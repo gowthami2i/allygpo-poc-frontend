@@ -15,6 +15,8 @@ export interface IChatBot {
   handlePastTopic: () => void;
   handleNewTopic: () => void;
   handleReference: (item: IBotTextListItem, index: string | number) => void;
+  isExpanded:boolean;
+     setIsExpanded:any;
 }
 
 export interface IMessage {
@@ -39,6 +41,8 @@ export interface IBotText {
   handleReference: (item: IBotTextListItem, index: string | number) => void;
   selectedReference: any;
   conversationIndex: number;
+  isExpanded:boolean;
+  setIsExpanded:any
 }
 
 export interface IBotTextListItem {

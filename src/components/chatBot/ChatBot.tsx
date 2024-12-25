@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AppInput } from "../global/appInput/AppInput";
 import BotText from "./BotText";
 import UserText from "./UserText";
@@ -24,6 +24,8 @@ const ChatBot = (props: IChatBot) => {
     handleNewTopic,
     handleSendChat,
     handleReference,
+    isExpanded, 
+    setIsExpanded
   } = props;
 
   const chatContentRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +45,7 @@ const ChatBot = (props: IChatBot) => {
   }, [conversation.messages]);
 
   return (
-    <div className="flex flex-column w-4">
+    <div className="flex flex-column" style={{width:isExpanded? "200%":"33%"}}>
       {/*chat bot */}
       <div className="chat">
         <div
@@ -91,6 +93,8 @@ const ChatBot = (props: IChatBot) => {
                     conversationIndex={index}
                     selectedReference={selectedReference}
                     handleReference={handleReference}
+                    isExpanded={isExpanded}
+                    setIsExpanded={setIsExpanded}
                   />
                 );
               }

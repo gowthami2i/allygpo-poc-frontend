@@ -24,6 +24,8 @@ const ViewDetails = () => {
   const [conversationId, setConversationId] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<any>([]);
   const [visible, setVisible] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const [chatHistoryOptions, setChatHistoryOptions] = useState<any>({});
   const [selectedReference, setSelectedReference] = useState<{
     item: IBotTextListItem;
@@ -179,6 +181,8 @@ const ViewDetails = () => {
         data={viewData}
         navigateBack={navigateBack}
         selectedReference={selectedReference}
+        isExpanded={isExpanded}
+
       />
       <ChatBot
         conversation={{ ...chatHistoryOptions, messages: chatHistory }}
@@ -198,6 +202,9 @@ const ViewDetails = () => {
           setConversationId("");
         }}
         handleReference={onReferenceClick}
+        isExpanded={isExpanded}
+         setIsExpanded={setIsExpanded}
+
       />
       <AppDialog
         visible={visible}
