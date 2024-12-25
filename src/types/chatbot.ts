@@ -15,6 +15,7 @@ export interface IChatBot {
   handlePastTopic: () => void;
   handleNewTopic: () => void;
   handleReference: (item: IBotTextListItem, index: string | number) => void;
+  isSender:boolean;
 }
 
 export interface IMessage {
