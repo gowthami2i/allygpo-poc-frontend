@@ -15,6 +15,7 @@ import { IBotTextListItem } from "../../types/chatbot";
 import PdfViewer from "../../components/pdf/PdfViewer";
 import { useToast } from "../../context/ToastContext";
 import { marked } from 'marked';
+import { useHeaderContext } from "../../context/HeaderContext";
 
 const ViewDetails = () => {
   const { navigateTo, navigateBack, location } = usePageNavigation();
@@ -33,7 +34,8 @@ const ViewDetails = () => {
   } | null>(null);
   const viewData: IData | any = location.state;
   const { showToast }: any = useToast();
-
+  const context = useHeaderContext();
+  
   const handleViewDetails = (cell: any) => {
     setChatHistoryOptions({
       createdAt: cell.createdAt,
@@ -104,6 +106,7 @@ const ViewDetails = () => {
           topicId: conversationId,
           createdDate: new Date(),
           conversationId: "",
+          index: context.checked ?"VISION_PARSER_INDEX" :"DOCLING_PARSER_INDEX",
         },
         {
           onSuccess: ({ data }) => {

@@ -1,3 +1,4 @@
+import { useHeaderContext } from "../context/HeaderContext";
 import useLocalStorage from "../hook/global/useLocalStorage";
 import { ACTION_TYPE, updateState } from "../store/appStore";
 import { IFormData } from "../types/request/contractExplorer";
@@ -23,7 +24,7 @@ export const deleteData = (id: { document_id: string }) => {
 };
 
 export const uploadDocument = (formData: IFormData) => {
-   return apiService.post("/documents/upload", formData, {
+   return apiService.post(`/documents/${formData.isChecked ? `uploadVisionParser` : `uploadDoclingParser`}`, formData, {
      headers: formHeaders,
    });
 };

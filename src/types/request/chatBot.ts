@@ -4,6 +4,7 @@ export interface IPostChat {
   documentName?: string;
   createdDate?: any;
   topicId?:string;
+  index?:string;
 }
 
 export interface IGetConversation {
