@@ -46,13 +46,14 @@ const BotText = ({
           <Typing />
         </div>
       )}
-     {text?.isError ?  <div className=" flex align-items-center">
+     {/* {text?.isError ?  <div className=" flex align-items-center">
           <div className="border-1 px-1 border-round-md w-12rem h-2rem flex align-items-center error-msg">
             <Typography variant={TextVariant.BODY2}>
               Something went wrong
             </Typography>
           </div>
-        </div>: <div
+        </div>: */}
+         <div
           ref={containerRef}
           className="flex flex-column bot-text-container"
           style={{
@@ -88,13 +89,16 @@ const BotText = ({
               </table>
             </div>
           </div>
-          {showExpandButton && !isExpanded && (
+          
+        </div>
+        {showExpandButton && !isExpanded && (
             <button
               onClick={handleExpandToggle}
               className="expand-button"
               style={{ marginTop: "8px" }}
             >
-              Expand
+                            <i className="pi pi-angle-double-left" style={{ fontSize: '1rem' }}></i>
+
             </button>
           )}
           {isExpanded && (
@@ -103,10 +107,9 @@ const BotText = ({
               className="collapse-button"
               style={{ marginTop: "8px" }}
             >
-              Collapse
+              <i className="pi pi-angle-double-right" style={{ fontSize: '1rem' }}></i>
             </button>
           )}
-        </div>}
     </div>
   );
 };

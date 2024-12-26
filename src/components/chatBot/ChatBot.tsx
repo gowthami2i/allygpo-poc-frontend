@@ -103,7 +103,7 @@ const ChatBot = (props: IChatBot) => {
         </div>
       </div>
       {/*footer */}
-      <div className="bg-primary w-4 px-3 pb-2 chat-footer">
+      <div className= {isExpanded ? "bg-primary w-8 px-3 pb-2 chat-footer" :"bg-primary w-4 px-3 pb-2 chat-footer"} >
         <AppInput
           placeholder="Ask a Question"
           onChange={onChatInputChange}
