@@ -3,4 +3,5 @@ export interface IFormData {
   description: string;
   contractType: string;
   createdAt: any;
+  isChecked?:boolean;
 }

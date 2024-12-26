@@ -14,6 +14,7 @@ import { ACTION_TYPE, updateState } from "../../store/appStore";
 import { blobToBase64 } from "../../utils/helpers";
 import { useToast } from "../../context/ToastContext";
 import "./contractupload.scss";
+import { useHeaderContext } from "../../context/HeaderContext";
 
 interface IContractUpload {
   setVisible: Dispatch<SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ interface IContractUpload {
 }
 
 export const ContractUpload = (props: IContractUpload) => {
+  const context = useHeaderContext();
   const { setVisible, uploadDocument, isUploadPending, isUploadSuccess } =
     props;
   const { showToast, clearToast }: any = useToast();
@@ -65,6 +67,7 @@ export const ContractUpload = (props: IContractUpload) => {
       const value = values.value;
       value.documentName = value.file[0].name;
       value.file = value.file[0];
+      value.isChecked = context.checked;
       uploadDocument(values.value, {
         onSuccess: async () => {
           clearToast();
