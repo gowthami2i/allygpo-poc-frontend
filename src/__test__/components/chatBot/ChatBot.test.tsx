@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { IChatBot } from "../types/chatbot";
-import { ChatSenders } from "../constants/appConstants";
+import { IChatBot } from "../../../types/chatbot";
+import { ChatSenders } from "../../../constants/appConstants";
 
 
 // Mock child components
