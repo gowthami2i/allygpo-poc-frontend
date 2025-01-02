@@ -1,4 +1,3 @@
-import React from "react";
 import { TextVariant } from "../../../constants/appConstants";
 
 export interface ITypography {

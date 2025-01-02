@@ -5,7 +5,6 @@ import { AppInput } from "../global/appInput/AppInput";
 import AppDropdown from "../global/appDropdown/AppDropdown";
 import { z } from "zod";
 import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
-import { useUploadDocument } from "../../hook/document/useUpload";
 import { Constants } from "../../constants/appConstants";
 import { contractType } from "../../mockData/data";
 import { Button } from "primereact/button";
@@ -25,7 +24,7 @@ interface IContractUpload {
 
 export const ContractUpload = (props: IContractUpload) => {
   const context = useHeaderContext();
-  const { setVisible, uploadDocument, isUploadPending, isUploadSuccess } =
+  const { setVisible, uploadDocument, isUploadPending } =
     props;
   const { showToast, clearToast }: any = useToast();
   const { getItem: getLocalStorage, setItem: setLocalStorage } =

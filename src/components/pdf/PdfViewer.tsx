@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useCallback,
   useEffect,
@@ -13,7 +13,6 @@ import Typography from "../global/typography/Typography";
 import { TextVariant } from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import { base64ToBlob } from "../../utils/helpers";
-import { useToast } from "../../context/ToastContext";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -23,7 +22,6 @@ const options = {
 
 const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const { showToast }: any = useToast();
   const [scale, setScale] = useState(0.8);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const containerRef = useRef<HTMLDivElement | null>(null);

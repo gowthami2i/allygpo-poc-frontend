@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { useState } from "react";
+import { flexRender } from "@tanstack/react-table";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import "./appTable.scss";
 import Typography from "../typography/Typography";

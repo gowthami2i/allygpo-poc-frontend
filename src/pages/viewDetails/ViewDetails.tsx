@@ -1,4 +1,4 @@
-import React, { KeyboardEvent } from "react";
+import { KeyboardEvent } from "react";
 import ChatBot from "../../components/chatBot/ChatBot";
 import { ChangeEvent, useEffect, useState } from "react";
 import "../../components/viewDetails/viewDetails.scss";

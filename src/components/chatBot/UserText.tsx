@@ -1,4 +1,3 @@
-import React from "react";
 import { IUserText } from "../../types/chatbot";
 import { TextVariant } from "../../constants/appConstants";
 import Typography from "../global/typography/Typography";
