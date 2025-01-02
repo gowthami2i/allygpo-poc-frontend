@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { AppInput } from "../global/appInput/AppInput";
 import "./fileUpload.scss";

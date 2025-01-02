@@ -1,4 +1,3 @@
-import React from "react";
 import "./../viewDetails/viewDetails.scss";
 const Typing = () => (
   <div className="typing-indicator">

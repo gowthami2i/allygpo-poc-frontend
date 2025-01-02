@@ -1,7 +1,6 @@
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
-import React from "react";
 
 interface ISeachBarProps {
   value: string;

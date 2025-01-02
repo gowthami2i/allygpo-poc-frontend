@@ -1,4 +1,3 @@
-import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { IData } from "../global/table/AppTable";
 import Icon, { IconNames } from "../global/appIcons/Icon";

@@ -1,4 +1,3 @@
-import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "../../utils/helpers";
 import { DateFormats } from "../../constants/appConstants";

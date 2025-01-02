@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, MouseEvent } from "react";
+import { KeyboardEvent, MouseEvent } from "react";
 import { InputText } from "primereact/inputtext";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";

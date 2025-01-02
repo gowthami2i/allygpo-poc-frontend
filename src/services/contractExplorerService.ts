@@ -1,4 +1,3 @@
-import { useHeaderContext } from "../context/HeaderContext";
 import useLocalStorage from "../hook/global/useLocalStorage";
 import { ACTION_TYPE, updateState } from "../store/appStore";
 import { IFormData } from "../types/request/contractExplorer";

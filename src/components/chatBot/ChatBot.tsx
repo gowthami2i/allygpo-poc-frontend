@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { AppInput } from "../global/appInput/AppInput";
 import BotText from "./BotText";
 import UserText from "./UserText";

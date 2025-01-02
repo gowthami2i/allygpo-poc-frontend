@@ -1,4 +1,3 @@
-import React from "react";
 import { Constants, TextVariant } from "../../../constants/appConstants";
 import AllyGpo_icon from "../../../assets/images/AllyIQ_Icon.png";
 import Typography from "../typography/Typography";

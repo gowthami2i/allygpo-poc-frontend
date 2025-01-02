@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AppTable from "../../components/global/table/AppTable";
 import { ContractUpload } from "../../components/contractExplorer/ContractUpload";
 import {
@@ -103,7 +103,7 @@ export const ContractExplorer = () => {
       header: "",
       accessorKey: "id",
       enableGlobalFilter: false,
-      cell: ({ cell }) => (
+      cell: ({ cell }:any) => (
         <span
           className="extra-data"
           onClick={() => {

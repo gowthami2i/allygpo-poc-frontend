@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Dialog } from "primereact/dialog";
 import { TextVariant } from "../../../constants/appConstants";
 import Typography from "../typography/Typography";

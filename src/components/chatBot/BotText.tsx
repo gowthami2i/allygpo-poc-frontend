@@ -1,4 +1,3 @@
-import React from "react";
 import { Constants, TextVariant } from "../../constants/appConstants";
 import Icon, { IconNames } from "../global/appIcons/Icon";
 import Typography from "../global/typography/Typography";
