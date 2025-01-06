@@ -4,6 +4,8 @@ import { AppInput } from "../global/appInput/AppInput";
 import "./fileUpload.scss";
 import { Constants } from "../../constants/appConstants";
 import Icon, { IconNames } from "../global/appIcons/Icon";
+import { ProgressSpinner } from 'primereact/progressspinner';
+
 
 interface CustomFileUpload {
   uploadFileHandler: (event: any) => void;
@@ -12,7 +14,8 @@ interface CustomFileUpload {
 export const CustomFileUpload = (props: CustomFileUpload) => {
   const { uploadFileHandler } = props;
   const [fileName, setFileName] = useState([]);
-
+  const [isFileExist, setIsFileExist] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // dummy state to show loading spinner
   return (
     <div className="custom-file-upload">
       {!fileName.length ? (
@@ -55,8 +58,9 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
               className="custom-input"
               readOnly
             />
+           {isLoading ? <ProgressSpinner aria-label="Loading" strokeWidth="8"  style={{width: '20px', height: '20px'}}/>:
+           isFileExist ?  <Icon iconName={IconNames.closeIcon} /> :<Icon iconName={IconNames.tickIcon} />    }
 
-            <Icon iconName={IconNames.tickIcon} />
           </div>
           <div
             className="cursor-pointer flex align-items-center"

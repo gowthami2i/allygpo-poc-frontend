@@ -12,6 +12,7 @@ export enum IconNames {
   uploadIcon = "uploadIcon",
   documentIcon = "documentIcon",
   tickIcon = "tickIcon",
+  closeIcon="closeIcon",
   chatLogo = "chatLogo",
 }
 
@@ -69,6 +70,22 @@ const TickIcon = () => {
   );
 };
 
+const CloseIcon = () => {
+  return (
+    <>
+    <line x1="1" y1="11" 
+          x2="11" y2="1" 
+          stroke="red" 
+          stroke-width="2"transform="translate(0, 6)" />
+    <line x1="1" y1="1" 
+          x2="11" y2="11" 
+          stroke="red" 
+          stroke-width="2" transform="translate(0, 6)" />
+          </>
+    
+  );
+};
+
 const ChatLogo = () => {
   return (
     <>
@@ -107,6 +124,8 @@ export default function Icon({ iconSize = 24, iconName }: IIconProps) {
         return <DocumentIcon />;
       case IconNames.tickIcon:
         return <TickIcon />;
+      case IconNames.closeIcon:
+        return <CloseIcon />;
       case IconNames.chatLogo:
         return <ChatLogo />;
       default:
