@@ -16,14 +16,15 @@ interface IAppDropdownProps {
   optionValue: string;
   onChange: (event: any) => void;
   placeholder: string;
+  isRequired?: boolean;
 }
 
 export const AppDropdown = (props: IAppDropdownProps) => {
-  const { optionLabel, optionValue, value, onChange, placeholder, options } =
+  const { optionLabel, optionValue, value, onChange, placeholder, options, isRequired} =
     props;
   return (
     <div>
-      <Typography variant={TextVariant.SUBHEADING1}>{props.label}</Typography>
+      <Typography variant={TextVariant.SUBHEADING1}>{props.label} {isRequired && <span className="text-danger">*</span>}</Typography>
       <Dropdown
         value={value}
         onChange={onChange}
