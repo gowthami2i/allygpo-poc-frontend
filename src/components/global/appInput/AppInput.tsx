@@ -19,6 +19,7 @@ interface ICustomInputProps {
   iconPosition?: "left" | "right";
   iconClick?: (event: MouseEvent<HTMLElement>) => void;
   isLoading?: any;
+  isRequired?: boolean;
 }
 
 export const AppInput = (props: ICustomInputProps) => {
@@ -35,6 +36,7 @@ export const AppInput = (props: ICustomInputProps) => {
     iconPosition,
     iconClick,
     isLoading,
+    isRequired,
   } = props;
 
   return (
@@ -43,7 +45,7 @@ export const AppInput = (props: ICustomInputProps) => {
         variant={TextVariant.SUBHEADING1}
         className={`${labelClassName ? labelClassName : "label"}`}
       >
-        {label}
+        {label} {isRequired && <span className="text-danger">*</span>}
       </Typography>
       <IconField iconPosition={iconPosition}>
         <InputIcon

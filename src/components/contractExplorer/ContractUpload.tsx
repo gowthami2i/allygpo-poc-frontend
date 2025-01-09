@@ -147,6 +147,7 @@ export const ContractUpload = (props: IContractUpload) => {
                   label={Constants.DESCRIPTION}
                   placeholder={Constants.PLACEHOLDER_DESCRIPTION_REQUIRED}
                   className="w-full"
+                  isRequired={true}
                 />
                 <FieldInfo field={field} />
               </>
@@ -169,6 +170,7 @@ export const ContractUpload = (props: IContractUpload) => {
                     field.handleChange(e.target.value);
                   }}
                   placeholder={Constants.PLACEHOLDER_CONTRACT_TYPE_REQUIRED}
+                  isRequired={true}
                 />
                 <FieldInfo field={field} />
               </>
