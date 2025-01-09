@@ -13,6 +13,7 @@ export enum IconNames {
   documentIcon = "documentIcon",
   tickIcon = "tickIcon",
   chatLogo = "chatLogo",
+  erroIcon = "errorIcon",
 }
 
 const TrashIcon = () => {
@@ -94,6 +95,32 @@ const ChatLogo = () => {
     </>
   );
 };
+
+const ErroIcon = () => {
+  return (
+    <>
+      <line
+        x1="1"
+        y1="11"
+        x2="11"
+        y2="1"
+        stroke="red"
+        stroke-width="2"
+        transform="translate(0, 6)"
+      />
+      <line
+        x1="1"
+        y1="1"
+        x2="11"
+        y2="11"
+        stroke="red"
+        stroke-width="2"
+        transform="translate(0, 6)"
+      />
+    </>
+  );
+};
+
 export default function Icon({ iconSize = 24, iconName }: IIconProps) {
   const renderIcon = () => {
     switch (iconName) {
@@ -109,6 +136,8 @@ export default function Icon({ iconSize = 24, iconName }: IIconProps) {
         return <TickIcon />;
       case IconNames.chatLogo:
         return <ChatLogo />;
+      case IconNames.erroIcon:
+        return <ErroIcon />;
       default:
         return <ChatIcon />;
     }

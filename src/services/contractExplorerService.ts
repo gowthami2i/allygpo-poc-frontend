@@ -1,29 +1,30 @@
-import useLocalStorage from "../hook/global/useLocalStorage";
-import { ACTION_TYPE, updateState } from "../store/appStore";
-import { IFormData } from "../types/request/contractExplorer";
+import { IDeleteData, IFormData } from "../types/request/contractExplorer";
 import { apiService, formHeaders } from "./api/apiService";
 
-export const deleteData = (id: { document_id: string }) => {
-  const { getItem: getLocalStorage, setItem: setLocalStorage } =
-    useLocalStorage();
-  let localData = getLocalStorage("documents");
-
-  if (!localData) {
-    localData = [];
-  }
-  const foundIndex = id && localData?.findIndex((x: any) => x.id === id);
-  const updatedData = [...localData];
-
-  if (id && foundIndex !== -1 && foundIndex !== undefined) {
-    updatedData.splice(foundIndex, 1);
-    updateState(ACTION_TYPE.EXPLORER, updatedData);
-    setLocalStorage("documents", updatedData);
-  }
-  return Promise.resolve({ data: { id } });
+export const deleteData = (fileData:IDeleteData) => {
+  return apiService.delete("/deleteFile", {
+    data: fileData, // Payload must be in the `data` property
+  });
 };
 
 export const uploadDocument = (formData: IFormData) => {
-   return apiService.post(`/documents/${formData.isChecked ? `uploadVisionParser` : `uploadDoclingParser`}`, formData, {
-     headers: formHeaders,
-   });
+  return apiService.post(
+    `/documents/${
+      formData.parserType === "vision_parser"
+        ? `uploadVisionParser`
+        : `uploadDoclingParser`
+    }`,
+    formData,
+    {
+      headers: formHeaders,
+    }
+  );
+};
+
+export const checkFileName = (fileName: any) => {
+  return apiService.post(`checkFileName`, fileName);
+};
+
+export const getFileDetails = (fileName:{fileName:string}) => {
+  return apiService.post(`/downloadFile`, fileName);
 };

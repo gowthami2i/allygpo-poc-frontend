@@ -30,4 +30,11 @@
       width: 26px;
     }
   }
+
+  .wrong-icon {
+    color: red;
+    font-size: 13px;
+    display: grid !important;
+    place-items: center;
+  }
 }

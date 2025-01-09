@@ -5,6 +5,7 @@ export interface IPostChat {
   createdDate?: any;
   topicId?:string;
   index?:string;
+  parserType?:string;
 }
 
 export interface IGetConversation {

@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { deleteData } from "../../services/contractExplorerService";
+import { IDeleteData } from "../../types/request/contractExplorer";
 
 export const useDelete = () => {
   return useMutation({
-    mutationFn: (id: { document_id: string }) => deleteData(id),
+    mutationFn: (fileData:IDeleteData) => deleteData(fileData),
   });
 };

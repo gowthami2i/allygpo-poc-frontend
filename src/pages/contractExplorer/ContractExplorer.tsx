@@ -19,7 +19,7 @@ import "../../components/contractExplorer/contractExplorer.scss";
 import Typography from "../../components/global/typography/Typography";
 import SearchBar from "../../components/global/appInput/SearchBar";
 import { AppDialog } from "../../components/global/appDialog/AppDialog";
-import { useGetDocument } from "../../hook/document/useGet";
+import { useGetDocumentData } from "../../hook/document/useGet";
 import { useDelete } from "../../hook/document/useDelete";
 import { formatDate } from "../../utils/helpers";
 import Icon, { IconNames } from "../../components/global/appIcons/Icon";
@@ -27,10 +27,11 @@ import { useStore } from "@tanstack/react-store";
 import { ACTION_TYPE, store, updateState } from "../../store/appStore";
 import { useUploadDocument } from "../../hook/document/useUpload";
 import { Tooltip } from "primereact/tooltip";
+import { useGetFile } from "../../hook/document/useGetFile";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
-  const { data: documents }: any = useGetDocument();
+  const { mutate: getDocument } = useGetDocumentData();
   const {
     mutate: uploadDocument,
     isPending: isUploadPending,
@@ -38,15 +39,46 @@ export const ContractExplorer = () => {
   } = useUploadDocument();
   const data = useStore(store, (state: any) => state[ACTION_TYPE.EXPLORER]);
   const { mutate: deleteDocument } = useDelete();
+  const { mutate: getFileName } = useGetFile();
   const [visible, setVisible] = useState(false);
   const [globalFilter, setGlobalFilter] = useState("");
   const pageCount = 5;
 
+  const getFileNameDetail = (value: any) => {
+    getFileName(
+      { fileName: value?.documentName },
+      {
+        onSuccess: (data: any) => {
+          value.file = data?.data?.fileContent;
+          value.isDisable = true;
+          navigateTo("view-details", value);
+        },
+      }
+    );
+  };
+
+  const deleteDocumentDetail = (value: any) => {
+    const deleteFile = {
+      file_name: value?.documentName,
+      parserType: value?.parserType,
+    };
+    deleteDocument(deleteFile, {
+      onSuccess: () => {
+        fetchDocument();
+      },
+    });
+  };
+
   useEffect(() => {
-    if (documents?.data) {
-      updateState(ACTION_TYPE.EXPLORER, documents?.data ?? []);
-    }
-  }, [documents?.data]);
+    fetchDocument();
+  }, [globalFilter]);
+
+  const formatParserType = (value: string): string => {
+    return value
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
 
   const columns: any = [
     {
@@ -60,7 +92,7 @@ export const ContractExplorer = () => {
     {
       header: "Description",
       accessorKey: "description",
-      width: "20rem",
+      width: "15rem",
       cell: ({ getValue }: any) => {
         const description = getValue();
         const isLongDescription = description.length > 65;
@@ -91,10 +123,26 @@ export const ContractExplorer = () => {
     {
       header: "Contract Type",
       accessorKey: "contractType",
+      cell: ({ getValue }: any) => {
+        const value = getValue();
+        return formatParserType(value);
+      },
+    },
+    {
+      header: "No.Of.Pages",
+      accessorKey: "numPages",
+    },
+    {
+      header: "Parser",
+      accessorKey: "parserType",
+      cell: ({ getValue }: any) => {
+        const value = getValue();
+        return formatParserType(value);
+      },
     },
     {
       header: "Date uploaded",
-      accessorKey: "dateUploaded",
+      accessorKey: "uploadedDate",
       cell: ({ getValue }: any) => (
         <span>{formatDate(getValue(), DateFormats.DD_MM_YYYY_SLASH)}</span>
       ),
@@ -103,11 +151,11 @@ export const ContractExplorer = () => {
       header: "",
       accessorKey: "id",
       enableGlobalFilter: false,
-      cell: ({ cell }:any) => (
+      cell: ({ cell }: any) => (
         <span
           className="extra-data"
           onClick={() => {
-            navigateTo("view-details", cell.row.original);
+            getFileNameDetail(cell.row.original);
           }}
         >
           View Details
@@ -121,13 +169,26 @@ export const ContractExplorer = () => {
       cell: ({ cell }: any) => (
         <div
           className="cursor-pointer"
-          onClick={() => deleteDocument(cell.row.original.id)}
+          onClick={() => {
+            deleteDocumentDetail(cell.row.original);
+          }}
         >
           <Icon iconName={IconNames.trashIcon} iconSize={15} />
         </div>
       ),
     },
   ];
+
+  const fetchDocument = () => {
+    getDocument(
+      { file_names: globalFilter ? [globalFilter] : [] },
+      {
+        onSuccess: (data: any) => {
+          updateState(ACTION_TYPE.EXPLORER, data.data.fileDetails);
+        },
+      }
+    );
+  };
 
   const table = useReactTable({
     data,
@@ -188,6 +249,7 @@ export const ContractExplorer = () => {
           uploadDocument={uploadDocument}
           isUploadPending={isUploadPending}
           isUploadSuccess={isUploadSuccess}
+          fetchDocument={fetchDocument}
         />
       </AppDialog>
     </div>
