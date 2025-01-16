@@ -27,6 +27,8 @@ import { useStore } from "@tanstack/react-store";
 import { ACTION_TYPE, store, updateState } from "../../store/appStore";
 import { useUploadDocument } from "../../hook/document/useUpload";
 import { Tooltip } from "primereact/tooltip";
+import { Checkbox } from "primereact/checkbox";
+import { log } from "console";
 
 export const ContractExplorer = () => {
   const { navigateTo } = usePageNavigation();
@@ -41,7 +43,9 @@ export const ContractExplorer = () => {
   const [visible, setVisible] = useState(false);
   const [globalFilter, setGlobalFilter] = useState("");
   const pageCount = 5;
-
+  
+  const [checked, setChecked] = useState(false);
+  const selectedPdf:any=[];
   useEffect(() => {
     if (documents?.data) {
       updateState(ACTION_TYPE.EXPLORER, documents?.data ?? []);
@@ -49,6 +53,18 @@ export const ContractExplorer = () => {
   }, [documents?.data]);
 
   const columns: any = [
+    {
+          header: "",
+          accessorKey: "id",
+          cell: ({ cell }:any) => (
+          
+            <Checkbox onChange={(e:any) => {
+              selectedPdf.push(cell.row.original)
+              setChecked(e?.checked)
+            }} checked={checked}></Checkbox>
+    
+          ),
+        },
     {
       header: "Document",
       accessorKey: "documentName",
@@ -99,21 +115,21 @@ export const ContractExplorer = () => {
         <span>{formatDate(getValue(), DateFormats.DD_MM_YYYY_SLASH)}</span>
       ),
     },
-    {
-      header: "",
-      accessorKey: "id",
-      enableGlobalFilter: false,
-      cell: ({ cell }:any) => (
-        <span
-          className="extra-data"
-          onClick={() => {
-            navigateTo("view-details", cell.row.original);
-          }}
-        >
-          View Details
-        </span>
-      ),
-    },
+    // {
+    //   header: "",
+    //   accessorKey: "id",
+    //   enableGlobalFilter: false,
+    //   cell: ({ cell }:any) => (
+    //     <span
+    //       className="extra-data"
+    //       onClick={() => {
+    //         navigateTo("view-details", cell.row.original);
+    //       }}
+    //     >
+    //       View Details
+    //     </span>
+    //   ),
+    // },
     {
       header: "",
       accessorKey: "id",
@@ -156,6 +172,22 @@ export const ContractExplorer = () => {
             value={globalFilter}
             handleChange={(e: any) => setGlobalFilter(e.target.value)}
           />
+
+<Tooltip target=".disabled-button"position="bottom" style={{fontSize:"13px"}} />
+      <span
+        className="disabled-button"
+        data-pr-tooltip={!checked ? "Please select the Pdf to enable" : ""}
+      >
+        <Button
+          label="Start Chat"
+          type="button"
+          onClick={() => {
+             navigateTo("view-details", selectedPdf[0]);
+          }}
+          disabled={!checked}
+          severity="secondary"
+        />
+      </span>
           <Button
             label={Constants.UPLOAD_CONTRACT}
             type={"button"}
