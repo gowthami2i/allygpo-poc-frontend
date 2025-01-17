@@ -8,6 +8,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { ContractExplorer } from "../pages/contractExplorer/ContractExplorer";
 import ViewDetails from "../pages/viewDetails/ViewDetails";
 import { RouteConstant } from "../constants/routeConstant";
+import Login from "../pages/login/Login";
 
 const rootRoute = createRootRoute({
   component: () => <MainLayout />,
@@ -26,6 +27,11 @@ const routesData = [
     component: ViewDetails,
     title: "View Details",
   },
+  {
+    path:"/login",
+    component: Login,
+    title: "Login",
+  }
 ];
 
 const routes = routesData?.map((route: any) => {
