@@ -91,6 +91,11 @@ const routesData = [
     component: ViewDetails,
     title: "View Details",
   },
+  {
+    path:"/login",
+    component: Login,
+    title: "Login",
+  }
 ];
 
 const routes = routesData.map((route: any) =>
