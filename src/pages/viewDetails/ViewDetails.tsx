@@ -14,7 +14,7 @@ import { ChatSenders, DialogHeader } from "../../constants/appConstants";
 import { IBotTextListItem } from "../../types/chatbot";
 import PdfViewer from "../../components/pdf/PdfViewer";
 import { useToast } from "../../context/ToastContext";
-import { marked } from 'marked';
+import { marked } from "marked";
 import { useHeaderContext } from "../../context/HeaderContext";
 
 const ViewDetails = () => {
@@ -35,7 +35,7 @@ const ViewDetails = () => {
   const viewData: IData | any = location.state;
   const { showToast }: any = useToast();
   const context = useHeaderContext();
-  
+  context.setIsDisable(viewData.isDisable);
   const handleViewDetails = (cell: any) => {
     setChatHistoryOptions({
       createdAt: cell.createdAt,
@@ -106,7 +106,11 @@ const ViewDetails = () => {
           topicId: conversationId,
           createdDate: new Date(),
           conversationId: "",
-          index: context.checked ?"VISION_PARSER_INDEX" :"DOCLING_PARSER_INDEX",
+          index:
+            viewData.parserType === "vision_parser"
+              ? "VISION_PARSER_INDEX"
+              : "DOCLING_PARSER_INDEX",
+          parserType: viewData.parserType,
         },
         {
           onSuccess: ({ data }) => {
@@ -147,14 +151,14 @@ const ViewDetails = () => {
 
   const appendMessage = (chatResponse: any) => {
     const isCitationError = typeof chatResponse?.citations === "string";
-  
+
     const userMessage = {
       sender: ChatSenders.USER,
       text: !chatResponse?.question
         ? structuredClone(chat)
         : chatResponse.question,
     };
-  
+
     const assistantMessage = {
       sender: ChatSenders.BOT,
       text: {
@@ -165,20 +169,20 @@ const ViewDetails = () => {
         isError: chatResponse?.answer === "message",
       },
     };
-  
+
     setChatHistory((prevHistory: any) => [
       ...prevHistory,
       userMessage,
       assistantMessage,
     ]);
-  
+
     setChatHistoryOptions({
       createdAt: chatResponse.createdAt,
       conversationId: chatResponse.topicId,
       topicId: "",
     });
   };
-  
+
   const onReferenceClick = (item: IBotTextListItem, index: string | number) => {
     setSelectedReference({ item, index });
   };

@@ -1,17 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import useLocalStorage from "../global/useLocalStorage";
+import { useMutation } from "@tanstack/react-query";
+import { apiService } from "../../services/api/apiService";
 
-const getChatDocument = () => {
-  const { getItem: getLocalStorage } = useLocalStorage();
-  const localData = getLocalStorage("documents");
-  return Promise.resolve({
-    data: localData,
-  });
-};
+const getChatDocument = (documentData: { file_names: string[] }) => {
+  return apiService.post("/listDocuments", documentData);
+}
 
-export const useGetDocument = () => {
-  return useQuery({
-    queryKey: ["documents"],
-    queryFn: () => getChatDocument(),
+export const useGetDocumentData = () => {
+  return useMutation({
+    mutationFn: (documentData: { file_names: string[] }) => getChatDocument(documentData),
   });
 };

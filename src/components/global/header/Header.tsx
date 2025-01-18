@@ -20,26 +20,29 @@ export const Header = () => {
         >
           {Constants.CONTRACTS_EXPLORER}
         </Typography>
-        <div className="p-3 flex gap-1">
-          <Typography
-            variant={TextVariant.SUBHEADING1}
-            className="text-white m-0 mt-1"
-          >
-            Docling Parser
-          </Typography>
-          <InputSwitch
-            checked={context?.checked ?? false}
-            onChange={(e) => {
-              context?.setChecked(e.value)
-            }}
-          />
-          <Typography
-            variant={TextVariant.SUBHEADING1}
-            className="text-white m-0 mt-1"
-          >
-            Vision Parser
-          </Typography>
-        </div>
+        {!context.isDisable && (
+          <div className="p-3 flex gap-1">
+            <Typography
+              variant={TextVariant.SUBHEADING1}
+              className="text-white m-0 mt-1"
+            >
+              Docling Parser
+            </Typography>
+            <InputSwitch
+              checked={context?.checked ?? false}
+              onChange={(e) => {
+                context?.setChecked(e.value);
+              }}
+              disabled={context?.isDisable}
+            />
+            <Typography
+              variant={TextVariant.SUBHEADING1}
+              className="text-white m-0 mt-1"
+            >
+              Vision Parser
+            </Typography>
+          </div>
+        )}
       </div>
     </div>
   );

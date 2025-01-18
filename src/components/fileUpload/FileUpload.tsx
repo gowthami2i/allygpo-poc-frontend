@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { AppInput } from "../global/appInput/AppInput";
 import "./fileUpload.scss";
 import { Constants } from "../../constants/appConstants";
 import Icon, { IconNames } from "../global/appIcons/Icon";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 interface CustomFileUpload {
   uploadFileHandler: (event: any) => void;
   label: string;
+  isCheckFile: boolean;
+  isPending: boolean;
+  setCheckFile: Dispatch<SetStateAction<boolean>>;
 }
 export const CustomFileUpload = (props: CustomFileUpload) => {
-  const { uploadFileHandler } = props;
+  const { uploadFileHandler, isCheckFile, isPending, setCheckFile } = props;
   const [fileName, setFileName] = useState([]);
 
   return (
@@ -55,13 +59,23 @@ export const CustomFileUpload = (props: CustomFileUpload) => {
               className="custom-input"
               readOnly
             />
-
-            <Icon iconName={IconNames.tickIcon} />
+            {isPending ? (
+              <ProgressSpinner
+                aria-label="Loading"
+                strokeWidth="8"
+                style={{ width: "24px", height: "24px" }}
+              />
+            ) : isCheckFile ? (
+              <Icon iconName={IconNames.erroIcon} />
+            ) : (
+              <Icon iconName={IconNames.tickIcon} />
+            )}
           </div>
           <div
             className="cursor-pointer flex align-items-center"
             onClick={() => {
               setFileName([]);
+              setCheckFile(false);
             }}
           >
             <Icon iconName={IconNames.trashIcon} iconSize={15} />
