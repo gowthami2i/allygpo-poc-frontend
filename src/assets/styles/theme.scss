@@ -1178,6 +1178,7 @@ $--border-color: #e0e0e0;
     margin: 0;
     padding: 0;
     list-style-type: none;
+    background-color: white;
   }
   .p-dropdown-filter {
     width: 100%;
@@ -1280,12 +1281,13 @@ $--border-color: #e0e0e0;
   }
   .p-dropdown-panel .p-dropdown-items {
     padding: 0.25rem 0;
+    background: #000000;
   }
   .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
     margin: 0;
     padding: 0.75rem 1rem;
     border: 0 none;
-    color: var(--app-dark-100);
+    color: white;
     background: transparent;
     transition: none;
     border-radius: 0;

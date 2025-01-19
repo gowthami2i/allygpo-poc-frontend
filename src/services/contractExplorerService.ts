@@ -26,5 +26,6 @@ export const checkFileName = (fileName: any) => {
 };
 
 export const getFileDetails = (fileName:{fileName:string}) => {
+  console.log(fileName,"s")
   return apiService.post(`/downloadFile`, fileName);
 };

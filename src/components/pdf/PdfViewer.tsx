@@ -1,10 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -13,6 +7,9 @@ import Typography from "../global/typography/Typography";
 import { TextVariant } from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import { base64ToBlob } from "../../utils/helpers";
+import AppDropdown from "../global/appDropdown/AppDropdown";
+import "./pdfViewer.scss";
+import { useGetFile } from "../../hook/document/useGetFile";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -26,11 +23,19 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [pageItem, setPageItem] = useState<any>({});
-  const file = useMemo(() => base64ToBlob(data.file), [data.file]);
+  // const [drop, setDrop] = useState(data.file);
+  // const file = useMemo(() => base64ToBlob(data.file), [data.file]);
+  const [file, setFile] = useState(base64ToBlob(data.file));
+  const [fileDetails, setFileDetails] = useState(data);
+  const { mutate: getFileName } = useGetFile();
   const [highlightIndices, setHighlightIndices] = useState<any>({
     startIndex: null,
     endIndex: null,
   });
+  const [fileNames, setFileNames] = useState("");
+
+  console.log(data,"vvv", fileDetails)
+  // const file = useMemo(() => drop [drop]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -173,6 +178,19 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
     [selectedReference, highlightIndices]
   );
 
+  // const pdfFile = [
+  //   {name:"file1", code:"file1"},
+  //   {name:"file2", code:"file2"}
+  // ]
+
+  // Map the data.file list to the required format
+  const pdfFile = data.fileName.map((item: any) => ({
+    name: item.documentName,
+    code: item.documentName,
+  }));
+
+  // const[drop, setDrop] = useState("");
+
   return (
     <div
       className="w-8"
@@ -198,39 +216,70 @@ const PdfViewer = ({ data, navigateBack, selectedReference }: any) => {
           />
           <div className="w-3 overflow-ellipsis">
             <Typography variant={TextVariant.HEADING3}>
-              {data.documentName}
+              {fileDetails.documentName}
             </Typography>
           </div>
           <Typography variant={TextVariant.BODY2}>|</Typography>
           <div className="w-6 overflow-ellipsis">
             <Typography variant={TextVariant.BODY2}>
-              {data.description}
+              {fileDetails.description}
             </Typography>
+          </div>
+
+          <div className="w-4">
+            <AppDropdown
+              className={"pdf-dropdown"}
+              label={""}
+              value={fileNames}
+              options={pdfFile}
+              optionLabel={"name"}
+              optionValue={"code"}
+              onChange={(event: any) => {
+                setFileNames(event.target.value);
+                getFileName(
+                  { fileName: event.target.value },
+                  {
+                    onSuccess: (data: any) => {
+                      setFileDetails(data.data.filteredData[0])
+                      setFile(base64ToBlob(data.data.fileContent));
+                    },
+                  }
+                );
+              }}
+              placeholder={""}
+              pt={{
+                panel: {
+                  style: { backround: "black" },
+                },
+              }}
+            />
           </div>
         </div>
         <div
           className="p-4 flex justify-content-center pdf-viewer overflow-scroll"
           ref={containerRef}
         >
-          <Document
-            file={file}
-            options={options}
-            onLoadSuccess={onDocumentLoadSuccess}
-          >
-            {Array.from(new Array(numPages), (_, index: number) => (
-              <div
-                key={`page_${index + 1}`}
-                style={{ marginBottom: "20px" }}
-                id={`page_${index + 1}`}
-              >
-                <Page
-                  pageNumber={index + 1}
-                  scale={scale}
-                  customTextRenderer={customTextRenderer}
-                />
-              </div>
-            ))}
-          </Document>
+          {file && (
+            <Document
+              file={file}
+              options={options}
+              onLoadSuccess={onDocumentLoadSuccess}
+            >
+              {Array.from(new Array(numPages), (_, index: number) => (
+                <div
+                  key={`page_${index + 1}`}
+                  style={{ marginBottom: "20px" }}
+                  id={`page_${index + 1}`}
+                >
+                  <Page
+                    pageNumber={index + 1}
+                    scale={scale}
+                    customTextRenderer={customTextRenderer}
+                  />
+                </div>
+              ))}
+            </Document>
+          )}
         </div>
       </div>
       <div className="pdf-footer w-8">

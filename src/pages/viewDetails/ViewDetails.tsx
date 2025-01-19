@@ -148,7 +148,8 @@ const ViewDetails = () => {
   const handleChatInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setChat(e.target.value);
   };
-
+  
+console.log(viewData,"view")
   const appendMessage = (chatResponse: any) => {
     const isCitationError = typeof chatResponse?.citations === "string";
 

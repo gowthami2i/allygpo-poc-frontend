@@ -47,18 +47,34 @@ export const ContractExplorer = () => {
   const pageCount = 5;
 
   const getFileNameDetail = (value: any) => {
+
+    const fileName = value.map((fileData: any) => ({
+      documentName: fileData.documentName,
+    }));
+    
     getFileName(
-      { fileName: value?.documentName },
+     
+      { fileName: value[0]?.documentName },
+      // { fileName: fileName[0].documentName },
       {
         onSuccess: (data: any) => {
-          value.file = data?.data?.fileContent;
-          value.isDisable = true;
-          navigateTo("view-details", value);
+          // const secondFile = SecondFile
+          // const viewData = [
+          //   { file: data?.data?.fileContent, fileName: "file1" },
+          //   { file: SecondFile, type: "application/pdf", fileName: "file2" },
+          // ];
+
+          value[0].file = data?.data?.fileContent;
+          value[0].fileName = fileName;
+          // value.secondFile = SecondFile
+          // value.file = viewData;
+          value[0].isDisable = true;
+          navigateTo("view-details", value[0]);
         },
       }
     );
   };
-
+console.log(data,"ss")
   const deleteDocumentDetail = (value: any) => {
     const deleteFile = {
       file_name: value?.documentName,
@@ -71,9 +87,8 @@ export const ContractExplorer = () => {
     });
   };
 
-  
   const [checked, setChecked] = useState(false);
-  const selectedPdf:any=[];
+  const selectedPdf: any = [];
   useEffect(() => {
     fetchDocument();
   }, [globalFilter]);
@@ -86,18 +101,25 @@ export const ContractExplorer = () => {
   };
 
   const columns: any = [
-    {
-          header: "",
-          accessorKey: "id",
-          cell: ({ cell }:any) => (
-          
-            <Checkbox onChange={(e:any) => {
-              selectedPdf.push(cell.row.original)
-              setChecked(e?.checked)
-            }} checked={checked}></Checkbox>
-    
-          ),
-        },
+    // {
+    //   header: "",
+    //   accessorKey: "id",
+    //   cell: ({ cell }: any) => (
+    //     <Checkbox
+    //       onChange={(e: any) => {
+    //         data.map((fileDetail:any)=>{
+    //           if(fileDetail.documentName == cell.row.original.documentName){
+    //             selectedPdf.push(cell.row.original);
+    //             setChecked(e?.checked);
+    //           }
+         
+    //         })
+           
+    //       }}
+    //       checked={checked}
+    //     ></Checkbox>
+    //   ),
+    // },
     {
       header: "Document",
       accessorKey: "documentName",
@@ -221,8 +243,24 @@ export const ContractExplorer = () => {
         pageSize: pageCount,
       },
     },
+    
   });
-
+  const [selectedRows, setSelectedRows] = useState<any[]>([]); // State for selected rows
+  const handleCheckboxChange = (row: any, isChecked: boolean) => {
+    console.log(row, "com");
+    setSelectedRows((prev: any) => {
+      if (isChecked) {
+        setChecked(true);
+        return [...prev, row];
+      } else {
+        
+        return prev.filter(
+          (selectedRow: any) => selectedRow.documentName !== row.documentName
+        );
+      }
+    });
+  };
+  
   return (
     <div className="layout m-5">
       <div className="flex justify-content-between align-items-center h-4rem px-3">
@@ -235,21 +273,26 @@ export const ContractExplorer = () => {
             handleChange={(e: any) => setGlobalFilter(e.target.value)}
           />
 
-<Tooltip target=".disabled-button"position="bottom" style={{fontSize:"13px"}} />
-      <span
-        className="disabled-button"
-        data-pr-tooltip={!checked ? "Please select the Pdf to enable" : ""}
-      >
-        <Button
-          label="Start Chat"
-          type="button"
-          onClick={() => {
-             navigateTo("view-details", selectedPdf[0]);
-          }}
-          disabled={!checked}
-          severity="secondary"
-        />
-      </span>
+          <Tooltip
+            target=".disabled-button"
+            position="bottom"
+            style={{ fontSize: "13px" }}
+          />
+          <span
+            className="disabled-button"
+            data-pr-tooltip={!checked ? "Please select the Pdf to enable" : ""}
+          >
+            <Button
+              label="Start Chat"
+              type="button"
+              onClick={() => {
+                getFileNameDetail(selectedRows);
+                // navigateTo("view-details", selectedPdf[0]);
+              }}
+              disabled={!checked}
+              severity="secondary"
+            />
+          </span>
           <Button
             label={Constants.UPLOAD_CONTRACT}
             type={"button"}
@@ -268,6 +311,11 @@ export const ContractExplorer = () => {
         pageCount={pageCount}
         table={table}
         paginator={true}
+        showCheckbox={true}
+        setSelectedRows={setSelectedRows}
+        selectedRows ={selectedRows}
+        setChecked={setChecked}
+        handleCheckboxChange={handleCheckboxChange}
       />
       <AppDialog
         visible={visible}

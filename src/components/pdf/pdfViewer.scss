@@ -1,0 +1,16 @@
+.pdf-dropdown {
+  background-color: black;
+  ul {
+    background: black !important;
+  }
+ 
+  .p-dropdown-label {
+    color: white;
+  }
+  .p-dropdown-item-label {
+    color: white;
+  }
+  .p-dropdown-panel .p-dropdown-items {
+    background: red;
+  }
+}
