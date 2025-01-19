@@ -4,6 +4,7 @@ import Typography from "../typography/Typography";
 import "./header.scss";
 import { InputSwitch } from "primereact/inputswitch";
 import { useHeaderContext } from "../../../context/HeaderContext";
+import Profile from "../profile/Profile";
 
 export const Header = () => {
   const context = useHeaderContext();
@@ -43,6 +44,9 @@ export const Header = () => {
             </Typography>
           </div>
         )}
+        {/* <div className="r"> */}
+<Profile name={"Sarath"}/>
+        {/* </div> */}
       </div>
     </div>
   );
