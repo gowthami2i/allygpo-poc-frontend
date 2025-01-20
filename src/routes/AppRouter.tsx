@@ -34,7 +34,6 @@ const mainRoutes = [
 
 const mainRouteTree = mainRootRoute.addChildren(mainRoutes);
 
-
 // Login Route (No Layout)
 const loginRootRoute = createRootRoute({
   component: Login, // Login page directly rendered without a parent layout
@@ -74,3 +73,4 @@ export const RouterComponent = () => (
     <AuthenticatedRouterProvider />
   </AuthProvider>
 );
+
