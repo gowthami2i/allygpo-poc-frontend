@@ -1,3 +1,4 @@
+import React from "react";
 import {
   createRootRoute,
   createRoute,
@@ -9,43 +10,58 @@ import { ContractExplorer } from "../pages/contractExplorer/ContractExplorer";
 import ViewDetails from "../pages/viewDetails/ViewDetails";
 import { RouteConstant } from "../constants/routeConstant";
 import Login from "../pages/login/Login";
-
-const rootRoute = createRootRoute({
-  component: () => <MainLayout />,
-});
+import { AuthProvider, useAuth } from "../context/AuthContext";
 
 const { HOME, VIEW_DETAILS } = RouteConstant;
 
-const routesData = [
-  {
-    path: HOME,
+// Main Layout Routes
+const mainRootRoute = createRootRoute({
+  component: () => <MainLayout />,
+});
+
+const mainRoutes = [
+  createRoute({
+    getParentRoute: () => mainRootRoute,
+    path: "/",
     component: ContractExplorer,
-    title: "Contract Explorer",
-  },
-  {
+  }),
+  createRoute({
+    getParentRoute: () => mainRootRoute,
     path: VIEW_DETAILS,
     component: ViewDetails,
-    title: "View Details",
-  },
-  {
-    path:"/login",
-    component: Login,
-    title: "Login",
-  }
+  }),
 ];
 
-const routes = routesData?.map((route: any) => {
-  return createRoute({
-    getParentRoute: () => rootRoute,
-    path: route.path,
-    component: route.component,
+const mainRouteTree = mainRootRoute.addChildren(mainRoutes);
+
+// Login Route
+const loginRootRoute = createRootRoute({
+  component: () => <Login/>,
+});
+
+const loginRoutes = [
+  createRoute({
+    getParentRoute: () => loginRootRoute, // Attach to the loginRootRoute
+    path: "/login", // Define the path for the login page
+    component: () => <Login />, // Render the Login component
+  }),
+];
+const loginRouteTree = loginRootRoute.addChildren(loginRoutes); // No children needed for Login
+
+// Authenticated Router
+const AuthenticatedRouterProvider = () => {
+  const { isAuthenticated } = useAuth();
+
+  const router = createRouter({
+    routeTree: isAuthenticated ? mainRouteTree : loginRouteTree,
   });
-});
 
-const routeTree = rootRoute.addChildren(Object.values(routes));
+  return <RouterProvider router={router} />;
+};
 
-const router = createRouter({
-  routeTree,
-});
-
-export const RouterComponent = () => <RouterProvider router={router} />;
+// Export RouterComponent
+export const RouterComponent = () => (
+  <AuthProvider>
+    <AuthenticatedRouterProvider />
+  </AuthProvider>
+);

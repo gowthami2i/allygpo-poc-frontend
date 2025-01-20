@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./../../assets/images/Login-logo.svg";
 import "./login.scss"
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 const Login = () => {
-    
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prevState) => !prevState);
+  };
     return <>
    <div className="container">
     <div className="left-container">
@@ -17,9 +21,21 @@ const Login = () => {
           <div className="flex flex-column gap-2">
           <label htmlFor="username">Email Address</label>
       <InputText id="username" aria-describedby="username-help" placeholder="Email Address"/>
-      <label htmlFor="username">Password</label>
-         
-      <InputText id="username" aria-describedby="username-help" placeholder="Password"/>
+     
+      <label htmlFor="password">Password</label>
+      <div className="p-inputgroup">
+        <InputText
+          id="password"
+          type={passwordVisible ? 'text' : 'password'}
+          placeholder="Password"
+          aria-describedby="password-help"
+        />
+        <Button
+          type="button"
+          icon={`pi ${passwordVisible ? 'pi-eye-slash' : 'pi-eye'}`}
+          onClick={togglePasswordVisibility}
+        />
+      </div>
       <a id="forgotPassword" href="#">Forgot your password?</a>
       <Button label="Sign in" size="small" />
 
