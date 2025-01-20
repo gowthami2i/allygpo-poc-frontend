@@ -37,7 +37,7 @@ interface AvatarProps {
   name: string;
 }
 
-const Profile: React.FC<AvatarProps> = ({ name }) => {
+const Profile: React.FC<AvatarProps> = () => {
   const [isProfile, setIsProfile] = useState(false);
   const userEmail = sessionStorage?.getItem("userEmail") ||"Guest";
 

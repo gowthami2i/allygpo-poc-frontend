@@ -75,7 +75,7 @@
 //   </AuthProvider>
 // );
 
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import {
   createRootRoute,
   createRoute,
@@ -89,11 +89,11 @@ import { RouteConstant } from "../constants/routeConstant";
 import Login from "../pages/login/Login";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 
-const { HOME, VIEW_DETAILS } = RouteConstant;
+const {  VIEW_DETAILS } = RouteConstant;
 
 // Main Layout Routes
 const mainRootRoute = createRootRoute({
-  component: ({ children }) => <MainLayout>{children}</MainLayout>,
+  component: () => <MainLayout></MainLayout>,
 });
 
 const mainRoutes = [
@@ -111,6 +111,7 @@ const mainRoutes = [
 
 const mainRouteTree = mainRootRoute.addChildren(mainRoutes);
 
+
 // Login Route (No Layout)
 const loginRootRoute = createRootRoute({
   component: Login, // Login page directly rendered without a parent layout
@@ -122,6 +123,7 @@ const loginRouteTree = loginRootRoute; // No children needed for login route
 const AuthenticatedRouterProvider = () => {
   const { isAuthenticated,setIsAuthenticated } = useAuth();
   const isAuth = sessionStorage.getItem('isAuthenticated');
+  
   
 useEffect(() => {
    // Check if the current URL path is "/login"

@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import logo from "./../../assets/images/Login-logo.svg";
-import "./login.scss"
+import  { useState } from "react";
+import "./login.scss";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import { z } from "zod";
 import { useGetLogin } from "../../hook/login/useLogin";
 import { usePageNavigation } from "../../hook/global/UsePageNavigation";
 import Loader from "../../components/global/loader/Loader";
 import { useAuth } from "../../context/AuthContext";
+import { z } from "zod";
 
 const Login = () => {
   const { mutate: loginDetails, isPending } = useGetLogin();

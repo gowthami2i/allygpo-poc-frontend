@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { CustomFileUpload } from "../fileUpload/FileUpload";
 import { AppInput } from "../global/appInput/AppInput";
 import { z } from "zod";
-import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
+import { ZodValidator } from "@tanstack/zod-form-adapter";
 import { Constants } from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import { useToast } from "../../context/ToastContext";
