@@ -10,12 +10,20 @@ import { useGetLogin } from "../../hook/login/useLogin";
 import { usePageNavigation } from "../../hook/global/UsePageNavigation";
 import Loader from "../../components/global/loader/Loader";
 import { useAuth } from "../../context/AuthContext";
-// Import useAuth
 
 const Login = () => {
   const { mutate: loginDetails, isPending } = useGetLogin();
   const { navigateTo } = usePageNavigation();
-  const { login } = useAuth(); // Get login function from AuthContext
+  const { login,setIsAuthenticated } = useAuth(); // Get login function from AuthContext
+
+  // State for API error message
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prevState) => !prevState);
+  };
 
   const loginSchema = z.object({
     email: z
@@ -32,11 +40,21 @@ const Login = () => {
     },
     validatorAdapter: zodValidator(),
     onSubmit: (values: any) => {
+      // Reset API error on new submission
+      setApiError(null);
+
       loginDetails(values.value, {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
           if (data.data.success) {
+        const userEmail = data.data.email; // Get the email from the respons
+        sessionStorage.setItem("userEmail", userEmail); // Store email in sessionStorage
+         await sessionStorage.setItem("isAuthenticated", data?.data?.success);
             login(); // Update authentication state
+            setIsAuthenticated(data?.data?.success)
             navigateTo("/home"); // Navigate to home
+          } else {
+            // Set API error message
+            setApiError(data.data.detail);
           }
         },
       });
@@ -68,7 +86,6 @@ const Login = () => {
         {isPending && <Loader />}
         <div className="container">
           <div className="left-container">
-            <div className="empty"></div>
             <div className="left-container-data">
               <div className="title-row">
                 <div id="logo-image"></div>
@@ -76,7 +93,12 @@ const Login = () => {
                 <div className="enter-details-label">
                   Welcome back! Please enter your details
                 </div>
-                <div className="flex flex-column gap-2">
+                <div className="mt-4">
+                  {apiError && (
+                    <span className="text-xs error-card ">{apiError}</span>
+                  )}
+                </div>
+                <div className="flex flex-column gap-2 ">
                   <form.Field
                     name="email"
                     children={(field) => (
@@ -87,6 +109,7 @@ const Login = () => {
                           onChange={(e) => field.setValue(e.target.value)}
                           aria-describedby="username-help"
                           placeholder="Email Address"
+                          className="input"
                         />
                         <FieldInfo field={field} />
                       </>
@@ -97,27 +120,44 @@ const Login = () => {
                     children={(field) => (
                       <>
                         <label htmlFor="password">Password</label>
-                        <InputText
-                          id="password"
-                          type="password"
-                          onChange={(e) => field.setValue(e.target.value)}
-                          aria-describedby="username-help"
-                          placeholder="Password"
-                        />
-                        <FieldInfo field={field} />
+                        <div className="flex input-password justify-content-between">
+                          <InputText
+                            id="password"
+                            type={passwordVisible ? "text" : "password"}
+                            onChange={(e) => field.setValue(e.target.value)}
+                            aria-describedby="username-help"
+                            placeholder="Password"
+                            className="border-none"
+                          />
+                          <Button
+                            type="button"
+                            icon={`pi ${
+                              passwordVisible ? "pi-eye-slash" : "pi-eye"
+                            }`}
+                            onClick={togglePasswordVisibility}
+                            className=""
+                          />
+                          <FieldInfo field={field} />
+                        </div>
                       </>
                     )}
                   />
 
-                  <a id="forgotPassword" href="#">
+                  {/* Display API error message */}
+
+                  {/* <a id="forgotPassword" href="#">
                     Forgot your password?
-                  </a>
-                  <Button label="Sign in" size="small" />
+                  </a> */}
+                  <Button
+                    label="Sign in"
+                    size="small"
+                    className="login-button mt-4"
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="allyiq-help-text">
+            {/* <div className="allyiq-help-text">
               AllyIQ provides GPO members with access to a suite of tools,
               analytics, and information to support practices clinically,
               operationally, and financially. Elements of this suite may be
@@ -125,7 +165,7 @@ const Login = () => {
               despite best efforts, may prove to be flawed or imprecise. By
               utilizing AllyIQ, member acknowledges this risk and agrees to hold
               the GPO harmless for any inaccuracies in the AllyIQ suite.
-            </div>
+            </div> */}
           </div>
           <div className="right-container">
             <div id="signin-image"></div>
@@ -137,4 +177,3 @@ const Login = () => {
 };
 
 export default Login;
-

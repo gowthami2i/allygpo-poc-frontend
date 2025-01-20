@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 type AuthContextType = {
   isAuthenticated: boolean;
+  setIsAuthenticated?:any;
   login: () => void;
   logout: () => void;
 };
@@ -18,7 +19,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => setIsAuthenticated(false);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout,setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

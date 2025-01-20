@@ -12,18 +12,26 @@
     justify-content: space-evenly;
     flex-direction: column;
 }
-
+.login-button{
+    padding: 16px;
+}
 .empty {
-    height: 10%;
+    height: 5%;
 }
 
 .left-container-data {
     display: flex;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
 }
-
+.input{
+    border-radius: 4px;
+    border: 1px solid var(--surface-steel-200, #bcc3cd);
+    background: var(--surface-gray-0, #fff);
+    padding: 16px;
+    
+}
 #forgotPassword{
     display: flex;
     justify-content: flex-end;
@@ -36,6 +44,7 @@
     position: relative;
 }
 
+
 #logo-image {
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iNDkiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAxNDAgNDkiPjxwYXRoIGZpbGw9IiMyNTRFOTYiIGQ9Ik0xMi4zODcgMjMuOTU1SDIyLjQ2bC01LjAxLTE0LjM4LTUuMDYzIDE0LjM4Wm0xMi4xMTkgNS44MThIMTAuMzk1bC0zLjIzMiA5LjQyNUgwTDEzLjk1IDEuODczaDcuNTk0TDM1LjE3IDM4LjI4MmwtNy4xNjQgMS4yOTItMy41LTkuODAxWm0xMy44MDQgOS40MjVWMS4zMzVMNDQuNzc1LjMxdjM4Ljg4N2gtNi40NjNabTkuNzE2IDBWMS4zMzVMNTQuNDg5LjMxdjM4Ljg4N2gtNi40NjNabTExLjA5NiA5LjUzMy0uODYyLTUuNDRjLjgwOC4yMTUgMS43MjQuMzc3IDIuODU1LjM3NyAyLjE1NCAwIDMuODc4LS45NyA0Ljc0LTMuNzdsLjIxNC0uNzU1LTkuNDI1LTI1LjQ3NSA2LjczMi0uODYyIDUuOTI1IDE4LjY5IDUuODE3LTE4LjMxMmg2LjUxN0w3MS42NyA0MC44NjdDNjkuNDYzIDQ3LjExNSA2Ni40NDYgNDkgNjEuNzYgNDljLTEuNCAwLTIuMDQ3LS4xMDgtMi42NC0uMjY5WiIvPjxwYXRoIGZpbGw9IiM3MDczNzciIGQ9Ik05Mi44NSAzOS4xOThoLTcuMjNWMS42MzdoNy4yM3YzNy41NlptNDAuMzc1LTQuMDQ4YTMuMjUgMy4yNSAwIDAgMSAuNzc3LTEuMDU4Yy4zMjUtLjI5LjctLjUxNSAxLjEyNy0uNjc0YTMuODAxIDMuODAxIDAgMCAxIDEuMzM5LS4yMzhjLjQ2NSAwIC45MTEuMDggMS4zMzguMjM4YTMuNTIgMy41MiAwIDAgMSAxLjEyNy42NzRjLjMyNS4yOTEuNTg0LjY0My43NzcgMS4wNTguMTkzLjQxMy4yOS44NzUuMjkgMS4zODUgMCAuNTE1LS4wOTcuOTgtLjI5IDEuMzk0YTMuMjkgMy4yOSAwIDAgMS0uNzc3IDEuMDYgMy4zOTggMy4zOTggMCAwIDEtMS4xMjcuNjc1IDMuODYyIDMuODYyIDAgMCAxLTEuMzM4LjIzNGMtLjQ2NyAwLS45MTMtLjA3OC0xLjMzOS0uMjM0YTMuMzA0IDMuMzA0IDAgMCAxLTEuOTA0LTEuNzM1IDMuMjYgMy4yNiAwIDAgMS0uMjktMS4zOTRjMC0uNTEuMDk3LS45NzIuMjktMS4zODVabS44NSAyLjQ0NmMuMTM2LjMyMy4zMTkuNjA0LjU1Mi44NC4yMzMuMjM3LjUwOC40MjEuODI0LjU1NGEyLjYzIDIuNjMgMCAwIDAgMS4wMTcuMTk4Yy4zNTUgMCAuNjkxLS4wNjcgMS4wMDctLjE5OGEyLjUgMi41IDAgMCAwIC44MjMtLjU1NGMuMjMzLS4yMzYuNDE4LS41MTcuNTU3LS44NC4xMzctLjMyNC4yMDctLjY3OC4yMDctMS4wNjEgMC0uMzg0LS4wNy0uNzM2LS4yMDctMS4wNTdhMi41MzcgMi41MzcgMCAwIDAtMS4zOC0xLjM4IDIuNTk0IDIuNTk0IDAgMCAwLTEuMDA3LS4xOThjLS4zNjIgMC0uNzAxLjA2NS0xLjAxNy4xOTdhMi41MzEgMi41MzEgMCAwIDAtLjgyNC41NDkgMi42MDYgMi42MDYgMCAwIDAtLjU1Mi44MzEgMi43MTkgMi43MTkgMCAwIDAtLjIwMSAxLjA1OGMwIC4zODMuMDY3LjczNy4yMDEgMS4wNloiLz48cGF0aCBmaWxsPSIjNzA3Mzc3IiBkPSJtMTM3LjA4NCAzOC4xOTQtLjc1OC0xLjE3NmgtLjE4M3YxLjEzOGgtLjkwMnYtMy4yNzNoMS4yODFjLjgyNCAwIDEuMzA4LjM1OSAxLjMwOCAxLjAyM2EuOTMxLjkzMSAwIDAgMS0uNjAzLjkwOGwuODM4IDEuMjI3LS45ODEuMTUzWm0tLjY2Ny0yLjY3MWgtLjI3NHYuOTA2aC4yNjFjLjM0MSAwIC41MjMtLjE1My41MjMtLjQ1OSAwLS4yOC0uMTgyLS40NDctLjUxLS40NDdabS0yNi42NjgtMTEuMTk5aDguMTI2di04LjI2NmMwLS43LS42MzEtMS4zMzEtMS40MDItMS40MDFoLTYuMzA0Yy42MzEtMi43MzIgMy4yMjItNC42OTQgNi4yMzUtNC42OTQgMy41MDIgMCA2LjM3NCAyLjczMiA2LjM3NCA2LjA5NXYxMi45NmgtMTMuMWMtMy41MDIgMC02LjM3NC0yLjczMy02LjM3NC02LjA5NSAwLTMuMzYzIDIuODcyLTYuMDk1IDYuMzc0LTYuMDk1aDUuMjU1djQuNjk0aC01LjE4NGMtLjc3MSAwLTEuNDAxLjYzLTEuNDAxIDEuNDAxIDAgLjc3LjYzIDEuNDAxIDEuNDAxIDEuNDAxWm0xOC44MzkgNi42MmMxLjgxNi0yLjk4NiAyLjcyNS02LjYwNiAyLjcyNS0xMC44NTkgMC01Ljc3Ny0xLjYtMTAuNDE2LTQuNzk5LTEzLjkxNi0zLjE5OS0zLjUtNy40NTYtNS4yNS0xMi43NzItNS4yNS0zLjUyNyAwLTYuNjMzLjgxNi05LjMxOCAyLjQ0Ni0yLjY4NSAxLjYzLTQuNzU0IDMuOTI1LTYuMjA3IDYuODg1LTEuNDUzIDIuOTYtMi4xOCA2LjM2Mi0yLjE4IDEwLjIwNyAwIDkuNTUyIDQuMjYyIDE1Ljg3IDEyLjc4NiAxOC45NTNsMjAuNzA4IDcuNTc2IDEuMzU2LTYuMjItOS43NTYtMy4zMjNjMy4xNTQtMS4zNDcgNS42NC0zLjUxMyA3LjQ1Ny02LjVaIi8+PC9zdmc+);
     background-repeat: no-repeat;
@@ -45,7 +54,7 @@
 }
 .welcome-text {
     color: #212121;
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 600;
 }
 
@@ -55,24 +64,19 @@
     font-weight: 400;
     line-height: 2em;
 }
-
-.api-container {
-    height: auto;
-    display: flex
-;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: row;
-}
-
 #api, .title-row {
     width: 60%;
     position: relative;
 }
 
+.input-password{
+    border: 1px solid var(--surface-steel-200, #bcc3cd);
+    background: var(--surface-gray-0, #fff);
+    border-radius: 4px;
+}
 .allyiq-help-text {
     color: var(--text-gray, #767676);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     margin: 0px 40px 10px 40px;
 }
