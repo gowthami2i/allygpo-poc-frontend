@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import logo from "./../../assets/images/Login-logo.svg";
-import "./login.scss"
+import  { useState } from "react";
+import "./login.scss";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useForm } from "@tanstack/react-form";
