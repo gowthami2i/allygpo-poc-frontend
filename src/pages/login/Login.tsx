@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.scss";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -7,30 +7,21 @@ import { zodValidator } from "@tanstack/zod-form-adapter";
 import { useGetLogin } from "../../hook/login/useLogin";
 import { usePageNavigation } from "../../hook/global/UsePageNavigation";
 import Loader from "../../components/global/loader/Loader";
-import { useAuth } from "../../context/AuthContext";
-import { z } from "zod";
 
 const Login = () => {
   const { mutate: loginDetails, isPending } = useGetLogin();
   const { navigateTo } = usePageNavigation();
-  const { login,setIsAuthenticated } = useAuth(); // Get login function from AuthContext
-
-  // State for API error message
   const [apiError, setApiError] = useState<string | null>(null);
-
   const [passwordVisible, setPasswordVisible] = useState(false);
+
+  useEffect(() => {
+    sessionStorage.removeItem("isAuthenticated");
+    sessionStorage.removeItem("userEmail");
+  }, []);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevState) => !prevState);
   };
-
-  const loginSchema = z.object({
-    email: z
-      .string()
-      .email("Invalid email address")
-      .nonempty("Email is required"),
-    password: z.string().min(6, "Password must be at least 6 characters long"),
-  });
 
   const form = useForm({
     defaultValues: {
@@ -43,13 +34,11 @@ const Login = () => {
       setApiError(null);
 
       loginDetails(values.value, {
-        onSuccess: async (data) => {
+        onSuccess: (data) => {
           if (data.data.success) {
-        const userEmail = data.data.email; // Get the email from the respons
-        sessionStorage.setItem("userEmail", userEmail); // Store email in sessionStorage
-         await sessionStorage.setItem("isAuthenticated", data?.data?.success);
-            login(); // Update authentication state
-            setIsAuthenticated(data?.data?.success)
+            const userEmail = data.data.email; // Get the email from the respons
+            sessionStorage.setItem("isAuthenticated", data?.data?.success);
+            sessionStorage.setItem("userEmail", userEmail); // Store email in sessionStorage
             navigateTo("/home"); // Navigate to home
           } else {
             // Set API error message
@@ -119,14 +108,14 @@ const Login = () => {
                     children={(field) => (
                       <>
                         <label htmlFor="password">Password</label>
-                        <div className="flex input-password justify-content-between">
+                        <div className="p-inputgroup flex-1">
                           <InputText
                             id="password"
                             type={passwordVisible ? "text" : "password"}
                             onChange={(e) => field.setValue(e.target.value)}
                             aria-describedby="username-help"
                             placeholder="Password"
-                            className="border-none"
+                            className="input-password"
                           />
                           <Button
                             type="button"

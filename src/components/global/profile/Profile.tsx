@@ -31,7 +31,7 @@
 import React, { useState } from "react";
 import "./profile.scss";
 import { usePageNavigation } from "../../../hook/global/UsePageNavigation";
-import { useAuth } from "../../../context/AuthContext";
+
 
 interface AvatarProps {
   name: string;
@@ -42,7 +42,7 @@ const Profile: React.FC<AvatarProps> = () => {
   const userEmail = sessionStorage?.getItem("userEmail") ||"Guest";
 
   const { navigateTo } = usePageNavigation();
-  const { logout } = useAuth(); 
+  
   // Function to generate initials from the name
   const getInitials = (fullName: string): string => {
     const words = fullName.split(" ");
@@ -61,10 +61,10 @@ const Profile: React.FC<AvatarProps> = () => {
         <div
           className="profile cursor-pointer"
           onClick={() => {
-            logout();
+
             sessionStorage.removeItem("userEmail")
             sessionStorage.removeItem("isAuthenticated")
-            navigateTo("/login");
+            navigateTo("/");
           }}
         >
           Logout

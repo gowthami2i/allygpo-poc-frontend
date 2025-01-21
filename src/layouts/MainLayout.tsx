@@ -1,7 +1,6 @@
-import { Outlet } from "@tanstack/react-router";
 import { Header } from "../components/global/header/Header";
 
-export const MainLayout = () => {
+export const MainLayout = ({children}:{children: JSX.Element}) => {
   return (
     <div
       style={{
@@ -14,7 +13,7 @@ export const MainLayout = () => {
           backgroundColor: "var(--app-bg-color)",
         }}
       >
-        <Outlet />
+         {children}
       </div>
     </div>
   );
