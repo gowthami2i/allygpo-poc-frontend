@@ -4,10 +4,11 @@ import Typography from "../typography/Typography";
 import "./header.scss";
 import { InputSwitch } from "primereact/inputswitch";
 import { useHeaderContext } from "../../../context/HeaderContext";
+import Profile from "../profile/Profile";
 
 export const Header = () => {
   const context = useHeaderContext();
-
+  
   return (
     <div className="header-container">
       <div className="header-primary-container flex align-items-center justify-content-center">
@@ -20,29 +21,34 @@ export const Header = () => {
         >
           {Constants.CONTRACTS_EXPLORER}
         </Typography>
-        {!context.isDisable && (
-          <div className="p-3 flex gap-1">
-            <Typography
-              variant={TextVariant.SUBHEADING1}
-              className="text-white m-0 mt-1"
-            >
-              Docling Parser
-            </Typography>
-            <InputSwitch
-              checked={context?.checked ?? false}
-              onChange={(e) => {
-                context?.setChecked(e.value);
-              }}
-              disabled={context?.isDisable}
-            />
-            <Typography
-              variant={TextVariant.SUBHEADING1}
-              className="text-white m-0 mt-1"
-            >
-              Vision Parser
-            </Typography>
-          </div>
-        )}
+        <div className="flex">
+          {!context.isDisable && (
+            <div className="p-3 flex gap-1">
+              <Typography
+                variant={TextVariant.SUBHEADING1}
+                className="text-white m-0 mt-1"
+              >
+                Docling Parser
+              </Typography>
+              <InputSwitch
+                checked={context?.checked ?? false}
+                onChange={(e) => {
+                  context?.setChecked(e.value);
+                }}
+                disabled={context?.isDisable}
+              />
+              <Typography
+                variant={TextVariant.SUBHEADING1}
+                className="text-white m-0 mt-1"
+              >
+                Vision Parser
+              </Typography>
+            </div>
+          )}
+          {/* <div className="r"> */}
+          <Profile name={"gg"} />
+        </div>
+        {/* </div> */}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { CustomFileUpload } from "../fileUpload/FileUpload";
 import { AppInput } from "../global/appInput/AppInput";
 import { z } from "zod";
-import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
+import { ZodValidator } from "@tanstack/zod-form-adapter";
 import { Constants } from "../../constants/appConstants";
 import { Button } from "primereact/button";
 import { useToast } from "../../context/ToastContext";
@@ -52,10 +52,6 @@ export const ContractUpload = (props: IContractUpload) => {
       description: "",
       contractType: "",
     },
-    validators: {
-      onSubmit: contractUploadSchema,
-    },
-    validatorAdapter: zodValidator(),
     onSubmit: (values: any) => {
       const value = values.value;
       value.documentName = value.file[0].name;
@@ -180,8 +176,7 @@ export const ContractUpload = (props: IContractUpload) => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     field.handleChange(e.target.value);
                   }}
-                  label={Constants.CONTRACT_TYPE
-                  }
+                  label={Constants.CONTRACT_TYPE}
                   placeholder={Constants.PLACEHOLDER_CONTRACT_TYPE_REQUIRED}
                   className="w-full"
                   isRequired={true}
@@ -203,7 +198,12 @@ export const ContractUpload = (props: IContractUpload) => {
             severity="secondary"
             outlined
           />
-          <Button label={Constants.UPLOAD} type="submit" className="px-5" disabled={checkFile}/>
+          <Button
+            label={Constants.UPLOAD}
+            type="submit"
+            className="px-5"
+            disabled={checkFile}
+          />
         </div>
       </form>
     </div>

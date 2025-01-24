@@ -51,7 +51,7 @@ export const ContractExplorer = () => {
         onSuccess: (data: any) => {
           value.file = data?.data?.fileContent;
           value.isDisable = true;
-          navigateTo("view-details", value);
+          navigateTo("/view-details", value);
         },
       }
     );

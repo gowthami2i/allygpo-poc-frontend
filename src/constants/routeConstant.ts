@@ -1,4 +1,4 @@
 export const RouteConstant = {
-  HOME: "/",
+  HOME: "/home",
   VIEW_DETAILS: "/view-details",
 };
