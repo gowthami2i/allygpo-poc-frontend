@@ -108,6 +108,7 @@ const AppTable = (props: IAppTableProps) => {
                         minWidth: cell.column?.columnDef?.width
                           ? cell.column?.columnDef?.width
                           : "auto",
+                          overflowWrap:"anywhere"
                       }}
                     >
                       {flexRender(
