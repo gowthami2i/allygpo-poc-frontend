@@ -1,6 +1,4 @@
-import { Outlet } from "@tanstack/react-router";
-
-export const LoginLayout = () => {
+export const LoginLayout = ({children}:{children: JSX.Element}) => {
   return (
     <div
       style={{
@@ -12,7 +10,7 @@ export const LoginLayout = () => {
           backgroundColor: "var(--app-bg-color)",
         }}
       >
-        <Outlet />
+        {children}
       </div>
     </div>
   );

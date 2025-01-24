@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -26,12 +26,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 // Custom hook to use the AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
+// export const useAuth = () => {
+//   const context = useContext(AuthContext);
 
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
 
-  return context;
-};
+//   return context;
+// };
