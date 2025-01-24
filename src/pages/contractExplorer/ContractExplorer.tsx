@@ -42,7 +42,7 @@ export const ContractExplorer = () => {
   const { mutate: getFileName } = useGetFile();
   const [visible, setVisible] = useState(false);
   const [globalFilter, setGlobalFilter] = useState("");
-  const pageCount = 5;
+  const pageCount = 4;
 
   const getFileNameDetail = (value: any) => {
     getFileName(
@@ -80,14 +80,38 @@ export const ContractExplorer = () => {
       .join(" ");
   };
 
-  const columns: any = [
+    const columns: any = [
     {
       header: "Document",
       accessorKey: "documentName",
-      width: "20rem",
-      cell: ({ getValue }: any) => (
+      width: "20%",
+      cell: ({ getValue }: any) => {
         <span className="document-data">{getValue()}</span>
-      ),
+        const description = getValue();
+        const isLongDescription = description.length > 65;
+        const displayText = isLongDescription
+          ? `${description.slice(0, 60)}...`
+          : description;
+
+        const safeId = `description-${description.replace(
+          /[^a-zA-Z0-9]/g,
+          "_"
+        )}`;
+
+        return (
+          <>
+            <span id={safeId}>{displayText}</span>
+            {isLongDescription && (
+              <Tooltip
+                target={`#${safeId}`}
+                content={description}
+                position="bottom"
+                style={{ fontSize: "10px" }}
+              />
+            )}
+          </>
+        );
+      },
     },
     {
       header: "Description",
